@@ -72,7 +72,7 @@ export default function AdminBookingsPage() {
       .then((d) => {
         setDoctors(d);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // Load Appointments
@@ -355,11 +355,10 @@ export default function AdminBookingsPage() {
                           {appt.service ? formatIDR(appt.service.price) : '-'}
                         </span>
                         <span
-                          className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-md ${
-                            appt.consultation_mode === 'online'
+                          className={`inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-md ${appt.consultation_mode === 'online'
                               ? 'bg-teal-500/10 text-teal-400'
                               : 'bg-rose-500/10 text-rose-400'
-                          }`}
+                            }`}
                         >
                           {appt.consultation_mode === 'online' ? <Video className="w-2.5 h-2.5" /> : <MapPin className="w-2.5 h-2.5" />}
                           <span>{appt.consultation_mode === 'online' ? 'Online' : 'Offline'}</span>
@@ -516,14 +515,14 @@ export default function AdminBookingsPage() {
                   <div className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={selectedAppt.photo_url.startsWith('http') ? selectedAppt.photo_url : `http://localhost:8000${selectedAppt.photo_url}`}
+                      src={selectedAppt.photo_url.startsWith('http') ? selectedAppt.photo_url : `http://103.247.10.220${selectedAppt.photo_url}`}
                       alt="Keluhan Kulit"
                       className="w-24 h-24 object-cover rounded-xl border border-zinc-700 shadow-sm"
                     />
                     <div className="text-xs space-y-1">
                       <p className="text-zinc-300 font-medium">Foto Keluhan Pasien</p>
                       <a
-                        href={selectedAppt.photo_url.startsWith('http') ? selectedAppt.photo_url : `http://localhost:8000${selectedAppt.photo_url}`}
+                        href={selectedAppt.photo_url.startsWith('http') ? selectedAppt.photo_url : `http://103.247.10.220${selectedAppt.photo_url}`}
                         target="_blank"
                         rel="noreferrer"
                         className="text-rose-400 hover:underline inline-block"

@@ -455,7 +455,7 @@ export default function AdminProductsPage() {
                               src={
                                 prod.image.startsWith('http')
                                   ? prod.image
-                                  : `http://localhost:8000/storage/${prod.image}`
+                                  : `http://103.247.10.220/storage/${prod.image}`
                               }
                               alt={prod.name}
                               className="w-full h-full object-cover"
@@ -500,13 +500,12 @@ export default function AdminProductsPage() {
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-2">
                         <span
-                          className={`font-bold font-mono px-2 py-0.5 rounded-md text-[11px] ${
-                            prod.stock <= 0
+                          className={`font-bold font-mono px-2 py-0.5 rounded-md text-[11px] ${prod.stock <= 0
                               ? 'bg-rose-500/15 text-rose-400 border border-rose-500/20'
                               : prod.stock <= 5
-                              ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20'
-                              : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
-                          }`}
+                                ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20'
+                                : 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
+                            }`}
                         >
                           {prod.stock} units
                         </span>
@@ -527,11 +526,10 @@ export default function AdminProductsPage() {
                         type="button"
                         onClick={() => handleToggleActive(prod)}
                         title={prod.is_active ? 'Click to deactivate' : 'Click to activate'}
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider cursor-pointer ${
-                          prod.is_active
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider cursor-pointer ${prod.is_active
                             ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/25'
                             : 'bg-zinc-800 text-zinc-500 border border-zinc-700 hover:bg-zinc-700'
-                        }`}
+                          }`}
                       >
                         <Power className="w-3 h-3" />
                         <span>{prod.is_active ? 'Active' : 'Disabled'}</span>
@@ -785,11 +783,10 @@ export default function AdminProductsPage() {
                   <button
                     type="button"
                     onClick={() => setStockAdjustmentType('increment')}
-                    className={`py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                      stockAdjustmentType === 'increment'
+                    className={`py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center justify-center gap-1 ${stockAdjustmentType === 'increment'
                         ? 'bg-emerald-600 text-white shadow-xs'
                         : 'bg-zinc-950 text-zinc-400 border border-zinc-800'
-                    }`}
+                      }`}
                   >
                     <TrendingUp className="w-3.5 h-3.5" />
                     <span>Inward (+)</span>
@@ -798,11 +795,10 @@ export default function AdminProductsPage() {
                   <button
                     type="button"
                     onClick={() => setStockAdjustmentType('decrement')}
-                    className={`py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                      stockAdjustmentType === 'decrement'
+                    className={`py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center justify-center gap-1 ${stockAdjustmentType === 'decrement'
                         ? 'bg-rose-600 text-white shadow-xs'
                         : 'bg-zinc-950 text-zinc-400 border border-zinc-800'
-                    }`}
+                      }`}
                   >
                     <TrendingDown className="w-3.5 h-3.5" />
                     <span>Outward (-)</span>
@@ -811,11 +807,10 @@ export default function AdminProductsPage() {
                   <button
                     type="button"
                     onClick={() => setStockAdjustmentType('set')}
-                    className={`py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                      stockAdjustmentType === 'set'
+                    className={`py-2 rounded-xl font-semibold transition-all cursor-pointer flex items-center justify-center gap-1 ${stockAdjustmentType === 'set'
                         ? 'bg-sky-600 text-white shadow-xs'
                         : 'bg-zinc-950 text-zinc-400 border border-zinc-800'
-                    }`}
+                      }`}
                   >
                     <span>Set Exact</span>
                   </button>
