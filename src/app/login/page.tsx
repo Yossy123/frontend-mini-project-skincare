@@ -70,13 +70,6 @@ function LoginFormContent() {
     }
   };
 
-  const handleFillDemo = (demoEmail: string, demoPass: string) => {
-    setEmail(demoEmail);
-    setPassword(demoPass);
-    setValidationError(null);
-    clearError();
-  };
-
   return (
     <div className="max-w-md mx-auto px-4 py-12 sm:py-16 w-full">
       <div className="relative bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 p-6 sm:p-10 shadow-xl shadow-rose-950/5">
@@ -192,40 +185,6 @@ function LoginFormContent() {
             )}
           </button>
         </form>
-
-        {/* Demo Credentials Quick Fill */}
-        <div className="mt-6 p-3.5 rounded-2xl bg-stone-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800 text-[11px] text-zinc-500 space-y-2">
-          <div className="font-semibold text-zinc-700 dark:text-zinc-300 flex items-center justify-between">
-            <span>Quick Demo Accounts:</span>
-            <span className="text-[10px] text-zinc-400 font-normal">Click to auto-fill</span>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => handleFillDemo('customer@lumiere.com', 'password')}
-              className="px-2 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-rose-100 dark:border-zinc-700 hover:border-rose-300 text-left transition-colors cursor-pointer"
-            >
-              <div className="font-semibold text-rose-600 dark:text-rose-400 text-xs">Customer</div>
-              <div className="text-[9px] text-zinc-400 truncate">customer@...</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleFillDemo('doctor.yoshi@lumiere.com', 'password')}
-              className="px-2 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-emerald-100 dark:border-zinc-700 hover:border-emerald-400 text-left transition-colors cursor-pointer"
-            >
-              <div className="font-semibold text-emerald-600 dark:text-emerald-400 text-xs">Dokter</div>
-              <div className="text-[9px] text-zinc-400 truncate">doctor.yoshi@...</div>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleFillDemo('admin@lumiere.com', 'password')}
-              className="px-2 py-1.5 rounded-lg bg-white dark:bg-zinc-800 border border-rose-100 dark:border-zinc-700 hover:border-rose-300 text-left transition-colors cursor-pointer"
-            >
-              <div className="font-semibold text-zinc-700 dark:text-zinc-300 text-xs">Admin</div>
-              <div className="text-[9px] text-zinc-400 truncate">admin@...</div>
-            </button>
-          </div>
-        </div>
 
         {/* Register Link */}
         <div className="mt-6 text-center text-xs text-zinc-500">
