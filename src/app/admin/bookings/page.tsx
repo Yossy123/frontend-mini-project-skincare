@@ -247,7 +247,7 @@ export default function AdminBookingsPage() {
               setPage(1);
             }}
             placeholder="Cari kode booking, nama, WA..."
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 placeholder-zinc-500 focus:outline-hidden focus:border-rose-500"
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 placeholder:text-zinc-500 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
           />
         </div>
 
@@ -261,7 +261,7 @@ export default function AdminBookingsPage() {
               setDateFilter(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
           />
         </div>
 
@@ -274,7 +274,7 @@ export default function AdminBookingsPage() {
               setDoctorFilter(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500 appearance-none cursor-pointer"
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500 appearance-none cursor-pointer"
           >
             <option value="">Semua Dokter</option>
             {doctors.map((d) => (
@@ -294,7 +294,7 @@ export default function AdminBookingsPage() {
               setStatusFilter(e.target.value);
               setPage(1);
             }}
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500 appearance-none cursor-pointer"
+            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500 appearance-none cursor-pointer"
           >
             <option value="">Semua Status</option>
             <option value="pending">Pending</option>
@@ -595,7 +595,7 @@ export default function AdminBookingsPage() {
                 <select
                   value={newStatus}
                   onChange={(e) => setNewStatus(e.target.value as AppointmentStatus)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
                 >
                   <option value="pending">Pending</option>
                   <option value="confirmed">Confirmed (Disetujui)</option>
@@ -615,7 +615,7 @@ export default function AdminBookingsPage() {
                     value={cancelReason}
                     onChange={(e) => setCancelReason(e.target.value)}
                     placeholder="Contoh: Pasien berhalangan hadir / dokter sakit"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 placeholder:text-zinc-500 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
                   />
                 </div>
               )}
@@ -627,7 +627,7 @@ export default function AdminBookingsPage() {
                   value={statusNotes}
                   onChange={(e) => setStatusNotes(e.target.value)}
                   placeholder="Catatan tambahan perubahan status..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 placeholder:text-zinc-500 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
                 />
               </div>
             </div>
@@ -678,7 +678,7 @@ export default function AdminBookingsPage() {
                   required
                   value={rescheduleDate}
                   onChange={(e) => setRescheduleDate(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
                 />
               </div>
 
@@ -689,7 +689,7 @@ export default function AdminBookingsPage() {
                   required
                   value={rescheduleTime}
                   onChange={(e) => setRescheduleTime(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
                 />
               </div>
 
@@ -698,7 +698,7 @@ export default function AdminBookingsPage() {
                 <select
                   value={rescheduleDoctorId || ''}
                   onChange={(e) => setRescheduleDoctorId(e.target.value ? parseInt(e.target.value) : null)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:border-rose-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
                 >
                   <option value="">Pertahankan Dokter Saat Ini ({selectedAppt.doctor?.name})</option>
                   {doctors.map((d) => (
