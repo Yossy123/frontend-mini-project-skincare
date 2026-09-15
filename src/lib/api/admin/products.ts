@@ -195,13 +195,3 @@ export async function adminAdjustStock(
   const json = await res.json();
   return json.data;
 }
-
-// Re-export category types and functions for backwards compatibility
-export type { AdminCategoryItem } from './categories';
-export {
-  fetchAdminCategories,
-  adminCreateCategory,
-  adminUpdateCategory,
-  adminToggleCategory,
-  adminDeleteCategory,
-} from './categories';

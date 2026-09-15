@@ -1,5 +1,5 @@
 import { API_BASE_URL } from './client';
-import type { HealthResponse, RegisterPayload, LoginPayload, AuthResponse, User } from './types';
+import type { HealthResponse, RegisterPayload, LoginPayload, AuthResponse } from './types';
 
 /**
  * Fetch health status from Laravel backend.
@@ -104,25 +104,5 @@ export async function logoutUser(token: string): Promise<void> {
   } catch {
     // Gracefully handle logout failure
   }
-}
-
-/**
- * Fetch current authenticated customer profile.
- */
-export async function fetchMe(token: string): Promise<User> {
-  const res = await fetch(`${API_BASE_URL}/me`, {
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    cache: 'no-store',
-  });
-
-  if (!res.ok) {
-    throw new Error('Unauthenticated');
-  }
-
-  const json = await res.json();
-  return json.user;
 }
 

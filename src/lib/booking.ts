@@ -243,34 +243,6 @@ export async function lookupBooking(bookingCode: string): Promise<Appointment> {
   return data.data;
 }
 
-// 2. CUSTOMER PERSONAL APPOINTMENTS
-export async function fetchMyAppointments(): Promise<{ data: Appointment[]; total: number }> {
-  const res = await fetch(`${API_BASE_URL}/my-appointments`, {
-    headers: {
-      Accept: 'application/json',
-      ...getAuthHeader(),
-    },
-  });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.message || 'Gagal memuat daftar appointment Anda.');
-  return json.data;
-}
-
-export async function cancelMyAppointment(id: number, reason?: string): Promise<Appointment> {
-  const res = await fetch(`${API_BASE_URL}/my-appointments/${id}/cancel`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      ...getAuthHeader(),
-    },
-    body: JSON.stringify({ reason }),
-  });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.message || 'Gagal membatalkan appointment.');
-  return json.data;
-}
-
 // 3. ADMIN APPOINTMENT & CLINICAL MANAGEMENT
 export async function fetchAdminAppointments(params?: {
   date?: string;
@@ -296,18 +268,6 @@ export async function fetchAdminAppointments(params?: {
   });
   const json = await res.json();
   if (!res.ok) throw new Error(json.message || 'Gagal memuat daftar appointment.');
-  return json.data;
-}
-
-export async function fetchAdminAppointmentDetail(id: number): Promise<Appointment> {
-  const res = await fetch(`${API_BASE_URL}/admin/appointments/${id}`, {
-    headers: {
-      Accept: 'application/json',
-      ...getAuthHeader(),
-    },
-  });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.message || 'Gagal memuat detail appointment.');
   return json.data;
 }
 
@@ -344,18 +304,6 @@ export async function updateAdminAppointment(id: number, payload: Partial<Appoin
   const json = await res.json();
   if (!res.ok) throw new Error(json.message || 'Gagal memperbarui appointment.');
   return json.data;
-}
-
-export async function deleteAdminAppointment(id: number): Promise<void> {
-  const res = await fetch(`${API_BASE_URL}/admin/appointments/${id}`, {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-      ...getAuthHeader(),
-    },
-  });
-  const json = await res.json();
-  if (!res.ok) throw new Error(json.message || 'Gagal menghapus appointment.');
 }
 
 // 4. ADMIN PATIENTS
