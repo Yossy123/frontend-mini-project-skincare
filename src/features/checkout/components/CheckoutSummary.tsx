@@ -12,6 +12,8 @@ interface CheckoutSummaryProps {
   onPlaceOrder: () => void;
 }
 
+// Fallback only — the authoritative threshold comes from the checkout
+// validation response (summary.free_shipping_min_spend).
 const FREE_SHIPPING_MIN_SPEND = 500000;
 
 export function CheckoutSummary({
@@ -22,7 +24,9 @@ export function CheckoutSummary({
   onPlaceOrder,
 }: CheckoutSummaryProps) {
   const subtotal = checkoutData?.summary.subtotal || 0;
-  const isFreeShipping = Boolean(selectedRate) && subtotal >= FREE_SHIPPING_MIN_SPEND;
+  const freeShippingMinSpend = checkoutData?.summary.free_shipping_min_spend ?? FREE_SHIPPING_MIN_SPEND;
+  const isFreeShipping =
+    Boolean(selectedRate) && freeShippingMinSpend > 0 && subtotal >= freeShippingMinSpend;
   const shippingCost = isFreeShipping ? 0 : selectedRate?.price || 0;
   const grandTotal = subtotal + shippingCost;
   const formattedGrandTotal = 'Rp ' + Number(grandTotal).toLocaleString('id-ID');

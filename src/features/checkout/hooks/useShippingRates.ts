@@ -50,6 +50,10 @@ export function useShippingRates(token: string | null, cartItems: CartItem[]) {
         }
       } catch (err: unknown) {
         console.error('Shipping calculation error:', err);
+        // Never keep rates/selection from a previous destination — a stale
+        // selection would let the user place an order with an unquoted combo.
+        setShippingRates([]);
+        setSelectedRate(null);
         const msg = err instanceof Error ? err.message : 'Shipping rates could not be loaded. Please try again.';
         setShippingError(msg);
       } finally {

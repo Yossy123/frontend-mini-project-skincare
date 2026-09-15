@@ -172,6 +172,7 @@ export interface CheckoutSummary {
   total_weight: number;
   formatted_total_weight: string;
   total_items: number;
+  free_shipping_min_spend: number;
 }
 
 export interface CheckoutValidationResponse {
