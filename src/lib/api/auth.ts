@@ -106,3 +106,18 @@ export async function logoutUser(token: string): Promise<void> {
   }
 }
 
+/** Fetch the full profile for the currently authenticated account. */
+export async function fetchCurrentUser(token: string): Promise<NonNullable<AuthResponse['user']>> {
+  const res = await fetch(`${API_BASE_URL}/me`, {
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    cache: 'no-store',
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Gagal memuat profil akun.');
+  if (!data.user?.id) throw new Error('Data profil akun tidak dikenali.');
+  return data.user;
+}
+

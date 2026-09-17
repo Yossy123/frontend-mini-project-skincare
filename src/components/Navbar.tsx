@@ -16,6 +16,7 @@ import {
   ChevronDown,
   MapPin,
   Package,
+  ClipboardList,
   MessageCircle,
   Home,
   CalendarDays,
@@ -157,6 +158,30 @@ export function Navbar() {
                         <Package className="w-3.5 h-3.5 text-rose-500" />
                         <span>My Orders</span>
                       </Link>
+                      <Link
+                        href="/account/medical-records"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-zinc-800"
+                      >
+                        <ClipboardList className="w-3.5 h-3.5 text-rose-500" />
+                        <span>Rekam Medis</span>
+                      </Link>
+                      <Link
+                        href="/account/profile"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-zinc-800"
+                      >
+                        <UserRound className="w-3.5 h-3.5 text-rose-500" />
+                        <span>Profil saya</span>
+                      </Link>
+                      <Link
+                        href="/account/appointments"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-zinc-800"
+                      >
+                        <CalendarDays className="w-3.5 h-3.5 text-rose-500" />
+                        <span>Jadwal konsultasi</span>
+                      </Link>
                       {user.role === 'doctor' && (
                         <Link
                           href="/doctor/dashboard"
@@ -235,7 +260,7 @@ export function Navbar() {
             { label: 'Specialists', href: '/specialists', icon: Stethoscope, active: pathname === '/specialists' },
             { label: 'Booking', href: '/booking', icon: CalendarDays, active: pathname.startsWith('/booking') },
             { label: 'Keranjang', href: '/cart', icon: ShoppingBag, active: pathname === '/cart', badge: cartItemCount },
-            { label: 'Akun', href: isAuthenticated ? '/account/orders' : '/login', icon: UserRound, active: pathname.startsWith('/account') || pathname === '/login' },
+            { label: 'Akun', href: isAuthenticated ? '/account/profile' : '/login', icon: UserRound, active: pathname.startsWith('/account') || pathname === '/login' },
           ].map(({ label, href, icon: Icon, active, badge }) => (
             <Link key={label} href={href} aria-current={active ? 'page' : undefined} className={`flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-0.5 text-[9px] font-medium leading-tight transition-colors sm:text-[10px] ${active ? 'text-[#a66d1c]' : 'text-zinc-500 hover:text-zinc-800'}`}>
               <span className="relative">

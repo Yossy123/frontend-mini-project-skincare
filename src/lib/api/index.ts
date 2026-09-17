@@ -38,7 +38,7 @@ export type {
 } from './types';
 
 // Auth & user
-export { fetchHealth, registerUser, loginUser, logoutUser } from './auth';
+export { fetchHealth, registerUser, loginUser, logoutUser, fetchCurrentUser } from './auth';
 
 // Addresses
 export { fetchAddresses, createAddress, updateAddress, deleteAddress } from './addresses';
