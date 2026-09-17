@@ -20,7 +20,6 @@ import {
   X,
   Image as ImageIcon,
   Ban,
-  Video,
   UploadCloud,
 } from 'lucide-react';
 import {
@@ -31,7 +30,6 @@ import {
   type BookingDoctor,
   type BookingService,
   type TimeSlot,
-  type ConsultationMode,
 } from '@/lib/booking';
 
 export function BookingForm() {
@@ -43,7 +41,6 @@ export function BookingForm() {
   const [allDoctors, setAllDoctors] = useState<BookingDoctor[]>([]);
   const [serviceId, setServiceId] = useState<number | null>(null);
   const [doctorId, setDoctorId] = useState<number | null>(null);
-  const [consultationMode, setConsultationMode] = useState<ConsultationMode>('offline');
   const [date, setDate] = useState('');
   const [slot, setSlot] = useState<TimeSlot | null>(null);
   const [slots, setSlots] = useState<TimeSlot[]>([]);
@@ -250,7 +247,7 @@ export function BookingForm() {
       const appointment = await createBooking({
         service_id: serviceId,
         doctor_id: doctorId,
-        consultation_mode: consultationMode,
+        consultation_mode: 'offline',
         date,
         start_time: slot.start,
         name: name.trim(),
@@ -319,38 +316,11 @@ export function BookingForm() {
                   Pilih Layanan Perawatan
                 </h2>
                 <p className="text-xs text-zinc-500 ">
-                  Tentukan treatment dan format konsultasi yang Anda butuhkan
+                  Pilih treatment yang sesuai dengan kebutuhan Anda
                 </p>
               </div>
             </div>
 
-            {/* Mode Switcher */}
-            <div className="inline-flex p-1 rounded-2xl bg-stone-100  border border-rose-100  self-start sm:self-auto">
-              <button
-                type="button"
-                onClick={() => setConsultationMode('offline')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  consultationMode === 'offline'
-                    ? 'bg-white  text-rose-600  shadow-xs'
-                    : 'text-zinc-600  hover:text-zinc-900 '
-                }`}
-              >
-                <MapPin className="w-3.5 h-3.5" />
-                <span>In-Clinic VIP</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setConsultationMode('online')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  consultationMode === 'online'
-                    ? 'bg-white  text-emerald-600  shadow-xs'
-                    : 'text-zinc-600  hover:text-zinc-900 '
-                }`}
-              >
-                <Video className="w-3.5 h-3.5" />
-                <span>Telekonsultasi GMeet</span>
-              </button>
-            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -434,7 +404,7 @@ export function BookingForm() {
                 Pilih Tanggal Reservasi
               </h2>
               <p className="text-xs text-zinc-500 ">
-                Tentukan hari kunjungan atau konsultasi online Anda
+                Tentukan hari kunjungan Anda ke klinik
               </p>
             </div>
           </div>
@@ -819,12 +789,8 @@ export function BookingForm() {
             {/* Mode Selected */}
             <div className="flex justify-between items-center gap-2">
               <span className="text-zinc-500 ">Format Sesi</span>
-              <span className={`font-semibold px-2 py-0.5 rounded-md ${
-                consultationMode === 'online'
-                  ? 'bg-emerald-50  text-emerald-700 '
-                  : 'bg-rose-50  text-rose-700 '
-              }`}>
-                {consultationMode === 'online' ? 'Online (Google Meet)' : 'In-Clinic (Offline)'}
+              <span className="rounded-md bg-rose-50 px-2 py-0.5 font-semibold text-rose-700">
+                In-Clinic (Offline)
               </span>
             </div>
 
