@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-stone-100 dark:bg-zinc-900 border-t border-rose-100 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm">
+    <footer className="bg-stone-100 dark:bg-zinc-900 border-t border-rose-100 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Brand Info */}

@@ -8,7 +8,26 @@ import { ProductCard } from '@/components/ProductCard';
 import { CatalogSkeleton } from '@/components/CatalogSkeleton';
 import { HealthStatusCard } from '@/components/HealthStatusCard';
 import { fetchCategories, fetchProducts, Category, Product } from '@/lib/api';
-import { Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import {
+  ArrowRight,
+  CalendarDays,
+  ChevronRight,
+  ClipboardList,
+  HeartPulse,
+  MapPin,
+  MessageCircle,
+  PackageCheck,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+} from 'lucide-react';
+
+const quickLinks = [
+  { label: 'Buat janji', description: 'Pilih jadwal perawatan', href: '/booking', icon: CalendarDays },
+  { label: 'Produk kulit', description: 'Temukan perawatanmu', href: '/products', icon: Sparkles },
+  { label: 'Dokter & ahli', description: 'Kenali tim spesialis', href: '/specialists', icon: Stethoscope },
+  { label: 'Riwayat pesanan', description: 'Cek status pembelian', href: '/account/orders', icon: PackageCheck },
+];
 
 export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,7 +46,7 @@ export default function HomePage() {
         setCategories(cats);
         setFeaturedProducts(prods.data || []);
       } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : 'Failed to load store data';
+        const msg = err instanceof Error ? err.message : 'Gagal memuat katalog';
         setError(msg);
       } finally {
         setLoading(false);
@@ -38,145 +57,105 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-[#f8f7f4] text-zinc-900">
       <Navbar />
 
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden bg-linear-to-b from-rose-100/60 via-pink-50/40 to-stone-50/60 dark:from-rose-950/30 dark:via-zinc-900 dark:to-zinc-950 py-16 sm:py-24 border-b border-rose-100/60 dark:border-zinc-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="max-w-2xl">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-zinc-900 dark:text-zinc-50 font-normal leading-[1.15]">
-                Reveal Your Natural, Radiant Glow
-              </h1>
-
-              <p className="mt-5 text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-xl">
-                Dermatologist-formulated botanical skincare and luminous makeup designed to nourish, protect, and illuminate every skin tone.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl text-sm font-semibold text-white bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-md shadow-rose-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <span>Explore Catalog</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-
-              {/* Trust Badges */}
-              <div className="mt-10 pt-6 border-t border-rose-200/50 dark:border-zinc-800 flex items-center gap-6 text-xs text-zinc-500 dark:text-zinc-400">
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  <span>Dermatologist Approved & Certified Clinical Formulas</span>
+      <main className="flex-1 pb-24 md:pb-0">
+        <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
+          <div className="grid gap-5 lg:grid-cols-[1.4fr_0.8fr] lg:gap-8">
+            <div className="rounded-[1.75rem] bg-[#292d30] px-5 py-6 text-white shadow-sm sm:px-8 sm:py-9 lg:min-h-64 lg:px-10">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-sm text-white/70">Selamat datang di NOBYDERM</p>
+                  <h1 className="mt-2 max-w-lg text-2xl font-semibold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
+                    Rawat kulitmu dengan langkah yang tepat.
+                  </h1>
+                  <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">
+                    Temukan produk dan layanan perawatan kulit yang sesuai kebutuhanmu.
+                  </p>
+                </div>
+                <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#c99a55]/20 text-[#e5b66e] sm:flex">
+                  <HeartPulse className="h-7 w-7" />
                 </div>
               </div>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link href="/booking" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#d69a3a] px-4 text-sm font-semibold text-white transition hover:bg-[#bd8128]">
+                  <CalendarDays className="h-4 w-4" /> Buat janji
+                </Link>
+                <Link href="/products" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/20 px-4 text-sm font-medium text-white transition hover:bg-white/10">
+                  Lihat produk <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             </div>
-          </div>
 
-          {/* Decorative Glow Circle */}
-          <div className="absolute top-1/2 right-0 -translate-y-1/2 w-125 h-125 bg-linear-to-br from-rose-200/40 via-pink-200/30 to-amber-100/30 dark:from-rose-900/20 dark:via-pink-900/10 dark:to-transparent blur-3xl pointer-events-none rounded-full"></div>
-        </section>
-
-        {/* Categories Grid Showcase */}
-        <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-widest text-rose-500">
-                Curated Collections
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-serif text-zinc-900 dark:text-zinc-100 mt-1">
-                Shop By Category
-              </h2>
-            </div>
-            <Link
-              href="/products"
-              className="text-xs sm:text-sm font-medium text-rose-600 dark:text-rose-400 hover:underline inline-flex items-center gap-1"
-            >
-              <span>View all</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+            <Link href="/booking" className="group flex min-h-36 items-center justify-between gap-4 rounded-[1.75rem] border border-[#efe4d1] bg-[#fffaf1] p-5 transition hover:border-[#d7ad70] sm:p-6 lg:min-h-0">
+              <div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5e8d2] px-2.5 py-1 text-[11px] font-semibold text-[#8d6228]"><ShieldCheck className="h-3.5 w-3.5" /> Pendampingan ahli</span>
+                <h2 className="mt-3 text-lg font-semibold leading-snug sm:text-xl">Bingung memilih perawatan?</h2>
+                <p className="mt-1 text-sm text-zinc-600">Jadwalkan konsultasi dengan tim kami.</p>
+                <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#a66d1c]">Lihat jadwal <ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5" /></span>
+              </div>
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#c48935] shadow-sm sm:h-16 sm:w-16"><MessageCircle className="h-7 w-7" /></div>
             </Link>
           </div>
+        </section>
 
-          {categories.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 sm:pt-10 lg:px-8">
+          <div className="mb-4 flex items-end justify-between gap-3">
+            <div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a66d1c]">Akses cepat</p><h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">Apa yang kamu butuhkan?</h2></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+            {quickLinks.map(({ label, description, href, icon: Icon }) => (
+              <Link key={label} href={href} className="group flex min-h-32 flex-col rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition hover:-translate-y-0.5 hover:border-[#dfc59e] hover:shadow-md sm:min-h-36 sm:p-5">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fbf3e6] text-[#bd8128] transition group-hover:bg-[#f5e4c8]"><Icon className="h-5 w-5" /></span>
+                <span className="mt-3 text-sm font-semibold">{label}</span>
+                <span className="mt-0.5 text-xs leading-relaxed text-zinc-500">{description}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {categories.length > 0 && (
+          <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
+            <div className="mb-4 flex items-end justify-between gap-3">
+              <div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a66d1c]">Jelajahi katalog</p><h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">Kategori pilihan</h2></div>
+              <Link href="/products" className="inline-flex items-center gap-1 text-xs font-semibold text-[#9b681e] sm:text-sm">Semua produk <ArrowRight className="h-3.5 w-3.5" /></Link>
+            </div>
+            <div className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {categories.map((cat) => (
-                <Link
-                  key={cat.id}
-                  href={`/categories/${cat.slug}`}
-                  className="group flex flex-col p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-rose-100/70 dark:border-zinc-800 hover:border-rose-300 dark:hover:border-zinc-700 hover:shadow-lg hover:shadow-rose-500/5 transition-all text-center"
-                >
-                  <div className="w-12 h-12 mx-auto rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                    <Sparkles className="w-6 h-6 text-rose-400" />
-                  </div>
-                  <h3 className="font-serif font-semibold text-sm text-zinc-900 dark:text-zinc-100 group-hover:text-rose-600 transition-colors">
-                    {cat.name}
-                  </h3>
-                  <span className="text-[11px] text-zinc-400 dark:text-zinc-500 mt-1">
-                    {cat.products_count ?? 0} products
-                  </span>
-                </Link>
+                <Link key={cat.id} href={`/categories/${cat.slug}`} className="shrink-0 rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-[#d7ad70] hover:bg-[#fffaf1]">{cat.name}<span className="ml-2 text-xs text-zinc-400">{cat.products_count ?? 0}</span></Link>
               ))}
+            </div>
+          </section>
+        )}
+
+        <section className="mx-auto max-w-7xl px-4 pb-8 pt-9 sm:px-6 sm:pb-12 sm:pt-12 lg:px-8">
+          <div className="mb-4 flex items-end justify-between gap-3">
+            <div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a66d1c]">Pilihan untukmu</p><h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">Produk terbaru</h2></div>
+            <Link href="/products" className="inline-flex items-center gap-1 text-xs font-semibold text-[#9b681e] sm:text-sm">Lihat semua <ArrowRight className="h-3.5 w-3.5" /></Link>
+          </div>
+          {loading ? <CatalogSkeleton count={4} /> : error ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">{error}</div>
+          ) : featuredProducts.length ? (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+              {featuredProducts.slice(0, 4).map((product) => <ProductCard key={product.id} product={product} />)}
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 animate-pulse">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-28 rounded-2xl bg-rose-50/60 dark:bg-zinc-900 border border-rose-100/50"></div>
-              ))}
-            </div>
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-500">Produk akan tampil di sini setelah katalog tersedia.</div>
           )}
         </section>
 
-        {/* Featured Products Section */}
-        <section className="py-14 bg-white/70 dark:bg-zinc-900/50 border-y border-rose-100/60 dark:border-zinc-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-end justify-between mb-8">
-              <div>
-                <span className="text-xs font-semibold uppercase tracking-widest text-rose-500">
-                  Staff Picks & Best Sellers
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-serif text-zinc-900 dark:text-zinc-100 mt-1">
-                  Featured Products
-                </h2>
-              </div>
-              <Link
-                href="/products"
-                className="text-xs sm:text-sm font-medium text-rose-600 dark:text-rose-400 hover:underline inline-flex items-center gap-1"
-              >
-                <span>Browse All ({featuredProducts.length}+)</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {loading ? (
-              <CatalogSkeleton count={4} />
-            ) : error ? (
-              <div className="p-8 text-center bg-rose-50 dark:bg-rose-950/20 rounded-2xl border border-rose-200">
-                <p className="text-sm text-rose-700">{error}</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {featuredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-          </div>
+        <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+          <Link href="/specialists" className="flex items-center justify-between gap-4 rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-[#dfc59e] sm:p-5">
+            <span className="flex items-center gap-3"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fbf3e6] text-[#bd8128]"><MapPin className="h-5 w-5" /></span><span><span className="block text-sm font-semibold">Temukan layanan dan spesialis</span><span className="mt-0.5 block text-xs text-zinc-500">Lihat pilihan layanan yang tersedia</span></span></span><ChevronRight className="h-5 w-5 shrink-0 text-zinc-400" />
+          </Link>
         </section>
 
-        {/* System Architecture & Health Indicator */}
-        <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8">
-            <span className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
-              Infrastructure Status
-            </span>
-            <h3 className="text-xl font-serif text-zinc-900 dark:text-zinc-100 mt-1">
-              Live Backend Connectivity
-            </h3>
-          </div>
-          <div className="flex justify-center">
-            <HealthStatusCard />
-          </div>
+        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+          <details className="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-5">
+            <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-medium text-zinc-600"><ClipboardList className="h-4 w-4" /> Status layanan sistem</summary>
+            <div className="mt-4 flex justify-center"><HealthStatusCard /></div>
+          </details>
         </section>
       </main>
 

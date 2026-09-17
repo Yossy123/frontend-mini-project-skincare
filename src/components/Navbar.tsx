@@ -19,6 +19,9 @@ import {
   MapPin,
   Package,
   MessageCircle,
+  Home,
+  CalendarDays,
+  UserRound,
 } from 'lucide-react';
 
 export function Navbar() {
@@ -330,6 +333,25 @@ export function Navbar() {
           </div>
         )}
       </header>
+
+      <nav aria-label="Navigasi utama" className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/95 px-2 pt-2 pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_24px_rgba(24,24,27,0.08)] backdrop-blur-md md:hidden">
+        <div className="mx-auto grid max-w-lg grid-cols-4">
+          {[
+            { label: 'Beranda', href: '/', icon: Home, active: pathname === '/' },
+            { label: 'Booking', href: '/booking', icon: CalendarDays, active: pathname.startsWith('/booking') },
+            { label: 'Keranjang', href: '/cart', icon: ShoppingBag, active: pathname === '/cart', badge: cartItemCount },
+            { label: 'Akun', href: isAuthenticated ? '/account/orders' : '/login', icon: UserRound, active: pathname.startsWith('/account') || pathname === '/login' },
+          ].map(({ label, href, icon: Icon, active, badge }) => (
+            <Link key={label} href={href} aria-current={active ? 'page' : undefined} className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-medium transition-colors ${active ? 'text-[#a66d1c]' : 'text-zinc-500 hover:text-zinc-800'}`}>
+              <span className="relative">
+                <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
+                {badge ? <span className="absolute -right-2 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#c8872b] px-1 text-[9px] font-bold text-white">{badge > 99 ? '99+' : badge}</span> : null}
+              </span>
+              {label}
+            </Link>
+          ))}
+        </div>
+      </nav>
 
       {/* Cart Slide-over Drawer Component */}
       <CartDrawer />
