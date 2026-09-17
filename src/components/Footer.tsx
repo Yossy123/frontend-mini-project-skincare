@@ -1,85 +1,90 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart } from 'lucide-react';
+import { ArrowUpRight, Heart, Sparkles } from 'lucide-react';
+
+const collectionLinks = [
+  { label: 'Skincare', href: '/categories/skincare' },
+  { label: 'Makeup', href: '/categories/makeup' },
+  { label: 'Body Care', href: '/categories/body-care' },
+  { label: 'Hair Care', href: '/categories/hair-care' },
+];
+
+const careLinks = [
+  { label: 'Katalog produk', href: '/products' },
+  { label: 'Pengiriman & delivery', href: '/account/orders' },
+  { label: 'Lacak pesanan', href: '/account/orders' },
+];
 
 export function Footer() {
   return (
-    <footer className="bg-stone-100 dark:bg-zinc-900 border-t border-rose-100 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 text-sm pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
-      {/* Main Footer Links */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* Brand Info */}
-        <div className="space-y-3 md:col-span-1">
-          <div className="flex items-center gap-2">
+    <footer className="relative isolate overflow-hidden bg-[#25292c] pb-[calc(5rem+env(safe-area-inset-bottom))] text-white md:pb-0">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-36 -z-10 h-80 w-80 rounded-full bg-[#cda162]/10 blur-3xl" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-40 left-[28%] -z-10 h-72 w-72 rounded-full bg-[#cda162]/5 blur-3xl" />
+      <div className="h-1 w-full bg-gradient-to-r from-[#8d622f] via-[#e1b96f] to-[#8d622f]" />
+
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-5 py-10 sm:px-8 sm:py-12 md:grid-cols-12 md:gap-8 lg:px-10 lg:py-14">
+        <div className="md:col-span-5 md:pr-10">
+          <Link href="/" aria-label="NOBYDERM beranda" className="inline-flex rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e5b66e]">
             <Image
               src="/logo.png"
               alt="NOBYDERM"
               width={160}
               height={42}
-              className="h-8 w-auto object-contain"
+              className="h-9 w-auto object-contain"
             />
+          </Link>
+          <p className="mt-5 max-w-sm text-sm leading-6 text-white/65">
+            Perawatan kulit dan kecantikan yang dirancang dengan perhatian pada kebutuhanmu.
+          </p>
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white/70">
+            <Sparkles className="h-3.5 w-3.5 text-[#e5b66e]" />
+            <span>Temukan rutinitas yang tepat untukmu</span>
           </div>
-          <p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-            Elevating everyday skincare with scientifically formulated treatments, medical aesthetics, and clinical dermatological care.
-          </p>
         </div>
 
-        {/* Categories */}
-        <div>
-          <h5 className="font-semibold text-zinc-900 dark:text-zinc-100 text-xs tracking-wider uppercase mb-3">
-            Collections
-          </h5>
-          <ul className="space-y-2 text-xs">
-            <li><Link href="/categories/skincare" className="hover:text-rose-500 transition-colors">Skincare</Link></li>
-            <li><Link href="/categories/makeup" className="hover:text-rose-500 transition-colors">Makeup</Link></li>
-            <li><Link href="/categories/body-care" className="hover:text-rose-500 transition-colors">Body Care</Link></li>
-            <li><Link href="/categories/hair-care" className="hover:text-rose-500 transition-colors">Hair Care</Link></li>
-          </ul>
-        </div>
+        <div className="grid grid-cols-2 gap-8 md:col-span-7 md:grid-cols-2 md:gap-10">
+          <div>
+            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e5b66e]">
+              Koleksi
+            </h2>
+            <ul className="space-y-3">
+              {collectionLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <Link href={link.href} className="group inline-flex items-center gap-1 text-sm text-white/65 transition hover:text-white">
+                    {link.label}
+                    <ArrowUpRight className="h-3.5 w-3.5 -translate-y-0.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {/* Quick Links */}
-        <div>
-          <h5 className="font-semibold text-zinc-900 dark:text-zinc-100 text-xs tracking-wider uppercase mb-3">
-            Customer Care
-          </h5>
-          <ul className="space-y-2 text-xs">
-            <li><Link href="/products" className="hover:text-rose-500 transition-colors">Product Catalog</Link></li>
-            <li><span className="hover:text-rose-500 cursor-pointer">Shipping & Delivery</span></li>
-            <li><span className="hover:text-rose-500 cursor-pointer">Order Tracking</span></li>
-            <li><span className="hover:text-rose-500 cursor-pointer">Privacy Policy</span></li>
-            <li><span className="hover:text-rose-500 cursor-pointer">Terms of Service</span></li>
-          </ul>
-        </div>
-
-        {/* Newsletter placeholder */}
-        <div>
-          <h5 className="font-semibold text-zinc-900 dark:text-zinc-100 text-xs tracking-wider uppercase mb-3">
-            Join the Club
-          </h5>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-3">
-            Subscribe to receive exclusive beauty drops and botanical skincare tips.
-          </p>
-          <div className="flex gap-2">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="px-3 py-2 text-xs rounded-xl bg-white dark:bg-zinc-800 border border-rose-200/70 dark:border-zinc-700 w-full focus:outline-hidden focus:ring-2 focus:ring-rose-400"
-            />
-            <button
-              className="px-3 py-2 text-xs bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-medium transition-colors shrink-0 cursor-pointer"
-            >
-              Join
-            </button>
+          <div>
+            <h2 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#e5b66e]">
+              Bantuan
+            </h2>
+            <ul className="space-y-3">
+              {careLinks.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="group inline-flex items-center gap-1 text-sm text-white/65 transition hover:text-white">
+                    {link.label}
+                    <ArrowUpRight className="h-3.5 w-3.5 -translate-y-0.5 opacity-0 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="border-t border-rose-100 dark:border-zinc-800/80 py-6 text-center text-xs text-zinc-500 dark:text-zinc-500">
-        <p className="flex items-center justify-center gap-1">
-          <span>&copy; {new Date().getFullYear()} NOBYDERM. All rights reserved.</span>
-          <Heart className="w-3.5 h-3.5 text-rose-500 inline fill-rose-500" />
-        </p>
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-5 text-center text-xs text-white/45 sm:flex-row sm:text-left">
+          <span>© {new Date().getFullYear()} NOBYDERM. Hak cipta dilindungi.</span>
+          <span className="inline-flex items-center gap-1.5">
+            Dibuat dengan <Heart className="h-3.5 w-3.5 fill-[#d69a3a] text-[#d69a3a]" /> untuk kulit sehat
+          </span>
+        </div>
       </div>
     </footer>
   );

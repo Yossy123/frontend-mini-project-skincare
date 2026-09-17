@@ -30,9 +30,9 @@ export function FilterBar({
   const hasActiveFilters = Boolean(searchQuery || selectedCategory || (selectedSort && selectedSort !== 'latest'));
 
   return (
-    <div className="space-y-4 mb-8 bg-white dark:bg-zinc-900/80 p-4 sm:p-6 rounded-2xl border border-rose-100 dark:border-zinc-800 shadow-xs">
+    <div className="mb-5 space-y-4 rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] sm:mb-7 sm:p-5">
       {/* Top Row: Search Input + Sorting Selector */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
@@ -40,8 +40,9 @@ export function FilterBar({
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search serums, creams, lip tints, cleansers..."
-            className="w-full pl-10 pr-9 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 focus:outline-hidden focus:ring-2 focus:ring-rose-400 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400"
+            aria-label="Cari produk"
+            placeholder="Cari nama produk..."
+            className="min-h-11 w-full rounded-xl border border-zinc-200 bg-[#f8f7f4] py-2.5 pl-10 pr-9 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-hidden focus:ring-2 focus:ring-[#d6b173]"
           />
           {searchQuery && (
             <button
@@ -55,42 +56,42 @@ export function FilterBar({
         </div>
 
         {/* Sort Controls */}
-        <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
-          <label htmlFor="sort-select" className="text-xs font-medium text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
-            <ArrowUpDown className="w-3.5 h-3.5" />
-            <span className="hidden xs:inline">Sort:</span>
+        <div className="flex shrink-0 items-center gap-2 sm:self-auto">
+          <label htmlFor="sort-select" className="flex shrink-0 items-center gap-1 text-xs font-medium text-zinc-500">
+            <ArrowUpDown className="h-3.5 w-3.5" />
+            <span>Urutkan</span>
           </label>
           <select
             id="sort-select"
             value={selectedSort}
             onChange={(e) => onSortChange(e.target.value as 'latest' | 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc')}
-            className="px-3 py-2 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 focus:outline-hidden focus:ring-2 focus:ring-rose-400 cursor-pointer"
+            className="min-h-11 min-w-0 flex-1 cursor-pointer rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-800 focus:outline-hidden focus:ring-2 focus:ring-[#d6b173] sm:flex-none sm:text-sm"
           >
-            <option value="latest">Latest Arrivals</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="name_asc">Name: A to Z</option>
-            <option value="name_desc">Name: Z to A</option>
+            <option value="latest">Terbaru</option>
+            <option value="price_asc">Harga: termurah</option>
+            <option value="price_desc">Harga: termahal</option>
+            <option value="name_asc">Nama: A–Z</option>
+            <option value="name_desc">Nama: Z–A</option>
           </select>
         </div>
       </div>
 
       {/* Category Pills Row */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-        <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500 shrink-0 flex items-center gap-1 mr-1">
-          <SlidersHorizontal className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Category:</span>
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <span className="mr-1 flex shrink-0 items-center gap-1 text-xs font-medium text-zinc-500">
+          <SlidersHorizontal className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">Kategori</span>
         </span>
 
         <button
           onClick={() => onSelectCategory('')}
           className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
             !selectedCategory
-              ? 'bg-linear-to-r from-rose-500 to-pink-500 text-white shadow-xs shadow-rose-500/20 font-semibold'
-              : 'bg-stone-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-zinc-700 border border-rose-100/60 dark:border-zinc-700'
+              ? 'border-[#b77c27] bg-[#b77c27] font-semibold text-white'
+              : 'border-zinc-200 bg-white text-zinc-600 hover:border-[#d6b173] hover:bg-[#fffaf1]'
           }`}
         >
-          All Products
+          Semua produk
         </button>
 
         {categories.map((cat) => (
@@ -99,8 +100,8 @@ export function FilterBar({
             onClick={() => onSelectCategory(cat.slug)}
             className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all shrink-0 cursor-pointer ${
               selectedCategory === cat.slug
-                ? 'bg-linear-to-r from-rose-500 to-pink-500 text-white shadow-xs shadow-rose-500/20 font-semibold'
-                : 'bg-stone-50 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-zinc-700 border border-rose-100/60 dark:border-zinc-700'
+                ? 'border-[#b77c27] bg-[#b77c27] font-semibold text-white'
+                : 'border-zinc-200 bg-white text-zinc-600 hover:border-[#d6b173] hover:bg-[#fffaf1]'
             }`}
           >
             {cat.name}
@@ -115,22 +116,22 @@ export function FilterBar({
 
       {/* Active Filters Summary & Reset */}
       {hasActiveFilters && (
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-rose-50 dark:border-zinc-800 text-xs text-zinc-500">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-zinc-100 pt-3 text-xs text-zinc-500">
           <div className="flex items-center gap-2">
-            <span>Filtering results</span>
+            <span>Hasil filter</span>
             {totalProducts !== undefined && (
               <span className="font-semibold text-zinc-800 dark:text-zinc-200">
-                ({totalProducts} products found)
+                ({totalProducts} produk)
               </span>
             )}
           </div>
 
           <button
             onClick={onResetFilters}
-            className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-400 hover:underline font-medium cursor-pointer"
+            className="inline-flex cursor-pointer items-center gap-1 font-medium text-[#9b681e] hover:underline"
           >
             <X className="w-3.5 h-3.5" />
-            Reset all filters
+            Hapus filter
           </button>
         </div>
       )}

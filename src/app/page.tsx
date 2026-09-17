@@ -7,17 +7,21 @@ import { Footer } from '@/components/Footer';
 import { ProductCard } from '@/components/ProductCard';
 import { CatalogSkeleton } from '@/components/CatalogSkeleton';
 import { HealthStatusCard } from '@/components/HealthStatusCard';
+import { ProductImage } from '@/components/ProductImage';
+import { OnlineConsultationModal } from '@/components/OnlineConsultationModal';
 import { fetchCategories, fetchProducts, Category, Product } from '@/lib/api';
 import {
   ArrowRight,
   CalendarDays,
+  ChevronLeft,
   ChevronRight,
   ClipboardList,
   HeartPulse,
   MapPin,
   MessageCircle,
+  Pause,
   PackageCheck,
-  ShieldCheck,
+  Play,
   Sparkles,
   Stethoscope,
 } from 'lucide-react';
@@ -34,6 +38,59 @@ export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeBanner, setActiveBanner] = useState(0);
+  const [bannerPaused, setBannerPaused] = useState(false);
+  const [consultationOpen, setConsultationOpen] = useState(false);
+
+  const featuredProduct = featuredProducts[0];
+  const banners = [
+    {
+      eyebrow: 'KONSULTASI & PERAWATAN',
+      title: 'Mulai dari konsultasi yang tepat.',
+      description: 'Diskusikan kebutuhan kulitmu dengan tim perawatan kami.',
+      action: 'Jadwalkan konsultasi',
+      href: '/booking',
+      icon: HeartPulse,
+      theme: 'bg-[#292d30] text-white',
+      accent: 'bg-[#d69a3a] text-white',
+      visual: 'text-[#e5b66e] bg-[#c99a55]/15',
+    },
+    {
+      eyebrow: 'PRODUK PILIHAN',
+      title: featuredProduct?.name || 'Temukan produk untuk rutinitasmu.',
+      description: featuredProduct?.description || 'Jelajahi rangkaian produk perawatan kulit NOBYDERM.',
+      action: 'Lihat produk',
+      href: featuredProduct ? `/products/${featuredProduct.slug}` : '/products',
+      icon: Sparkles,
+      theme: 'bg-[#f4e7d2] text-zinc-900',
+      accent: 'bg-[#b77c27] text-white',
+      visual: 'text-[#a66d1c] bg-white/70',
+      product: featuredProduct,
+    },
+    {
+      eyebrow: 'TIM SPESIALIS',
+      title: 'Kenali tim yang siap mendampingimu.',
+      description: 'Lihat pilihan dokter dan spesialis yang tersedia.',
+      action: 'Lihat spesialis',
+      href: '/specialists',
+      icon: Stethoscope,
+      theme: 'bg-[#e9eeeb] text-zinc-900',
+      accent: 'bg-[#3d6658] text-white',
+      visual: 'text-[#3d6658] bg-white/70',
+    },
+  ];
+
+  useEffect(() => {
+    if (bannerPaused || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setInterval(() => {
+      setActiveBanner((current) => (current + 1) % banners.length);
+    }, 5000);
+    return () => window.clearInterval(timer);
+  }, [bannerPaused, banners.length]);
+
+  const moveBanner = (direction: number) => {
+    setActiveBanner((current) => (current + direction + banners.length) % banners.length);
+  };
 
   useEffect(() => {
     async function loadData() {
@@ -61,42 +118,48 @@ export default function HomePage() {
       <Navbar />
 
       <main className="flex-1 pb-24 md:pb-0">
-        <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-          <div className="grid gap-5 lg:grid-cols-[1.4fr_0.8fr] lg:gap-8">
-            <div className="rounded-[1.75rem] bg-[#292d30] px-5 py-6 text-white shadow-sm sm:px-8 sm:py-9 lg:min-h-64 lg:px-10">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm text-white/70">Selamat datang di NOBYDERM</p>
-                  <h1 className="mt-2 max-w-lg text-2xl font-semibold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
-                    Rawat kulitmu dengan langkah yang tepat.
-                  </h1>
-                  <p className="mt-3 max-w-md text-sm leading-relaxed text-white/70">
-                    Temukan produk dan layanan perawatan kulit yang sesuai kebutuhanmu.
-                  </p>
-                </div>
-                <div className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#c99a55]/20 text-[#e5b66e] sm:flex">
-                  <HeartPulse className="h-7 w-7" />
-                </div>
-              </div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/booking" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#d69a3a] px-4 text-sm font-semibold text-white transition hover:bg-[#bd8128]">
-                  <CalendarDays className="h-4 w-4" /> Buat janji
-                </Link>
-                <Link href="/products" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/20 px-4 text-sm font-medium text-white transition hover:bg-white/10">
-                  Lihat produk <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+        <section aria-label="Promosi produk dan layanan" aria-roledescription="carousel" className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
+          <div className="relative overflow-hidden rounded-[1.75rem] shadow-sm" onMouseEnter={() => setBannerPaused(true)} onMouseLeave={() => setBannerPaused(false)} onFocusCapture={() => setBannerPaused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setBannerPaused(false); }}>
+            <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${activeBanner * 100}%)` }} aria-live={bannerPaused ? 'polite' : 'off'}>
+              {banners.map(({ eyebrow, title, description, action, href, icon: Icon, theme, accent, visual, product }, index) => (
+                <article key={eyebrow} aria-roledescription="slide" aria-label={`${index + 1} dari ${banners.length}`} aria-hidden={activeBanner !== index} inert={activeBanner !== index} className={`relative flex min-h-52 w-full shrink-0 items-center overflow-hidden px-5 py-6 sm:min-h-64 sm:px-9 sm:py-8 lg:px-12 ${theme}`}>
+                  <div className="relative z-10 max-w-[70%] sm:max-w-[62%]">
+                    <span className="text-[10px] font-bold tracking-[0.16em] opacity-75 sm:text-xs">{eyebrow}</span>
+                    <h1 className="mt-2 line-clamp-2 text-xl font-semibold leading-tight tracking-tight sm:text-3xl lg:text-4xl">{title}</h1>
+                    <p className="mt-2 line-clamp-2 max-w-lg text-xs leading-relaxed opacity-75 sm:mt-3 sm:text-sm">{description}</p>
+                    <Link href={href} tabIndex={activeBanner === index ? 0 : -1} className={`mt-4 inline-flex min-h-10 items-center gap-2 rounded-xl px-3.5 text-xs font-semibold transition hover:brightness-95 sm:mt-5 sm:min-h-11 sm:px-4 sm:text-sm ${accent}`}>
+                      {action}<ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                  <div aria-hidden="true" className={`absolute right-5 top-1/2 flex h-24 w-24 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[1.5rem] sm:right-12 sm:h-36 sm:w-36 sm:rounded-[2rem] ${visual}`}>
+                    <Icon className="h-10 w-10 sm:h-16 sm:w-16" />
+                    {product?.image ? <ProductImage image={product.image} alt="" className="absolute inset-0 h-full w-full object-contain p-2 sm:p-4" /> : null}
+                  </div>
+                  <div aria-hidden="true" className="absolute -right-14 -top-20 h-48 w-48 rounded-full border border-current/10 sm:-right-8 sm:-top-28 sm:h-72 sm:w-72" />
+                </article>
+              ))}
             </div>
 
-            <Link href="/booking" className="group flex min-h-36 items-center justify-between gap-4 rounded-[1.75rem] border border-[#efe4d1] bg-[#fffaf1] p-5 transition hover:border-[#d7ad70] sm:p-6 lg:min-h-0">
-              <div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f5e8d2] px-2.5 py-1 text-[11px] font-semibold text-[#8d6228]"><ShieldCheck className="h-3.5 w-3.5" /> Pendampingan ahli</span>
-                <h2 className="mt-3 text-lg font-semibold leading-snug sm:text-xl">Bingung memilih perawatan?</h2>
-                <p className="mt-1 text-sm text-zinc-600">Jadwalkan konsultasi dengan tim kami.</p>
-                <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-[#a66d1c]">Lihat jadwal <ChevronRight className="h-4 w-4 transition group-hover:translate-x-0.5" /></span>
-              </div>
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white text-[#c48935] shadow-sm sm:h-16 sm:w-16"><MessageCircle className="h-7 w-7" /></div>
-            </Link>
+            <div className="absolute bottom-3 left-5 flex items-center gap-1.5 sm:bottom-4 sm:left-9">
+              {banners.map((banner, index) => <button key={banner.eyebrow} type="button" onClick={() => setActiveBanner(index)} aria-label={`Tampilkan banner ${index + 1}`} aria-current={activeBanner === index ? 'true' : undefined} className={`h-2 rounded-full transition-all ${activeBanner === index ? 'w-6 bg-[#d69a3a]' : 'w-2 bg-zinc-400/50 hover:bg-zinc-500/70'}`} />)}
+            </div>
+            <div className="absolute bottom-2.5 right-3 flex items-center gap-1 sm:bottom-3 sm:right-4 sm:gap-2">
+              <button type="button" onClick={() => setBannerPaused((paused) => !paused)} aria-label={bannerPaused ? 'Putar banner otomatis' : 'Jeda banner otomatis'} className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-current transition hover:bg-black/10"><span className="sr-only">{bannerPaused ? 'Putar' : 'Jeda'}</span>{bannerPaused ? <Play className="h-4 w-4" /> : <Pause className="h-4 w-4" />}</button>
+              <button type="button" onClick={() => moveBanner(-1)} aria-label="Banner sebelumnya" className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-current transition hover:bg-black/10"><ChevronLeft className="h-5 w-5" /></button>
+              <button type="button" onClick={() => moveBanner(1)} aria-label="Banner berikutnya" className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-current transition hover:bg-black/10"><ChevronRight className="h-5 w-5" /></button>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-[#effaf5] p-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white"><MessageCircle className="h-5 w-5" /></span>
+              <span><span className="block text-sm font-semibold text-emerald-950">Butuh saran perawatan?</span><span className="mt-0.5 block text-xs leading-relaxed text-emerald-800">Mulai konsultasi online dengan tim NOBYDERM melalui WhatsApp.</span></span>
+            </div>
+            <button type="button" onClick={() => setConsultationOpen(true)} className="inline-flex min-h-11 w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-semibold text-white transition hover:bg-emerald-800 sm:w-auto">
+              <MessageCircle className="h-4 w-4" /> Konsultasi via WhatsApp
+            </button>
           </div>
         </section>
 
@@ -160,6 +223,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
+      <OnlineConsultationModal isOpen={consultationOpen} onClose={() => setConsultationOpen(false)} />
     </div>
   );
 }

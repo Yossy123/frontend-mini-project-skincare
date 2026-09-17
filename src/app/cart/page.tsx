@@ -43,85 +43,85 @@ export default function CartPage() {
       : totalWeight + ' g';
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-rose-100 dark:border-zinc-800">
+        <div className="mb-5 flex flex-col gap-4 rounded-3xl bg-[#292d30] p-5 text-white sm:mb-7 sm:flex-row sm:items-center sm:justify-between sm:p-7">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/60 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-xs font-medium mb-2">
-              <ShoppingBag className="w-3.5 h-3.5 text-rose-500" />
-              <span>Your Shopping Bag</span>
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
+              <ShoppingBag className="h-3.5 w-3.5 text-[#e5b66e]" />
+              <span>Keranjang belanja</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-serif text-zinc-900 dark:text-zinc-50 font-normal">
-              Review Bag ({totalItems} {totalItems === 1 ? 'item' : 'items'})
+            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Ringkasan belanja <span className="text-[#e5b66e]">({totalItems})</span>
             </h1>
           </div>
 
           <Link
             href="/products"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline"
+            className="inline-flex min-h-11 items-center gap-2 self-start rounded-xl border border-white/20 px-4 text-sm font-semibold text-white transition hover:bg-white/10 sm:self-auto"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Continue Shopping</span>
+            <span>Lanjut belanja</span>
           </Link>
         </div>
 
         {/* Empty State */}
         {!isHydrated || items.length === 0 ? (
-          <div className="max-w-lg mx-auto my-12 text-center p-12 bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 shadow-xs">
-            <div className="w-16 h-16 mx-auto rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-500 flex items-center justify-center mb-4">
+          <div className="mx-auto my-8 max-w-lg rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:my-12 sm:p-10">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fbf3e6] text-[#b77c27]">
               <ShoppingBag className="w-8 h-8" />
             </div>
-            <h2 className="text-xl font-serif font-semibold text-zinc-900 dark:text-zinc-100 mb-2">
-              Your shopping bag is empty
+            <h2 className="mb-2 text-xl font-semibold text-zinc-900">
+              Keranjangmu masih kosong
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mb-6 max-w-xs mx-auto leading-relaxed">
-              Looks like you haven&apos;t added any luxury cosmetics or skincare to your bag yet.
+            <p className="mx-auto mb-6 max-w-xs text-sm leading-relaxed text-zinc-500">
+              Pilih produk yang kamu butuhkan, lalu tambahkan ke keranjang.
             </p>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs sm:text-sm font-semibold text-white bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-md shadow-rose-500/20"
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#b77c27] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#9d681d]"
             >
-              <span>Explore Formulations</span>
+              <span>Lihat produk</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-12 lg:gap-7">
             {/* Cart Items List (8 cols) */}
-            <div className="lg:col-span-8 space-y-4">
-              <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 shadow-xs overflow-hidden">
-                <div className="p-4 sm:p-6 divide-y divide-rose-50 dark:divide-zinc-800/80">
+            <div className="space-y-4 lg:col-span-8">
+              <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[0_2px_10px_rgba(20,20,20,0.03)]">
+                <div className="divide-y divide-zinc-100 p-4 sm:p-6">
                   {items.map((item) => (
                     <div
                       key={item.productId}
-                      className="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                      className="flex flex-col items-start justify-between gap-3 py-4 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:gap-4"
                     >
                       {/* Product Thumbnail & Meta */}
                       <div className="flex items-center gap-4 min-w-0">
                         <Link
                           href={`/products/${item.slug}`}
-                          className="relative w-20 h-20 rounded-2xl bg-linear-to-br from-rose-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-800/60 border border-rose-100 dark:border-zinc-700 flex items-center justify-center shrink-0 overflow-hidden"
+                          className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-zinc-100 bg-[#fbf3e6]"
                         >
                           <ProductImage
                             image={item.image}
                             alt={item.name}
                             className="absolute inset-0 w-full h-full object-cover"
                           />
-                          <Sparkles className="w-8 h-8 text-rose-400" />
+                            {!item.image && <Sparkles className="w-8 h-8 text-[#bd8128]" />}
                         </Link>
 
                         <div className="min-w-0">
                           <Link
                             href={`/products/${item.slug}`}
-                            className="font-serif text-sm sm:text-base font-medium text-zinc-900 dark:text-zinc-100 hover:text-rose-600 line-clamp-1"
+                            className="line-clamp-2 text-sm font-semibold text-zinc-900 hover:text-[#9b681e] sm:text-base"
                           >
                             {item.name}
                           </Link>
-                          <div className="flex items-center gap-2 mt-1 text-xs text-zinc-500">
-                            <span className="font-semibold text-zinc-800 dark:text-zinc-200">
+                          <div className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
+                            <span className="font-semibold text-zinc-700">
                               Rp {Number(item.price).toLocaleString('id-ID')}
                             </span>
                             {item.weight > 0 && (
@@ -134,13 +134,13 @@ export default function CartPage() {
                       </div>
 
                       {/* Quantity & Subtotal Controls */}
-                      <div className="flex items-center justify-between w-full sm:w-auto gap-6 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-rose-50 dark:border-zinc-800">
+                      <div className="flex w-full shrink-0 items-center justify-between gap-3 border-t border-zinc-100 pt-3 sm:w-auto sm:gap-5 sm:border-0 sm:pt-0">
                         {/* Quantity Selector */}
-                        <div className="flex items-center rounded-xl border border-rose-200 dark:border-zinc-700 bg-stone-50 dark:bg-zinc-800">
+                        <div className="flex items-center rounded-xl border border-zinc-200 bg-[#f8f7f4]">
                           <button
                             onClick={() => decreaseQuantity(item.productId)}
-                            className="p-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
-                            aria-label="Decrease quantity"
+                            className="p-2 text-zinc-500 transition hover:text-zinc-900"
+                            aria-label="Kurangi jumlah"
                           >
                             <Minus className="w-3.5 h-3.5" />
                           </button>
@@ -158,8 +158,8 @@ export default function CartPage() {
                           <button
                             onClick={() => increaseQuantity(item.productId)}
                             disabled={item.quantity >= item.stock}
-                            className="p-2 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 disabled:opacity-30"
-                            aria-label="Increase quantity"
+                            className="p-2 text-zinc-500 transition hover:text-zinc-900 disabled:opacity-30"
+                            aria-label="Tambah jumlah"
                           >
                             <Plus className="w-3.5 h-3.5" />
                           </button>
@@ -167,7 +167,7 @@ export default function CartPage() {
 
                         {/* Item Subtotal */}
                         <div className="text-right min-w-25">
-                          <div className="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-50">
+                          <div className="text-sm font-semibold text-zinc-900 sm:text-base">
                             Rp {(item.price * item.quantity).toLocaleString('id-ID')}
                           </div>
                         </div>
@@ -175,8 +175,8 @@ export default function CartPage() {
                         {/* Remove Button */}
                         <button
                           onClick={() => removeItem(item.productId)}
-                          className="p-2 text-zinc-400 hover:text-rose-600 transition-colors"
-                          title="Remove item"
+                          className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-rose-50 hover:text-rose-600"
+                          title="Hapus item"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -186,33 +186,33 @@ export default function CartPage() {
                 </div>
 
                 {/* Cart Action Bar */}
-                <div className="p-4 sm:p-6 bg-stone-50/70 dark:bg-zinc-800/40 border-t border-rose-100 dark:border-zinc-800 flex items-center justify-between">
+                <div className="flex flex-col items-start justify-between gap-2 border-t border-zinc-100 bg-[#f8f7f4] p-4 sm:flex-row sm:items-center sm:p-5">
                   <button
                     onClick={clearCart}
                     className="inline-flex items-center gap-1.5 text-xs text-zinc-500 hover:text-rose-600 transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                    <span>Clear all items</span>
+                    <span>Kosongkan keranjang</span>
                   </button>
 
-                  <div className="text-xs text-zinc-400">
-                    Free shipping on orders above Rp 500.000
+                  <div className="text-xs text-zinc-500">
+                    Berat total: {formattedWeight}
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Order Summary Sidebar (4 cols) */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 p-6 shadow-xs space-y-6">
-                <h3 className="font-serif text-lg font-semibold text-zinc-900 dark:text-zinc-50 pb-3 border-b border-rose-100 dark:border-zinc-800">
-                  Order Summary
+            <div className="space-y-5 lg:sticky lg:top-24 lg:col-span-4">
+              <div className="space-y-5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] sm:p-5">
+                <h3 className="border-b border-zinc-100 pb-3 text-lg font-semibold text-zinc-900">
+                  Ringkasan pesanan
                 </h3>
 
-                <div className="space-y-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="space-y-3 text-sm text-zinc-600">
                   <div className="flex justify-between">
-                    <span>Total Items</span>
-                    <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                    <span>Total barang</span>
+                    <span className="font-medium text-zinc-900">
                       {totalItems}
                     </span>
                   </div>
@@ -220,33 +220,33 @@ export default function CartPage() {
                   <div className="flex justify-between">
                     <span className="flex items-center gap-1">
                       <Package className="w-3.5 h-3.5 text-zinc-400" />
-                      <span>Total Package Weight</span>
+                      <span>Berat paket</span>
                     </span>
-                    <span className="font-medium text-zinc-900 dark:text-zinc-100">
+                    <span className="font-medium text-zinc-900">
                       {formattedWeight}
                     </span>
                   </div>
 
-                  <div className="flex justify-between pt-3 border-t border-rose-50 dark:border-zinc-800 text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-50">
-                    <span>Estimated Subtotal</span>
+                  <div className="flex justify-between border-t border-zinc-100 pt-3 text-base font-semibold text-zinc-900">
+                    <span>Subtotal sementara</span>
                     <span>{formattedSubtotal}</span>
                   </div>
                 </div>
 
                 {/* Checkout Button */}
-                <div className="space-y-3 pt-2">
+                <div className="space-y-3 pt-1">
                   <Link
                     href="/checkout"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-sm font-semibold text-white bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-md shadow-rose-500/20 transition-all text-center"
+                    className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#b77c27] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#9d681d]"
                   >
-                    <span>Proceed to Checkout</span>
+                    <span>Lanjut ke checkout</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
-                  <div className="p-3 rounded-xl bg-rose-50/60 dark:bg-zinc-800/40 border border-rose-100 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 text-[11px] leading-relaxed flex items-start gap-2">
+                  <div className="flex items-start gap-2 rounded-xl border border-[#efe4d1] bg-[#fffaf1] p-3 text-xs leading-relaxed text-zinc-600">
                     <ShieldAlert className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                     <span>
-                      <strong>Secure Checkout:</strong> Live inventory, real-time database pricing, and shipping calculations will be validated on the next step.
+                      Stok, harga, dan ongkos kirim akan dikonfirmasi pada langkah checkout.
                     </span>
                   </div>
                 </div>

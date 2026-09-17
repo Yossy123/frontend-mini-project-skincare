@@ -91,7 +91,7 @@ function AddressFormInner({
     setError(null);
 
     if (!name || !phone || !address || !province || !city || !district || !postalCode) {
-      setError('Please complete all required address fields.');
+      setError('Lengkapi semua kolom alamat yang wajib diisi.');
       return;
     }
 
@@ -117,7 +117,7 @@ function AddressFormInner({
       );
       onClose();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to save address';
+      const msg = err instanceof Error ? err.message : 'Alamat gagal disimpan.';
       setError(msg);
     } finally {
       setLoading(false);
@@ -125,23 +125,23 @@ function AddressFormInner({
   };
 
   return (
-    <div className="relative w-full max-w-xl bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 shadow-2xl p-6 sm:p-8 z-10 my-8 animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+    <div className="relative z-10 my-4 max-h-[calc(100dvh-2rem)] w-full max-w-xl overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-4 shadow-2xl animate-in zoom-in-95 duration-200 sm:my-8 sm:p-6">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4 pb-4 border-b border-rose-100 dark:border-zinc-800">
+      <div className="flex items-start justify-between gap-4 border-b border-zinc-100 pb-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 text-xs font-semibold mb-1">
+          <div className="mb-1 inline-flex items-center gap-1.5 rounded-full bg-[#fbf3e6] px-2.5 py-1 text-xs font-semibold text-[#8d6228]">
             <MapPin className="w-3.5 h-3.5 text-rose-500" />
-            <span>Shipping Destination</span>
+            <span>Alamat pengiriman</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-serif text-zinc-900 dark:text-zinc-50 font-normal">
-            {isEditing ? 'Edit Shipping Address' : 'Add New Shipping Address'}
+          <h2 className="text-xl font-semibold text-zinc-900 sm:text-2xl">
+            {isEditing ? 'Ubah alamat' : 'Tambah alamat baru'}
           </h2>
         </div>
 
         <button
           onClick={onClose}
-          className="p-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-rose-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
-          aria-label="Close modal"
+          className="rounded-xl p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+          aria-label="Tutup dialog"
         >
           <X className="w-5 h-5" />
         </button>
@@ -149,7 +149,7 @@ function AddressFormInner({
 
       {/* Error Alert */}
       {error && (
-        <div className="my-4 p-3 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2">
+        <div className="my-4 flex items-start gap-2 rounded-2xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800">
           <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
           <span>{error}</span>
         </div>
@@ -159,22 +159,27 @@ function AddressFormInner({
       <form onSubmit={handleSubmit} className="mt-4 space-y-4">
         {/* Address Label Badges */}
         <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-            Address Label
+          <label className="text-sm font-semibold text-zinc-700">
+            Label alamat
           </label>
           <div className="flex flex-wrap gap-2">
-            {['Home', 'Office', 'Apartment', 'Other'].map((item) => (
+            {[
+              { value: 'Home', label: 'Rumah' },
+              { value: 'Office', label: 'Kantor' },
+              { value: 'Apartment', label: 'Apartemen' },
+              { value: 'Other', label: 'Lainnya' },
+            ].map((item) => (
               <button
-                key={item}
+                key={item.value}
                 type="button"
-                onClick={() => setLabel(item)}
+                onClick={() => setLabel(item.value)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
-                  label === item
-                    ? 'bg-rose-500 text-white border-rose-500 shadow-xs'
-                    : 'bg-stone-50 dark:bg-zinc-800/80 border-rose-100 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-rose-200'
+                  label === item.value
+                    ? 'border-[#b77c27] bg-[#b77c27] text-white shadow-sm'
+                    : 'border-zinc-200 bg-white text-zinc-700 hover:border-[#d6b173] hover:bg-[#fffaf1]'
                 }`}
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </div>
@@ -183,54 +188,54 @@ function AddressFormInner({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Recipient Name */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              Recipient Name *
+            <label className="text-xs font-semibold text-zinc-700 ">
+              Nama penerima *
             </label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Elena Rostova"
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Nama lengkap penerima"
+              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
           </div>
 
           {/* Recipient Phone */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              Phone Number *
+            <label className="text-xs font-semibold text-zinc-700 ">
+              Nomor telepon *
             </label>
             <input
               type="tel"
               required
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder="e.g. +62 812 3456 7890"
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Contoh: 081234567890"
+              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
           </div>
         </div>
 
         {/* Street Address */}
         <div className="space-y-1">
-          <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-            Street Address & Building / Suite *
+          <label className="text-xs font-semibold text-zinc-700 ">
+            Alamat jalan dan gedung *
           </label>
           <textarea
             required
             rows={2}
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="e.g. Jl. Senopati No. 45, RT.01/RW.02"
-            className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+            placeholder="Contoh: Jl. Senopati No. 45, RT 01/RW 02"
+            className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
           />
         </div>
 
         {/* Biteship Destination Lookup */}
         <div className="space-y-1" ref={areaBoxRef}>
-          <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-            Search Location (District / City / Postal Code)
+          <label className="text-xs font-semibold text-zinc-700 ">
+            Cari kecamatan, kota, atau kode pos
           </label>
           <div className="relative">
             <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -242,8 +247,8 @@ function AddressFormInner({
                 setBiteshipAreaId('');
               }}
               onFocus={() => areaResults.length > 0 && setShowAreaResults(true)}
-              placeholder="e.g. Kebayoran Baru, Jakarta Selatan, 12110"
-              className="w-full pl-9 pr-9 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Contoh: Kebayoran Baru, Jakarta Selatan"
+              className="w-full pl-9 pr-9 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
             {areaSearching && (
               <Loader2 className="w-3.5 h-3.5 text-rose-400 animate-spin absolute right-3.5 top-1/2 -translate-y-1/2" />
@@ -251,13 +256,13 @@ function AddressFormInner({
           </div>
 
           {showAreaResults && areaResults.length > 0 && (
-            <div className="w-full rounded-xl border border-rose-100 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg overflow-hidden">
+            <div className="w-full rounded-xl border border-rose-100  bg-white  shadow-lg overflow-hidden">
               {areaResults.map((area) => (
                 <button
                   key={area.id}
                   type="button"
                   onClick={() => handleSelectArea(area)}
-                  className="w-full text-left px-3.5 py-2.5 text-xs text-zinc-700 dark:text-zinc-200 hover:bg-rose-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer border-b last:border-b-0 border-rose-50 dark:border-zinc-800"
+                  className="w-full text-left px-3.5 py-2.5 text-xs text-zinc-700  hover:bg-rose-50  transition-colors cursor-pointer border-b last:border-b-0 border-rose-50 "
                 >
                   <span className="block font-medium">{area.label}</span>
                   <span className="text-[11px] text-zinc-400">
@@ -269,9 +274,9 @@ function AddressFormInner({
           )}
 
           {biteshipAreaId && (
-            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+            <p className="text-[11px] text-emerald-600  flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" />
-              Verified Biteship location set — shipping rates will be more accurate.
+              Lokasi terverifikasi. Perhitungan ongkos kirim akan lebih akurat.
             </p>
           )}
         </div>
@@ -279,8 +284,8 @@ function AddressFormInner({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Province */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              Province *
+            <label className="text-xs font-semibold text-zinc-700 ">
+              Provinsi *
             </label>
             <input
               type="text"
@@ -290,15 +295,15 @@ function AddressFormInner({
                 setProvince(e.target.value);
                 setBiteshipAreaId('');
               }}
-              placeholder="e.g. DKI Jakarta"
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Contoh: DKI Jakarta"
+              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
           </div>
 
           {/* City / Regency */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              City / Regency *
+            <label className="text-xs font-semibold text-zinc-700 ">
+              Kota / Kabupaten *
             </label>
             <input
               type="text"
@@ -308,8 +313,8 @@ function AddressFormInner({
                 setCity(e.target.value);
                 setBiteshipAreaId('');
               }}
-              placeholder="e.g. Jakarta Selatan"
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Contoh: Jakarta Selatan"
+              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
           </div>
         </div>
@@ -317,8 +322,8 @@ function AddressFormInner({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* District / Subdistrict */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              District / Subdistrict (Kecamatan) *
+            <label className="text-xs font-semibold text-zinc-700 ">
+              Kecamatan *
             </label>
             <input
               type="text"
@@ -328,15 +333,15 @@ function AddressFormInner({
                 setDistrict(e.target.value);
                 setBiteshipAreaId('');
               }}
-              placeholder="e.g. Kebayoran Baru"
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Contoh: Kebayoran Baru"
+              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
           </div>
 
           {/* Postal Code */}
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              Postal Code *
+            <label className="text-xs font-semibold text-zinc-700 ">
+              Kode pos *
             </label>
             <input
               type="text"
@@ -346,23 +351,23 @@ function AddressFormInner({
                 setPostalCode(e.target.value);
                 setBiteshipAreaId('');
               }}
-              placeholder="e.g. 12110"
-              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+              placeholder="Contoh: 12110"
+              className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
             />
           </div>
         </div>
 
         {/* Address Detail / Landmark / Patokan */}
         <div className="space-y-1">
-          <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-            Address Detail / Unit / Landmark (Patokan)
+          <label className="text-xs font-semibold text-zinc-700 ">
+            Detail alamat / unit / patokan
           </label>
           <input
             type="text"
             value={addressDetail}
             onChange={(e) => setAddressDetail(e.target.value)}
-            placeholder="e.g. Tower Rose Suite 14B, Beside Starbucks"
-            className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+            placeholder="Contoh: Blok, nomor unit, atau patokan"
+            className="w-full px-3.5 py-2.5 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
           />
         </div>
 
@@ -377,27 +382,27 @@ function AddressFormInner({
           />
           <label
             htmlFor="isDefault"
-            className="text-xs font-medium text-zinc-700 dark:text-zinc-300 cursor-pointer"
+            className="text-xs font-medium text-zinc-700  cursor-pointer"
           >
-            Set this as my default shipping address
+            Jadikan alamat utama
           </label>
         </div>
 
         {/* Form Actions */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-rose-100 dark:border-zinc-800">
+        <div className="flex flex-col-reverse gap-2 border-t border-zinc-100 pt-4 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl text-xs font-semibold text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+            className="min-h-11 cursor-pointer rounded-xl px-4 text-sm font-semibold text-zinc-600 transition-colors hover:bg-zinc-100"
           >
-            Cancel
+            Batal
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-2.5 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 disabled:opacity-50 shadow-md shadow-rose-500/20 transition-all cursor-pointer"
+            className="min-h-11 cursor-pointer rounded-xl bg-[#b77c27] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#9d681d] disabled:opacity-50"
           >
-            {loading ? 'Saving...' : isEditing ? 'Update Shipping Address' : 'Save Shipping Address'}
+            {loading ? 'Menyimpan...' : isEditing ? 'Simpan perubahan' : 'Simpan alamat'}
           </button>
         </div>
       </form>

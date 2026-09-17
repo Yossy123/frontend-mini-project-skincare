@@ -283,22 +283,22 @@ export function BookingForm() {
 
   if (loading) {
     return (
-      <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-rose-100 dark:border-zinc-800 p-12 text-center shadow-lg shadow-rose-950/5">
-        <div className="w-12 h-12 mx-auto rounded-2xl bg-rose-50 dark:bg-rose-950/50 flex items-center justify-center mb-3">
+      <div className="rounded-3xl bg-white  border border-rose-100  p-12 text-center shadow-lg shadow-rose-950/5">
+        <div className="w-12 h-12 mx-auto rounded-2xl bg-rose-50  flex items-center justify-center mb-3">
           <Sparkles className="w-6 h-6 text-rose-500 animate-spin" />
         </div>
-        <p className="text-sm font-medium text-zinc-600 dark:text-zinc-300">Menyiapkan sistem reservasi klinik dari server...</p>
+        <p className="text-sm font-medium text-zinc-600 ">Menyiapkan sistem reservasi klinik dari server...</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <form onSubmit={handleSubmit} className="grid grid-cols-1 items-start gap-5 sm:gap-6 lg:grid-cols-12">
       {/* Left Column: Sequential Booking Steps */}
-      <div className="lg:col-span-8 space-y-8">
+      <div className="space-y-5 sm:space-y-6 lg:col-span-8">
         {/* Error Alert Box */}
         {error && (
-          <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-sm flex items-start gap-3 animate-in fade-in">
+          <div className="p-4 rounded-2xl bg-rose-50  border border-rose-200  text-rose-800  text-sm flex items-start gap-3 animate-in fade-in">
             <AlertCircle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
             <div className="flex-1">
               <span className="font-semibold block mb-0.5">Informasi Reservasi</span>
@@ -308,31 +308,31 @@ export function BookingForm() {
         )}
 
         {/* STEP 1: Pilih Format Konsultasi & Layanan Perawatan */}
-        <section className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/80 dark:border-zinc-800 p-6 sm:p-8 shadow-sm transition-all hover:border-rose-200 dark:hover:border-zinc-700">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition-all hover:border-[#d6b173] sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
               <span className="w-7 h-7 rounded-full bg-linear-to-tr from-rose-500 to-pink-500 text-white text-xs font-bold flex items-center justify-center shadow-xs">
                 1
               </span>
               <div>
-                <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 dark:text-zinc-100">
+                <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 ">
                   Pilih Layanan Perawatan
                 </h2>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-500 ">
                   Tentukan treatment dan format konsultasi yang Anda butuhkan
                 </p>
               </div>
             </div>
 
             {/* Mode Switcher */}
-            <div className="inline-flex p-1 rounded-2xl bg-stone-100 dark:bg-zinc-800 border border-rose-100 dark:border-zinc-700 self-start sm:self-auto">
+            <div className="inline-flex p-1 rounded-2xl bg-stone-100  border border-rose-100  self-start sm:self-auto">
               <button
                 type="button"
                 onClick={() => setConsultationMode('offline')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   consultationMode === 'offline'
-                    ? 'bg-white dark:bg-zinc-900 text-rose-600 dark:text-rose-400 shadow-xs'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
+                    ? 'bg-white  text-rose-600  shadow-xs'
+                    : 'text-zinc-600  hover:text-zinc-900 '
                 }`}
               >
                 <MapPin className="w-3.5 h-3.5" />
@@ -343,8 +343,8 @@ export function BookingForm() {
                 onClick={() => setConsultationMode('online')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   consultationMode === 'online'
-                    ? 'bg-white dark:bg-zinc-900 text-emerald-600 dark:text-emerald-400 shadow-xs'
-                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
+                    ? 'bg-white  text-emerald-600  shadow-xs'
+                    : 'text-zinc-600  hover:text-zinc-900 '
                 }`}
               >
                 <Video className="w-3.5 h-3.5" />
@@ -366,8 +366,8 @@ export function BookingForm() {
                   }}
                   className={`group relative text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'border-rose-500 bg-rose-50/50 dark:bg-rose-950/30 ring-2 ring-rose-400/40 dark:ring-rose-500/30 shadow-xs'
-                      : 'border-rose-100/70 dark:border-zinc-800 hover:border-rose-300 dark:hover:border-zinc-700 bg-stone-50/30 dark:bg-zinc-900/50'
+                      ? 'border-rose-500 bg-rose-50/50  ring-2 ring-rose-400/40  shadow-xs'
+                      : 'border-rose-100/70  hover:border-rose-300  bg-stone-50/30 '
                   }`}
                 >
                   <div>
@@ -376,7 +376,7 @@ export function BookingForm() {
                         className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
                           isSelected
                             ? 'bg-rose-500 text-white'
-                            : 'bg-rose-100/70 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 group-hover:scale-105'
+                            : 'bg-rose-100/70  text-rose-600  group-hover:scale-105'
                         }`}
                       >
                         {getServiceIcon(item.name)}
@@ -385,7 +385,7 @@ export function BookingForm() {
                         className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
                           isSelected
                             ? 'bg-rose-500 text-white border-rose-500'
-                            : 'bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border-rose-100 dark:border-zinc-700'
+                            : 'bg-white  text-zinc-600  border-rose-100 '
                         }`}
                       >
                         {item.duration_minutes} Menit
@@ -394,20 +394,20 @@ export function BookingForm() {
 
                     <h3
                       className={`text-sm font-semibold transition-colors ${
-                        isSelected ? 'text-rose-900 dark:text-rose-200' : 'text-zinc-900 dark:text-zinc-100'
+                        isSelected ? 'text-rose-900 ' : 'text-zinc-900 '
                       }`}
                     >
                       {item.name}
                     </h3>
 
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 leading-relaxed line-clamp-2">
+                    <p className="text-xs text-zinc-500  mt-1 leading-relaxed line-clamp-2">
                       {item.description}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-rose-100/60 dark:border-zinc-800/80 flex items-center justify-between">
-                    <span className="text-xs text-zinc-400 dark:text-zinc-500">Tarif Sesi</span>
-                    <span className="text-sm font-bold text-rose-600 dark:text-rose-400 font-sans">
+                  <div className="mt-4 pt-3 border-t border-rose-100/60  flex items-center justify-between">
+                    <span className="text-xs text-zinc-400 ">Tarif Sesi</span>
+                    <span className="text-sm font-bold text-rose-600  font-sans">
                       {formatIDR(item.price)}
                     </span>
                   </div>
@@ -424,16 +424,16 @@ export function BookingForm() {
         </section>
 
         {/* STEP 2: Pilih Tanggal Kunjungan */}
-        <section className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/80 dark:border-zinc-800 p-6 sm:p-8 shadow-sm transition-all hover:border-rose-200 dark:hover:border-zinc-700">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition-all hover:border-[#d6b173] sm:p-6">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-7 h-7 rounded-full bg-linear-to-tr from-rose-500 to-pink-500 text-white text-xs font-bold flex items-center justify-center shadow-xs">
               2
             </span>
             <div>
-              <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 ">
                 Pilih Tanggal Reservasi
               </h2>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-zinc-500 ">
                 Tentukan hari kunjungan atau konsultasi online Anda
               </p>
             </div>
@@ -442,7 +442,7 @@ export function BookingForm() {
           <div className="max-w-md">
             <label
               htmlFor="booking-date-input"
-              className="text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300 block mb-2"
+              className="text-xs font-semibold uppercase tracking-wider text-zinc-700  block mb-2"
             >
               Tanggal Kedatangan
             </label>
@@ -455,23 +455,23 @@ export function BookingForm() {
                 min={minDate}
                 value={date}
                 onChange={(e) => handleDateChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-3.5 text-sm rounded-2xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400 cursor-pointer"
+                className="w-full pl-10 pr-4 py-3.5 text-sm rounded-2xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400 cursor-pointer"
               />
             </div>
           </div>
         </section>
 
         {/* STEP 3: Pilih Dokter yang Berpraktik */}
-        <section className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/80 dark:border-zinc-800 p-6 sm:p-8 shadow-sm transition-all hover:border-rose-200 dark:hover:border-zinc-700">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition-all hover:border-[#d6b173] sm:p-6">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-7 h-7 rounded-full bg-linear-to-tr from-rose-500 to-pink-500 text-white text-xs font-bold flex items-center justify-center shadow-xs">
               3
             </span>
             <div>
-              <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 ">
                 Pilih Dokter / Specialist
               </h2>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-zinc-500 ">
                 Pilih dokter spesialis dermatologi atau beauty therapist terpercaya
               </p>
             </div>
@@ -490,8 +490,8 @@ export function BookingForm() {
                   }}
                   className={`relative text-left p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'border-rose-500 bg-rose-50/50 dark:bg-rose-950/30 ring-2 ring-rose-400/40 dark:ring-rose-500/30 shadow-xs'
-                      : 'border-rose-100/70 dark:border-zinc-800 hover:border-rose-300 dark:hover:border-zinc-700 bg-stone-50/30 dark:bg-zinc-900/50'
+                      ? 'border-rose-500 bg-rose-50/50  ring-2 ring-rose-400/40  shadow-xs'
+                      : 'border-rose-100/70  hover:border-rose-300  bg-stone-50/30 '
                   }`}
                 >
                   <div>
@@ -504,23 +504,23 @@ export function BookingForm() {
                       <div className="flex-1 min-w-0 pr-5">
                         <h3
                           className={`text-sm font-semibold truncate ${
-                            isSelected ? 'text-rose-900 dark:text-rose-200' : 'text-zinc-900 dark:text-zinc-100'
+                            isSelected ? 'text-rose-900 ' : 'text-zinc-900 '
                           }`}
                         >
                           {doc.name}
                         </h3>
-                        <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 truncate">{doc.title}</p>
+                        <p className="text-[11px] text-zinc-500  mt-0.5 truncate">{doc.title}</p>
                       </div>
                     </div>
 
-                    <p className="text-xs text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-zinc-600  line-clamp-2 leading-relaxed">
                       {doc.bio}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-rose-100/60 dark:border-zinc-800/80 flex items-center justify-between text-[11px]">
-                    <span className="text-zinc-400 dark:text-zinc-500">Jadwal Praktik</span>
-                    <span className="font-medium text-rose-600 dark:text-rose-400">{doc.schedule_days}</span>
+                  <div className="mt-4 pt-3 border-t border-rose-100/60  flex items-center justify-between text-[11px]">
+                    <span className="text-zinc-400 ">Jadwal Praktik</span>
+                    <span className="font-medium text-rose-600 ">{doc.schedule_days}</span>
                   </div>
 
                   {isSelected && (
@@ -535,23 +535,23 @@ export function BookingForm() {
         </section>
 
         {/* STEP 4: Pilih Jam Kunjungan */}
-        <section className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/80 dark:border-zinc-800 p-6 sm:p-8 shadow-sm transition-all hover:border-rose-200 dark:hover:border-zinc-700">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition-all hover:border-[#d6b173] sm:p-6">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-7 h-7 rounded-full bg-linear-to-tr from-rose-500 to-pink-500 text-white text-xs font-bold flex items-center justify-center shadow-xs">
               4
             </span>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 dark:text-zinc-100">
+                <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 ">
                   Pilih Jam Kunjungan
                 </h2>
                 {selectedService && (
-                  <span className="text-[11px] font-semibold text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-2.5 py-0.5 rounded-full border border-rose-200/60 dark:border-rose-900/50">
+                  <span className="text-[11px] font-semibold text-rose-600  bg-rose-50  px-2.5 py-0.5 rounded-full border border-rose-200/60 ">
                     Durasi: {selectedService.duration_minutes} Menit
                   </span>
                 )}
               </div>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-zinc-500 ">
                 Slot waktu yang tersedia disinkronkan langsung dengan jadwal dokter
               </p>
             </div>
@@ -559,14 +559,14 @@ export function BookingForm() {
 
           <div>
             {!date ? (
-              <div className="p-6 rounded-2xl bg-stone-50 dark:bg-zinc-800/40 border border-dashed border-rose-200 dark:border-zinc-700 text-center text-xs text-zinc-500 dark:text-zinc-400">
+              <div className="p-6 rounded-2xl bg-stone-50  border border-dashed border-rose-200  text-center text-xs text-zinc-500 ">
                 <Clock3 className="w-6 h-6 text-zinc-400 mx-auto mb-2" />
                 <p>Pilih tanggal dan dokter terlebih dahulu untuk melihat ketersediaan jam praktik.</p>
               </div>
             ) : loadingSlots ? (
               <div className="p-8 text-center">
                 <Sparkles className="w-5 h-5 text-rose-500 animate-spin mx-auto mb-2" />
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">Memeriksa ketersediaan slot...</p>
+                <p className="text-xs text-zinc-500 ">Memeriksa ketersediaan slot...</p>
               </div>
             ) : slots.length > 0 ? (
               <div>
@@ -584,10 +584,10 @@ export function BookingForm() {
                         title={isBooked ? 'Slot jam ini sudah terisi' : `Pilih jam ${item.start} - ${item.end}`}
                         className={`px-3 py-3 rounded-xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-1.5 ${
                           isBooked
-                            ? 'bg-stone-100 dark:bg-zinc-800/40 text-zinc-400 dark:text-zinc-500 border-zinc-200/80 dark:border-zinc-800 cursor-not-allowed opacity-60'
+                            ? 'bg-stone-100  text-zinc-400  border-zinc-200/80  cursor-not-allowed opacity-60'
                             : isSlotSelected
                             ? 'bg-linear-to-r from-rose-500 to-pink-500 text-white border-rose-500 shadow-md shadow-rose-500/20 scale-[1.02] cursor-pointer'
-                            : 'bg-white dark:bg-zinc-800 border-rose-100 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-rose-300 hover:bg-rose-50/40 dark:hover:bg-zinc-700/50 cursor-pointer'
+                            : 'bg-white  border-rose-100  text-zinc-700  hover:border-rose-300 hover:bg-rose-50/40  cursor-pointer'
                         }`}
                       >
                         {isBooked ? (
@@ -599,7 +599,7 @@ export function BookingForm() {
                           {item.start} – {item.end}
                         </span>
                         {isBooked && (
-                          <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 ml-0.5">
+                          <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-zinc-200  text-zinc-600  ml-0.5">
                             Penuh
                           </span>
                         )}
@@ -609,9 +609,9 @@ export function BookingForm() {
                 </div>
 
                 {/* Legend Slot Status */}
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] text-zinc-500 dark:text-zinc-400 pt-3 border-t border-rose-100/60 dark:border-zinc-800/80">
+                <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] text-zinc-500  pt-3 border-t border-rose-100/60 ">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-white dark:bg-zinc-800 border border-rose-400"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-white  border border-rose-400"></span>
                     <span>Tersedia</span>
                   </div>
                   <div className="flex items-center gap-1.5">
@@ -619,32 +619,32 @@ export function BookingForm() {
                     <span>Sedang Dipilih</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-stone-300 dark:bg-zinc-600"></span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-stone-300 "></span>
                     <span>Sudah Terisi (Booked)</span>
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="p-6 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-center text-xs text-amber-800 dark:text-amber-300">
-                <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 mx-auto mb-1.5" />
+              <div className="p-6 rounded-2xl bg-amber-50  border border-amber-200  text-center text-xs text-amber-800 ">
+                <AlertCircle className="w-5 h-5 text-amber-600  mx-auto mb-1.5" />
                 <p className="font-semibold">Dokter tidak berpraktik pada hari tersebut.</p>
-                <p className="mt-0.5 text-zinc-600 dark:text-zinc-400">Silakan pilih tanggal alternatif lain atau pilih dokter lain.</p>
+                <p className="mt-0.5 text-zinc-600 ">Silakan pilih tanggal alternatif lain atau pilih dokter lain.</p>
               </div>
             )}
           </div>
         </section>
 
         {/* STEP 5: Data Diri Pasien + Upload Foto */}
-        <section className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/80 dark:border-zinc-800 p-6 sm:p-8 shadow-sm transition-all hover:border-rose-200 dark:hover:border-zinc-700">
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition-all hover:border-[#d6b173] sm:p-6">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-7 h-7 rounded-full bg-linear-to-tr from-rose-500 to-pink-500 text-white text-xs font-bold flex items-center justify-center shadow-xs">
               5
             </span>
             <div>
-              <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-base sm:text-lg font-serif font-medium text-zinc-900 ">
                 Informasi Pasien & Foto Keluhan
               </h2>
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-zinc-500 ">
                 Lengkapi identitas serta unggah foto kondisi kulit untuk analisa awal dokter
               </p>
             </div>
@@ -656,7 +656,7 @@ export function BookingForm() {
               <div className="space-y-1.5">
                 <label
                   htmlFor="patient-name"
-                  className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 block"
+                  className="text-xs font-semibold text-zinc-700  block"
                 >
                   Nama Lengkap Pasien <span className="text-rose-500">*</span>
                 </label>
@@ -669,7 +669,7 @@ export function BookingForm() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Jessica Alexander"
-                    className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+                    className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
                   />
                 </div>
               </div>
@@ -678,7 +678,7 @@ export function BookingForm() {
               <div className="space-y-1.5">
                 <label
                   htmlFor="patient-phone"
-                  className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 block"
+                  className="text-xs font-semibold text-zinc-700  block"
                 >
                   Nomor WhatsApp Aktif <span className="text-rose-500">*</span>
                 </label>
@@ -691,7 +691,7 @@ export function BookingForm() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="08xxxxxxxxxx"
-                    className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+                    className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
                   />
                 </div>
               </div>
@@ -701,7 +701,7 @@ export function BookingForm() {
             <div className="space-y-1.5">
               <label
                 htmlFor="patient-email"
-                className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 block"
+                className="text-xs font-semibold text-zinc-700  block"
               >
                 Email Konfirmasi <span className="text-zinc-400 font-normal">(Opsional)</span>
               </label>
@@ -713,7 +713,7 @@ export function BookingForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="jessica@example.com"
-                  className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400"
+                  className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400"
                 />
               </div>
             </div>
@@ -722,7 +722,7 @@ export function BookingForm() {
             <div className="space-y-1.5">
               <label
                 htmlFor="patient-notes"
-                className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 block"
+                className="text-xs font-semibold text-zinc-700  block"
               >
                 Keluhan / Riwayat Kulit <span className="text-zinc-400 font-normal">(Opsional)</span>
               </label>
@@ -734,7 +734,7 @@ export function BookingForm() {
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Misal: Kulit sensitif beruntusan di area dagu, riwayat alergi alkohol, dll."
-                  className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50 dark:bg-zinc-800/80 border border-rose-100 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-rose-400 resize-none"
+                  className="w-full pl-10 pr-4 py-3 text-xs sm:text-sm rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400 resize-none"
                 />
               </div>
             </div>
@@ -742,7 +742,7 @@ export function BookingForm() {
             {/* Upload Foto Keluhan Kulit */}
             <div className="space-y-2 pt-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
+                <label className="text-xs font-semibold text-zinc-700  flex items-center gap-1.5">
                   <ImageIcon className="w-3.5 h-3.5 text-rose-500" />
                   <span>Foto Kondisi Kulit / Keluhan</span>
                   <span className="text-zinc-400 font-normal">(Opsional)</span>
@@ -753,16 +753,16 @@ export function BookingForm() {
               {!photoPreview ? (
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="p-6 rounded-2xl border-2 border-dashed border-rose-200 dark:border-zinc-700 hover:border-rose-400 dark:hover:border-zinc-500 bg-stone-50/50 dark:bg-zinc-800/30 text-center cursor-pointer transition-colors"
+                  className="p-6 rounded-2xl border-2 border-dashed border-rose-200  hover:border-rose-400  bg-stone-50/50  text-center cursor-pointer transition-colors"
                 >
                   <UploadCloud className="w-8 h-8 text-rose-400 mx-auto mb-2" />
-                  <p className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                  <p className="text-xs font-medium text-zinc-700 ">
                     Klik untuk memilih foto kondisi kulit Anda
                   </p>
                   <p className="text-[11px] text-zinc-400 mt-0.5">Membantu dokter menyiapkan analisa treatment</p>
                 </div>
               ) : (
-                <div className="relative rounded-2xl border border-rose-200 dark:border-zinc-700 overflow-hidden bg-stone-50 dark:bg-zinc-800 p-3 flex items-center justify-between">
+                <div className="relative rounded-2xl border border-rose-200  overflow-hidden bg-stone-50  p-3 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -771,7 +771,7 @@ export function BookingForm() {
                       className="w-14 h-14 object-cover rounded-xl border border-rose-200 shadow-xs"
                     />
                     <div>
-                      <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 block">
+                      <span className="text-xs font-semibold text-zinc-800  block">
                         Foto Berhasil Dimuat
                       </span>
                       <span className="text-[11px] text-emerald-600 font-medium">Siap dikirim bersama reservasi</span>
@@ -780,7 +780,7 @@ export function BookingForm() {
                   <button
                     type="button"
                     onClick={handleRemovePhoto}
-                    className="p-2 rounded-xl bg-stone-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
+                    className="p-2 rounded-xl bg-stone-200  text-zinc-600  hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
                     title="Hapus foto"
                   >
                     <X className="w-4 h-4" />
@@ -801,28 +801,28 @@ export function BookingForm() {
       </div>
 
       {/* Right Column: Sticky Reservation Summary & Confirmation */}
-      <div className="lg:col-span-4 sticky top-28 space-y-6">
-        <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/90 dark:border-zinc-800 p-6 sm:p-7 shadow-lg shadow-rose-950/5">
-          <h3 className="font-serif text-lg font-medium text-zinc-900 dark:text-zinc-100 pb-4 border-b border-rose-100/70 dark:border-zinc-800">
+      <div className="space-y-5 lg:sticky lg:top-24 lg:col-span-4 lg:space-y-6">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] sm:p-6">
+          <h3 className="font-serif text-lg font-medium text-zinc-900  pb-4 border-b border-rose-100/70 ">
             Ringkasan Reservasi
           </h3>
 
           <div className="mt-5 space-y-4 text-xs">
             {/* Treatment Selected */}
             <div className="flex justify-between items-start gap-2">
-              <span className="text-zinc-500 dark:text-zinc-400">Treatment</span>
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-right">
+              <span className="text-zinc-500 ">Treatment</span>
+              <span className="font-semibold text-zinc-900  text-right">
                 {selectedService ? selectedService.name : 'Belum dipilih'}
               </span>
             </div>
 
             {/* Mode Selected */}
             <div className="flex justify-between items-center gap-2">
-              <span className="text-zinc-500 dark:text-zinc-400">Format Sesi</span>
+              <span className="text-zinc-500 ">Format Sesi</span>
               <span className={`font-semibold px-2 py-0.5 rounded-md ${
                 consultationMode === 'online'
-                  ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300'
-                  : 'bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300'
+                  ? 'bg-emerald-50  text-emerald-700 '
+                  : 'bg-rose-50  text-rose-700 '
               }`}>
                 {consultationMode === 'online' ? 'Online (Google Meet)' : 'In-Clinic (Offline)'}
               </span>
@@ -830,24 +830,24 @@ export function BookingForm() {
 
             {/* Doctor Selected */}
             <div className="flex justify-between items-start gap-2">
-              <span className="text-zinc-500 dark:text-zinc-400">Dokter</span>
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-right">
+              <span className="text-zinc-500 ">Dokter</span>
+              <span className="font-semibold text-zinc-900  text-right">
                 {selectedDoctor ? selectedDoctor.name : 'Belum dipilih'}
               </span>
             </div>
 
             {/* Date & Time Slot */}
             <div className="flex justify-between items-center gap-2">
-              <span className="text-zinc-500 dark:text-zinc-400">Jadwal</span>
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100 text-right">
+              <span className="text-zinc-500 ">Jadwal</span>
+              <span className="font-semibold text-zinc-900  text-right">
                 {date && slot ? `${date}, ${slot.start} WIB` : date ? `${date} (Pilih Jam)` : 'Belum ditentukan'}
               </span>
             </div>
 
             {/* Photo attached indicator */}
             {photoPreview && (
-              <div className="flex justify-between items-center gap-2 text-[11px] pt-2 border-t border-rose-100/40 dark:border-zinc-800">
-                <span className="text-zinc-500 dark:text-zinc-400">Foto Terlampir</span>
+              <div className="flex justify-between items-center gap-2 text-[11px] pt-2 border-t border-rose-100/40 ">
+                <span className="text-zinc-500 ">Foto Terlampir</span>
                 <span className="inline-flex items-center gap-1 font-semibold text-emerald-600">
                   <Check className="w-3.5 h-3.5" /> 1 Foto Keluhan
                 </span>
@@ -855,22 +855,22 @@ export function BookingForm() {
             )}
 
             {/* Pricing Summary */}
-            <div className="pt-4 border-t border-rose-100/70 dark:border-zinc-800 space-y-2">
-              <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
+            <div className="pt-4 border-t border-rose-100/70  space-y-2">
+              <div className="flex items-center justify-between text-zinc-500 ">
                 <span>Tarif Treatment</span>
                 <span>{selectedService ? formatIDR(selectedService.price) : 'Rp 0'}</span>
               </div>
-              <div className="flex items-center justify-between text-zinc-500 dark:text-zinc-400">
+              <div className="flex items-center justify-between text-zinc-500 ">
                 <span>Biaya Reservasi</span>
                 <span className="text-emerald-600 font-medium">Gratis (Bayar di Klinik)</span>
               </div>
 
-              <div className="pt-3 border-t border-rose-100/70 dark:border-zinc-800 flex items-baseline justify-between">
+              <div className="pt-3 border-t border-rose-100/70  flex items-baseline justify-between">
                 <div>
-                  <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 block">Total Estimasi</span>
-                  <span className="text-[10px] text-zinc-400 dark:text-zinc-500">Termasuk konsultasi & fasilitas</span>
+                  <span className="text-xs font-semibold text-zinc-900  block">Total Estimasi</span>
+                  <span className="text-[10px] text-zinc-400 ">Termasuk konsultasi & fasilitas</span>
                 </div>
-                <span className="text-lg font-bold text-rose-600 dark:text-rose-400 font-sans">
+                <span className="text-lg font-bold text-rose-600  font-sans">
                   {selectedService ? formatIDR(selectedService.price) : 'Rp 0'}
                 </span>
               </div>
@@ -899,7 +899,7 @@ export function BookingForm() {
           </div>
 
           {/* Safety note */}
-          <div className="mt-5 pt-4 border-t border-rose-100/60 dark:border-zinc-800 text-[11px] text-zinc-400 dark:text-zinc-500 space-y-2">
+          <div className="mt-5 pt-4 border-t border-rose-100/60  text-[11px] text-zinc-400  space-y-2">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
               <span>Privasi data & foto medis dijamin kerahasiaannya</span>

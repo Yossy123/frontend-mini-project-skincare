@@ -28,35 +28,35 @@ import { payWithSnap } from '@/lib/midtrans';
 const SHIPMENT_STATUS_META: Record<string, { label: string; className: string }> = {
   pending: {
     label: 'Menunggu Pickup Kurir',
-    className: 'bg-amber-100/60 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/50 text-amber-800 dark:text-amber-200',
+    className: 'bg-amber-100/60  border-amber-200/80  text-amber-800 ',
   },
   processing: {
     label: 'Diproses Kurir',
-    className: 'bg-blue-100/60 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/50 text-blue-800 dark:text-blue-200',
+    className: 'bg-blue-100/60  border-blue-200/80  text-blue-800 ',
   },
   shipped: {
     label: 'Dalam Pengiriman',
-    className: 'bg-blue-100/60 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/50 text-blue-800 dark:text-blue-200',
+    className: 'bg-blue-100/60  border-blue-200/80  text-blue-800 ',
   },
   delivered: {
     label: 'Terkirim',
-    className: 'bg-emerald-100/60 dark:bg-emerald-950/40 border-emerald-200/80 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-200',
+    className: 'bg-emerald-100/60  border-emerald-200/80  text-emerald-800 ',
   },
   cancelled: {
     label: 'Dibatalkan',
-    className: 'bg-rose-100/60 dark:bg-rose-950/40 border-rose-200/80 dark:border-rose-900/50 text-rose-800 dark:text-rose-200',
+    className: 'bg-rose-100/60  border-rose-200/80  text-zinc-800 ',
   },
 };
 
 const ORDER_STATUS_META: Record<string, { label: string; className: string }> = {
-  PENDING_PAYMENT: { label: 'Menunggu Pembayaran', className: 'bg-amber-100/60 dark:bg-amber-950/40 border-amber-200/80 dark:border-amber-900/50 text-amber-800 dark:text-amber-200' },
-  PAID: { label: 'Sudah Dibayar', className: 'bg-emerald-100/60 dark:bg-emerald-950/30 border-emerald-200/80 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-200' },
-  PROCESSING: { label: 'Sedang Diproses', className: 'bg-blue-100/60 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/50 text-blue-800 dark:text-blue-200' },
-  SHIPPED: { label: 'Dalam Pengiriman', className: 'bg-blue-100/60 dark:bg-blue-950/40 border-blue-200/80 dark:border-blue-900/50 text-blue-800 dark:text-blue-200' },
-  DELIVERED: { label: 'Terkirim', className: 'bg-emerald-100/60 dark:bg-emerald-950/30 border-emerald-200/80 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-200' },
-  COMPLETED: { label: 'Selesai', className: 'bg-emerald-100/60 dark:bg-emerald-950/30 border-emerald-200/80 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-200' },
-  CANCELLED: { label: 'Dibatalkan', className: 'bg-rose-100/60 dark:bg-rose-950/40 border-rose-200/80 dark:border-rose-900/50 text-rose-800 dark:text-rose-200' },
-  EXPIRED: { label: 'Pembayaran Kedaluwarsa', className: 'bg-zinc-100/60 dark:bg-zinc-800 border-zinc-200/80 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300' },
+  PENDING_PAYMENT: { label: 'Menunggu Pembayaran', className: 'bg-amber-100/60  border-amber-200/80  text-amber-800 ' },
+  PAID: { label: 'Sudah Dibayar', className: 'bg-emerald-100/60  border-emerald-200/80  text-emerald-800 ' },
+  PROCESSING: { label: 'Sedang Diproses', className: 'bg-blue-100/60  border-blue-200/80  text-blue-800 ' },
+  SHIPPED: { label: 'Dalam Pengiriman', className: 'bg-blue-100/60  border-blue-200/80  text-blue-800 ' },
+  DELIVERED: { label: 'Terkirim', className: 'bg-emerald-100/60  border-emerald-200/80  text-emerald-800 ' },
+  COMPLETED: { label: 'Selesai', className: 'bg-emerald-100/60  border-emerald-200/80  text-emerald-800 ' },
+  CANCELLED: { label: 'Dibatalkan', className: 'bg-rose-100/60  border-rose-200/80  text-zinc-800 ' },
+  EXPIRED: { label: 'Pembayaran Kedaluwarsa', className: 'bg-zinc-100/60  border-zinc-200/80  text-zinc-700 ' },
 };
 
 function getShipmentStatusMeta(status?: string | null) {
@@ -211,7 +211,7 @@ export default function OrderDetailPage() {
 
   if (!isAuthHydrated || (!user && loading)) {
     return (
-      <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+      <div className="min-h-screen flex flex-col bg-[#f8f7f4] ">
         <Navbar />
         <main className="flex-1 max-w-5xl mx-auto px-4 py-16 text-center text-zinc-400">
           Loading order details...
@@ -222,32 +222,32 @@ export default function OrderDetailPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-[#f8f7f4] ">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
+      <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-6 pb-24 sm:px-6 sm:py-10 lg:px-8">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs text-zinc-500 mb-6">
-          <Link href="/" className="hover:text-rose-500 transition-colors">Home</Link>
+        <nav className="mb-4 flex items-center gap-1.5 overflow-hidden text-xs text-zinc-500 sm:gap-2">
+          <Link href="/" className="hover:text-[#b77c27] transition-colors">Beranda</Link>
           <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <Link href="/account/orders" className="hover:text-rose-500 transition-colors">My Orders</Link>
+          <Link href="/account/orders" className="hover:text-[#b77c27] transition-colors">Pesanan saya</Link>
           <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-zinc-900 dark:text-zinc-100 font-medium">Order #{orderId}</span>
+          <span className="text-zinc-900  font-medium">Pesanan #{orderId}</span>
         </nav>
 
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-rose-100 dark:border-zinc-800">
+        <div className="mb-5 flex flex-col gap-3 rounded-3xl bg-[#292d30] p-5 text-white sm:mb-7 sm:flex-row sm:items-center sm:justify-between sm:p-7">
           <div>
-            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-medium mb-2 ${ORDER_STATUS_META[order?.status?.toUpperCase() || 'PENDING_PAYMENT']?.className ?? ORDER_STATUS_META.PENDING_PAYMENT.className}`}>
+            <div className={`mb-2 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 ${ORDER_STATUS_META[order?.status?.toUpperCase() || 'PENDING_PAYMENT']?.className ?? ORDER_STATUS_META.PENDING_PAYMENT.className}`}>
               {order?.status?.toUpperCase() === 'PAID' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
               <span>{ORDER_STATUS_META[order?.status?.toUpperCase() || 'PENDING_PAYMENT']?.label ?? order?.status}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-serif text-zinc-900 dark:text-zinc-50 font-normal">
-              Order #{orderId}
+            <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+              Pesanan #{orderId}
             </h1>
             {order && (
-              <p className="text-xs text-zinc-400 mt-1">
-                Placed on {new Date(order.created_at).toLocaleDateString('id-ID', {
+              <p className="mt-1 text-xs text-white/65">
+                Dibuat {new Date(order.created_at).toLocaleDateString('id-ID', {
                   day: 'numeric',
                   month: 'long',
                   year: 'numeric',
@@ -260,60 +260,60 @@ export default function OrderDetailPage() {
 
           <Link
             href="/account/orders"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline"
+            className="inline-flex min-h-10 items-center gap-1.5 self-start rounded-xl border border-white/15 px-3 text-xs font-semibold text-[#e5b66e] transition hover:bg-white/10 sm:self-auto"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>All Orders</span>
+            <span>Semua pesanan</span>
           </Link>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5">
-            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+          <div className="mb-6 p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800  text-xs flex items-start gap-2.5">
+            <AlertCircle className="w-4 h-4 text-[#9b681e] shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
 
         {loading ? (
           <div className="space-y-4 animate-pulse">
-            <div className="h-48 rounded-3xl bg-zinc-100 dark:bg-zinc-800/60" />
-            <div className="h-48 rounded-3xl bg-zinc-100 dark:bg-zinc-800/60" />
+            <div className="h-48 rounded-3xl bg-zinc-100 " />
+            <div className="h-48 rounded-3xl bg-zinc-100 " />
           </div>
         ) : order ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-12 lg:gap-6">
             {/* Left Content (7 cols) */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="space-y-4 lg:col-span-7 lg:space-y-5">
               {/* Order Items Snapshot */}
-              <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 p-6 shadow-xs">
-                <h3 className="font-serif text-base font-semibold text-zinc-900 dark:text-zinc-50 pb-3 mb-4 border-b border-rose-50 dark:border-zinc-800 flex items-center justify-between">
-                  <span>Purchased Items Snapshot</span>
+              <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+                <h3 className="text-base font-semibold text-zinc-900  pb-3 mb-4 border-b border-zinc-100  flex items-center justify-between">
+                  <span>Produk yang dipesan</span>
                   <span className="text-xs text-zinc-400 font-normal">
-                    {order.items?.length || 0} items
+                    {order.items?.length || 0} produk
                   </span>
                 </h3>
 
-                <div className="divide-y divide-rose-50 dark:divide-zinc-800">
+                <div className="divide-y divide-zinc-100 ">
                   {order.items?.map((item) => (
                     <div key={item.id} className="py-3.5 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-linear-to-br from-rose-50 to-pink-50 dark:from-zinc-800 dark:to-zinc-800 border border-rose-100 dark:border-zinc-700 flex items-center justify-center shrink-0">
-                          <Sparkles className="w-5 h-5 text-rose-400" />
+                        <div className="w-12 h-12 rounded-xl bg-linear-to-br from-[#fbf3e6] to-[#f5e4c5]   border border-zinc-200  flex items-center justify-center shrink-0">
+                          <Sparkles className="w-5 h-5 text-[#b77c27]" />
                         </div>
                         <div>
-                          <h4 className="font-serif text-xs sm:text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                          <h4 className="text-xs sm:text-sm font-semibold text-zinc-900 ">
                             {item.product_name}
                           </h4>
                           <div className="text-[11px] text-zinc-400 flex items-center gap-1.5 mt-0.5">
                             <span>{item.formatted_unit_price}</span>
                             <span>×</span>
-                            <span className="font-bold text-zinc-700 dark:text-zinc-300">{item.quantity}</span>
+                            <span className="font-bold text-zinc-700 ">{item.quantity}</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="text-right shrink-0">
-                        <div className="font-semibold text-xs sm:text-sm text-zinc-900 dark:text-zinc-100">
+                        <div className="font-semibold text-xs sm:text-sm text-zinc-900 ">
                           {item.formatted_subtotal}
                         </div>
                       </div>
@@ -323,38 +323,38 @@ export default function OrderDetailPage() {
               </div>
 
               {/* Delivery Address & Courier Snapshot */}
-              <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 p-6 shadow-xs space-y-4">
-                <h3 className="font-serif text-base font-semibold text-zinc-900 dark:text-zinc-50 pb-3 border-b border-rose-50 dark:border-zinc-800">
-                  Delivery & Shipment Details
+              <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5 space-y-4">
+                <h3 className="text-base font-semibold text-zinc-900  pb-3 border-b border-zinc-100 ">
+                  Alamat & pengiriman
                 </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                  <div className="p-4 rounded-2xl bg-stone-50 dark:bg-zinc-800/40 border border-rose-50 dark:border-zinc-700/60 space-y-1.5">
-                    <div className="flex items-center gap-1.5 font-semibold text-zinc-900 dark:text-zinc-100 mb-1">
-                      <MapPin className="w-4 h-4 text-rose-500" />
-                      <span>Shipping Address</span>
+                  <div className="p-4 rounded-2xl bg-stone-50  border border-zinc-100  space-y-1.5">
+                    <div className="flex items-center gap-1.5 font-semibold text-zinc-900  mb-1">
+                      <MapPin className="w-4 h-4 text-[#b77c27]" />
+                      <span>Alamat tujuan</span>
                     </div>
-                    <p className="font-medium text-zinc-800 dark:text-zinc-200">
+                    <p className="font-medium text-zinc-800 ">
                       {order.shipping_address?.name} ({order.shipping_address?.phone})
                     </p>
-                    <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                    <p className="text-zinc-500  leading-relaxed">
                       {order.shipping_address?.address}, {order.shipping_address?.district}, {order.shipping_address?.city}, {order.shipping_address?.province} {order.shipping_address?.postal_code}
                     </p>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-stone-50 dark:bg-zinc-800/40 border border-rose-50 dark:border-zinc-700/60 space-y-1.5">
-                    <div className="flex items-center gap-1.5 font-semibold text-zinc-900 dark:text-zinc-100 mb-1">
-                      <Truck className="w-4 h-4 text-rose-500" />
-                      <span>Courier Method</span>
+                  <div className="p-4 rounded-2xl bg-stone-50  border border-zinc-100  space-y-1.5">
+                    <div className="flex items-center gap-1.5 font-semibold text-zinc-900  mb-1">
+                      <Truck className="w-4 h-4 text-[#b77c27]" />
+                      <span>Kurir pengiriman</span>
                     </div>
-                    <p className="font-medium text-zinc-800 dark:text-zinc-200">
+                    <p className="font-medium text-zinc-800 ">
                       {order.shipping_courier} — {order.shipping_service}
                     </p>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      Estimated Delivery: {order.shipping_etd || '2-3 Hari'}
+                    <p className="text-zinc-500 ">
+                      Estimasi tiba: {order.shipping_etd || '2-3 Hari'}
                     </p>
-                    <p className="text-zinc-500 dark:text-zinc-400">
-                      Cost: {order.formatted_shipping_cost}
+                    <p className="text-zinc-500 ">
+                      Biaya: {order.formatted_shipping_cost}
                     </p>
                   </div>
                 </div>
@@ -362,13 +362,13 @@ export default function OrderDetailPage() {
 
               {/* Shipment Tracking (Resi) */}
               {order.shipment?.tracking_number && (
-                <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 p-6 shadow-xs space-y-4">
-                  <h3 className="font-serif text-base font-semibold text-zinc-900 dark:text-zinc-50 pb-3 border-b border-rose-50 dark:border-zinc-800 flex items-center gap-2">
-                    <PackageCheck className="w-4 h-4 text-rose-500" />
+                <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5 space-y-4">
+                  <h3 className="text-base font-semibold text-zinc-900  pb-3 border-b border-zinc-100  flex items-center gap-2">
+                    <PackageCheck className="w-4 h-4 text-[#b77c27]" />
                     <span>Pelacakan Pengiriman</span>
                   </h3>
 
-                  <div className="p-4 rounded-2xl bg-stone-50 dark:bg-zinc-800/40 border border-rose-50 dark:border-zinc-700/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="p-4 rounded-2xl bg-stone-50  border border-zinc-100  flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="space-y-1.5 min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-[11px] uppercase font-semibold tracking-wider text-zinc-400">
@@ -378,7 +378,7 @@ export default function OrderDetailPage() {
                           {getShipmentStatusMeta(order.shipment.status)?.label ?? order.shipment.status}
                         </span>
                       </div>
-                      <p className="font-mono text-sm font-semibold text-zinc-900 dark:text-zinc-100 break-all">
+                      <p className="font-mono text-sm font-semibold text-zinc-900  break-all">
                         {order.shipment.tracking_number}
                       </p>
                       {(order.shipment.shipped_at || order.shipment.delivered_at) && (
@@ -396,7 +396,7 @@ export default function OrderDetailPage() {
                     <button
                       type="button"
                       onClick={handleCopyResi}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 bg-white dark:bg-zinc-900 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer shrink-0"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-[#9b681e] border border-[#e8d5b7] bg-white hover:bg-[#fbf3e6]  transition-colors cursor-pointer shrink-0"
                     >
                       {resiCopied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                       <span>{resiCopied ? 'Tersalin!' : 'Salin Resi'}</span>
@@ -407,30 +407,30 @@ export default function OrderDetailPage() {
             </div>
 
             {/* Right Summary (5 cols) */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6 sticky top-28">
-                <h3 className="font-serif text-xl font-semibold text-zinc-900 dark:text-zinc-50 pb-4 border-b border-rose-100 dark:border-zinc-800">
-                  Payment Summary
+            <div className="space-y-4 lg:col-span-5 lg:space-y-5">
+              <div className="bg-white rounded-2xl border border-zinc-200  space-y-5 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5 lg:space-y-6 lg:sticky lg:top-28">
+                <h3 className="text-lg font-semibold text-zinc-900  pb-4 border-b border-zinc-200 ">
+                  Ringkasan pembayaran
                 </h3>
 
-                <div className="space-y-3.5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                <div className="space-y-3.5 text-xs sm:text-sm text-zinc-600 ">
                   <div className="flex justify-between">
-                    <span>Product Subtotal</span>
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    <span>Subtotal produk</span>
+                    <span className="font-semibold text-zinc-900 ">
                       {order.formatted_subtotal}
                     </span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span>Shipping Cost</span>
-                    <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    <span>Ongkos kirim</span>
+                    <span className="font-semibold text-zinc-900 ">
                       {order.formatted_shipping_cost}
                     </span>
                   </div>
 
-                  <div className="flex justify-between pt-4 border-t border-rose-100/70 dark:border-zinc-800 text-base sm:text-lg font-bold text-zinc-900 dark:text-zinc-50">
-                    <span>Total Amount</span>
-                    <span className="text-rose-600 dark:text-rose-400">
+                  <div className="flex justify-between pt-4 border-t border-zinc-200/70  text-base sm:text-lg font-bold text-zinc-900 ">
+                    <span>Total pembayaran</span>
+                    <span className="text-[#9b681e] ">
                       {order.formatted_total}
                     </span>
                   </div>
@@ -441,22 +441,22 @@ export default function OrderDetailPage() {
                   {order.status.toUpperCase() === 'PENDING_PAYMENT' && (
                     <>
                       {paymentStatus === 'success' && (
-                        <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-200 text-xs leading-relaxed flex items-start gap-2.5">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                        <div className="p-3.5 rounded-2xl bg-emerald-50  border border-emerald-200  text-emerald-800  text-xs leading-relaxed flex items-start gap-2.5">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600  shrink-0 mt-0.5" />
                           <span className="font-medium">{paymentMessage}</span>
                         </div>
                       )}
 
                       {paymentStatus === 'pending' && (
-                        <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-200 text-xs leading-relaxed flex items-start gap-2.5">
-                          <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                        <div className="p-3.5 rounded-2xl bg-amber-50  border border-amber-200  text-amber-800  text-xs leading-relaxed flex items-start gap-2.5">
+                          <Clock className="w-4 h-4 text-amber-600  shrink-0 mt-0.5" />
                           <span className="font-medium">{paymentMessage}</span>
                         </div>
                       )}
 
                       {paymentStatus === 'failed' && (
-                        <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-xs leading-relaxed flex items-start gap-2.5">
-                          <AlertCircle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                        <div className="p-3.5 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800  text-xs leading-relaxed flex items-start gap-2.5">
+                          <AlertCircle className="w-4 h-4 text-[#9b681e]  shrink-0 mt-0.5" />
                           <span className="font-medium">{paymentMessage}</span>
                         </div>
                       )}
@@ -466,7 +466,7 @@ export default function OrderDetailPage() {
                           <button
                             disabled={paying}
                             onClick={handlePayment}
-                            className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-sm font-semibold text-white bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 shadow-md shadow-rose-500/20 cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-sm font-semibold text-white bg-[#b77c27] hover:bg-[#9d681d] shadow-sm cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {paying ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -476,16 +476,16 @@ export default function OrderDetailPage() {
                             <span>{paying ? 'Menyiapkan pembayaran...' : 'Bayar Sekarang dengan Midtrans'}</span>
                           </button>
 
-                          <div className="p-3.5 rounded-2xl bg-stone-50 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-400 text-[11px] leading-relaxed flex items-start gap-2">
-                            <ShieldCheck className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+                          <div className="p-3.5 rounded-2xl bg-stone-50  border border-zinc-200  text-zinc-500  text-[11px] leading-relaxed flex items-start gap-2">
+                            <ShieldCheck className="w-4 h-4 text-[#b77c27] shrink-0 mt-0.5" />
                             <span>
                               Pembayaran dibuka sebagai <strong>popup aman Midtrans</strong> di halaman ini. Status pesanan diperbarui otomatis setelah konfirmasi server Midtrans.
                             </span>
                           </div>
                         </>
                       ) : (
-                        <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-200 text-xs leading-relaxed flex items-start gap-2.5">
-                          <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                        <div className="p-4 rounded-2xl bg-amber-50  border border-amber-200  text-amber-800  text-xs leading-relaxed flex items-start gap-2.5">
+                          <AlertCircle className="w-4 h-4 text-amber-600  shrink-0 mt-0.5" />
                           <div>
                             <span className="font-semibold block mb-0.5">Status Pembayaran:</span>
                             <span>Pembayaran online sementara tidak tersedia.</span>
@@ -495,8 +495,8 @@ export default function OrderDetailPage() {
                     </>
                   )}
                   {order.status.toUpperCase() === 'PAID' && (
-                    <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 text-emerald-800 dark:text-emerald-200 text-xs leading-relaxed flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                    <div className="p-3.5 rounded-2xl bg-emerald-50  border border-emerald-200  text-emerald-800  text-xs leading-relaxed flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600  shrink-0 mt-0.5" />
                       <span className="font-medium">{paymentMessage || 'Pembayaran sudah dikonfirmasi oleh server Midtrans.'}</span>
                     </div>
                   )}

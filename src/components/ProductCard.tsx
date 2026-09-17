@@ -92,7 +92,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       {/* Product Content Details */}
-      <div className="flex flex-col flex-1 p-4 sm:p-5">
+      <div className="flex min-w-0 flex-1 flex-col p-3 sm:p-5">
         <Link
           href={`/products/${product.slug}`}
           className="font-serif text-sm sm:text-base font-medium text-zinc-900 dark:text-zinc-100 hover:text-rose-600 dark:hover:text-rose-400 line-clamp-2 transition-colors mb-1.5"
@@ -121,7 +121,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={handleQuickAdd}
               disabled={isOutOfStock}
-              className={`p-2 rounded-xl text-white transition-all duration-300 shadow-xs cursor-pointer ${
+              className={`flex h-9 w-9 items-center justify-center rounded-xl text-white transition-all duration-300 shadow-xs cursor-pointer ${
                 isAdded
                   ? 'bg-emerald-500 scale-110 shadow-emerald-500/30'
                   : 'bg-rose-500 hover:bg-rose-600 hover:scale-105 active:scale-95 shadow-rose-500/20'
@@ -137,7 +137,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </button>
             <Link
               href={`/products/${product.slug}`}
-              className="px-2.5 py-1.5 text-xs font-medium rounded-xl text-rose-600 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
+              className="hidden rounded-xl bg-rose-50 px-2.5 py-1.5 text-xs font-medium text-rose-600 transition-colors hover:bg-rose-100 sm:inline-flex dark:bg-rose-950/40 dark:text-rose-300 dark:hover:bg-rose-900/60"
             >
               Details
             </Link>

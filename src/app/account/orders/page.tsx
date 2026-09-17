@@ -59,21 +59,21 @@ export default function OrdersPage() {
     switch (status.toUpperCase()) {
       case 'PENDING_PAYMENT':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-800   border border-amber-200 ">
             <Clock className="w-3 h-3" />
-            <span>Pending Payment</span>
+            <span>Menunggu pembayaran</span>
           </span>
         );
       case 'PAID':
       case 'COMPLETED':
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-            <span>Completed</span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800   border border-emerald-200 ">
+            <span>Selesai</span>
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 text-zinc-800  ">
             <span>{status}</span>
           </span>
         );
@@ -82,10 +82,10 @@ export default function OrdersPage() {
 
   if (!isAuthHydrated || (!user && loading)) {
     return (
-      <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+      <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
         <Navbar />
-        <main className="flex-1 max-w-5xl mx-auto px-4 py-16 text-center text-zinc-400">
-          Loading your order history...
+        <main className="mx-auto flex-1 max-w-5xl px-4 py-16 text-center text-sm text-zinc-500">
+          Memuat riwayat pesanan...
         </main>
         <Footer />
       </div>
@@ -93,38 +93,38 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
       <Navbar />
 
-      <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs text-zinc-500 mb-6">
-          <Link href="/" className="hover:text-rose-500 transition-colors">Home</Link>
+        <nav className="mb-4 flex items-center gap-2 text-xs text-zinc-500">
+          <Link href="/" className="hover:text-[#9b681e] transition-colors">Beranda</Link>
           <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-zinc-500">Account</span>
+          <span className="text-zinc-500">Akun</span>
           <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-          <span className="text-zinc-900 dark:text-zinc-100 font-medium">My Orders</span>
+          <span className="font-medium text-zinc-900">Pesanan</span>
         </nav>
 
         {/* Page Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-6 border-b border-rose-100 dark:border-zinc-800">
+        <div className="mb-5 rounded-3xl bg-[#292d30] p-5 text-white sm:mb-7 sm:p-7">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100/60 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-xs font-medium mb-2">
-              <ShoppingBag className="w-3.5 h-3.5 text-rose-500" />
-              <span>Purchase History</span>
+            <div className="mb-2 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/80">
+              <ShoppingBag className="h-3.5 w-3.5 text-[#e5b66e]" />
+              <span>Pesanan saya</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-serif text-zinc-900 dark:text-zinc-50 font-normal">
-              My Orders
+            <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+              Riwayat pesanan
             </h1>
-            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
-              Review your luxury formulation orders and payment status
+            <p className="mt-1 text-sm text-white/70">
+              Lihat status pembayaran dan pengiriman pesananmu.
             </p>
           </div>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5">
+          <div className="mb-5 flex items-start gap-2.5 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800">
             <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
@@ -134,26 +134,26 @@ export default function OrdersPage() {
         {loading ? (
           <div className="space-y-4 animate-pulse">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-32 rounded-3xl bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-800" />
+              <div key={i} className="h-32 rounded-2xl border border-zinc-200 bg-white" />
             ))}
           </div>
         ) : orders.length === 0 ? (
-          <div className="max-w-md mx-auto text-center p-10 bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100 dark:border-zinc-800 shadow-xs my-8">
-            <div className="w-16 h-16 mx-auto rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-500 flex items-center justify-center mb-4">
+          <div className="mx-auto my-8 max-w-md rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fbf3e6] text-[#b77c27]">
               <Package className="w-8 h-8" />
             </div>
-            <h2 className="font-serif text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-1">
-              No orders placed yet
+            <h2 className="mb-1 text-lg font-semibold text-zinc-900">
+              Belum ada pesanan
             </h2>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 mb-6 leading-relaxed">
-              Explore our luxury beauty formulations and add items to your shopping bag.
+            <p className="mb-6 text-sm leading-relaxed text-zinc-500">
+              Pesanan yang kamu buat akan muncul di halaman ini.
             </p>
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 shadow-xs"
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#b77c27] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#9d681d]"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Explore Catalog</span>
+              <span>Lihat produk</span>
             </Link>
           </div>
         ) : (
@@ -161,12 +161,12 @@ export default function OrdersPage() {
             {orders.map((order) => (
               <div
                 key={order.id}
-                className="bg-white dark:bg-zinc-900 rounded-3xl border border-rose-100/80 dark:border-zinc-800 p-6 shadow-xs hover:border-rose-200 transition-all"
+                className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition hover:border-[#d6b173] sm:p-5"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-rose-50 dark:border-zinc-800">
+                <div className="flex flex-col justify-between gap-3 border-b border-zinc-100 pb-4 sm:flex-row sm:items-center">
                   <div className="flex items-center gap-3">
-                    <span className="font-serif font-bold text-sm text-zinc-900 dark:text-zinc-100">
-                      Order #{order.id}
+                    <span className="text-sm font-semibold text-zinc-900">
+                      Pesanan #{order.id}
                     </span>
                     <span className="text-xs text-zinc-400">
                       {new Date(order.created_at).toLocaleDateString('id-ID', {
@@ -180,38 +180,38 @@ export default function OrdersPage() {
                   <div>{getStatusBadge(order.status)}</div>
                 </div>
 
-                <div className="py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                  <div className="space-y-1 text-xs">
-                    <div className="text-zinc-500 flex items-center gap-1.5">
+                <div className="flex flex-col items-start justify-between gap-4 py-4 sm:flex-row sm:items-center">
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-1.5 text-zinc-500">
                       <Truck className="w-3.5 h-3.5 text-zinc-400" />
                       <span>
                         {order.shipping_courier} - {order.shipping_service} ({order.formatted_shipping_cost})
                       </span>
                     </div>
                     <div className="text-zinc-500">
-                      Recipient: <span className="font-medium text-zinc-800 dark:text-zinc-200">{order.shipping_address?.name}</span> ({order.shipping_address?.city})
+                      Penerima: <span className="font-medium text-zinc-800">{order.shipping_address?.name}</span> ({order.shipping_address?.city})
                     </div>
                     {order.shipment?.tracking_number && (
                       <div className="text-zinc-500">
-                        Resi: <span className="font-mono font-medium text-zinc-800 dark:text-zinc-200">{order.shipment.tracking_number}</span>
+                        Resi: <span className="font-mono font-medium text-zinc-800">{order.shipment.tracking_number}</span>
                       </div>
                     )}
                   </div>
 
-                  <div className="text-right">
-                    <div className="text-xs text-zinc-400">Total Amount</div>
-                    <div className="text-base font-bold text-zinc-900 dark:text-zinc-50">
+                  <div className="text-left sm:text-right">
+                    <div className="text-xs text-zinc-500">Total pesanan</div>
+                    <div className="text-base font-bold text-zinc-900">
                       {order.formatted_total}
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-rose-50 dark:border-zinc-800 flex justify-end">
+                <div className="flex justify-end border-t border-zinc-100 pt-3">
                   <Link
                     href={`/account/orders/${order.id}`}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline"
+                    className="inline-flex min-h-10 items-center gap-1 text-sm font-semibold text-[#9b681e] hover:underline"
                   >
-                    <span>View Order Details</span>
+                    <span>Lihat detail pesanan</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

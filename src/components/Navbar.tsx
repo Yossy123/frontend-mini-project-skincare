@@ -11,8 +11,6 @@ import { OnlineConsultationModal } from '@/components/OnlineConsultationModal';
 import {
   ShoppingBag,
   Search,
-  Menu,
-  X,
   Sparkles,
   LogOut,
   ChevronDown,
@@ -22,12 +20,12 @@ import {
   Home,
   CalendarDays,
   UserRound,
+  Stethoscope,
 } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [isConsultationModalOpen, setIsConsultationModalOpen] = useState(false);
 
@@ -50,7 +48,6 @@ export function Navbar() {
 
   const handleLogout = async () => {
     setUserMenuOpen(false);
-    setMobileMenuOpen(false);
     await logout();
     router.push('/login');
   };
@@ -224,125 +221,23 @@ export function Navbar() {
                 )}
               </button>
 
-              {/* Mobile Menu Trigger */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 rounded-xl text-zinc-600 dark:text-zinc-300 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-zinc-900"
-                aria-label="Toggle navigation menu"
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
             </div>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-rose-100 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 px-4 pt-3 pb-6 space-y-2 shadow-lg backdrop-blur-md">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-2 rounded-xl text-sm font-medium ${
-                  pathname === link.href
-                    ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 font-semibold'
-                    : 'text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900'
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
-
-            {/* Mobile Konsultasi Online Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setIsConsultationModalOpen(true);
-              }}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200/80 dark:border-emerald-800"
-            >
-              <MessageCircle className="w-4 h-4 text-emerald-600" />
-              <span>Konsultasi Online via WhatsApp</span>
-            </button>
-
-            <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-2">
-              {isAuthenticated && user ? (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between px-3 py-2 bg-rose-50/50 dark:bg-zinc-900 rounded-xl">
-                    <div className="text-xs">
-                      <span className="font-semibold text-zinc-800 dark:text-zinc-200">{user.name}</span>
-                      <span className="block text-zinc-400 text-[10px]">{user.email}</span>
-                    </div>
-                    <button
-                      onClick={handleLogout}
-                      className="text-xs font-semibold text-rose-600 hover:underline"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                  <Link
-                    href="/account/addresses"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 rounded-xl"
-                  >
-                    <MapPin className="w-4 h-4 text-rose-500" />
-                    <span>Manage Addresses</span>
-                  </Link>
-                  {user.role === 'doctor' && (
-                    <Link
-                      href="/doctor/dashboard"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 rounded-xl"
-                    >
-                      <Sparkles className="w-4 h-4" />
-                      <span>Doctor Portal</span>
-                    </Link>
-                  )}
-                  {user.role === 'admin' && (
-                    <Link
-                      href="/admin/dashboard"
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 rounded-xl"
-                    >
-                      <Sparkles className="w-4 h-4" />
-                      <span>Admin Portal</span>
-                    </Link>
-                  )}
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <Link
-                    href="/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-center py-2.5 rounded-xl border border-rose-200 text-xs font-semibold text-zinc-800 dark:text-zinc-200"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/register"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-center py-2.5 rounded-xl bg-linear-to-r from-rose-500 to-pink-500 text-xs font-semibold text-white shadow-xs"
-                  >
-                    Register
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </header>
 
       <nav aria-label="Navigasi utama" className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/95 px-2 pt-2 pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_24px_rgba(24,24,27,0.08)] backdrop-blur-md md:hidden">
-        <div className="mx-auto grid max-w-lg grid-cols-4">
+        <div className="mx-auto grid max-w-lg grid-cols-6">
           {[
             { label: 'Beranda', href: '/', icon: Home, active: pathname === '/' },
+            { label: 'Shop All', href: '/products', icon: Sparkles, active: pathname.startsWith('/products') || pathname.startsWith('/categories') },
+            { label: 'Specialists', href: '/specialists', icon: Stethoscope, active: pathname === '/specialists' },
             { label: 'Booking', href: '/booking', icon: CalendarDays, active: pathname.startsWith('/booking') },
             { label: 'Keranjang', href: '/cart', icon: ShoppingBag, active: pathname === '/cart', badge: cartItemCount },
             { label: 'Akun', href: isAuthenticated ? '/account/orders' : '/login', icon: UserRound, active: pathname.startsWith('/account') || pathname === '/login' },
           ].map(({ label, href, icon: Icon, active, badge }) => (
-            <Link key={label} href={href} aria-current={active ? 'page' : undefined} className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-medium transition-colors ${active ? 'text-[#a66d1c]' : 'text-zinc-500 hover:text-zinc-800'}`}>
+            <Link key={label} href={href} aria-current={active ? 'page' : undefined} className={`flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-xl px-0.5 text-[9px] font-medium leading-tight transition-colors sm:text-[10px] ${active ? 'text-[#a66d1c]' : 'text-zinc-500 hover:text-zinc-800'}`}>
               <span className="relative">
                 <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
                 {badge ? <span className="absolute -right-2 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#c8872b] px-1 text-[9px] font-bold text-white">{badge > 99 ? '99+' : badge}</span> : null}
