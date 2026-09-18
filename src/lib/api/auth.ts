@@ -1,5 +1,5 @@
 import { API_BASE_URL } from './client';
-import type { HealthResponse, RegisterPayload, LoginPayload, AuthResponse } from './types';
+import type { HealthResponse, RegisterPayload, LoginPayload, AuthResponse, UpdateProfilePayload } from './types';
 
 /**
  * Fetch health status from Laravel backend.
@@ -118,6 +118,33 @@ export async function fetchCurrentUser(token: string): Promise<NonNullable<AuthR
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || 'Gagal memuat profil akun.');
   if (!data.user?.id) throw new Error('Data profil akun tidak dikenali.');
+  return data.user;
+}
+
+/** Update the authenticated user's own account details. */
+export async function updateCurrentUser(
+  token: string,
+  payload: UpdateProfilePayload
+): Promise<NonNullable<AuthResponse['user']>> {
+  const res = await fetch(`${API_BASE_URL}/me`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+  const data = await res.json();
+
+  if (!res.ok) {
+    const message = data.errors
+      ? Object.values(data.errors).flat().join(' ')
+      : data.message || 'Gagal memperbarui profil.';
+    throw new Error(message);
+  }
+  if (!data.user?.id) throw new Error('Data profil yang diperbarui tidak dikenali.');
   return data.user;
 }
 

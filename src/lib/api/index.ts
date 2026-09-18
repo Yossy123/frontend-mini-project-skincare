@@ -22,6 +22,7 @@ export type {
   ProductFilterParams,
   RegisterPayload,
   LoginPayload,
+  UpdateProfilePayload,
   CheckoutItemPayload,
   CheckoutValidatePayload,
   ValidatedCheckoutItem,
@@ -38,7 +39,7 @@ export type {
 } from './types';
 
 // Auth & user
-export { fetchHealth, registerUser, loginUser, logoutUser, fetchCurrentUser } from './auth';
+export { fetchHealth, registerUser, loginUser, logoutUser, fetchCurrentUser, updateCurrentUser } from './auth';
 
 // Addresses
 export { fetchAddresses, createAddress, updateAddress, deleteAddress } from './addresses';

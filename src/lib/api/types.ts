@@ -23,6 +23,12 @@ export interface AuthResponse {
   user: User;
 }
 
+export interface UpdateProfilePayload {
+  name: string;
+  email: string;
+  phone: string | null;
+}
+
 export interface Address {
   id: number;
   user_id: number;
