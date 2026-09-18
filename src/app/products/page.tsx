@@ -120,15 +120,16 @@ function ProductsCatalogContent() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
       {showCategoryLanding ? (
         <>
-          <section className="relative mb-6 overflow-hidden rounded-3xl bg-[#f4d8bd] px-5 pb-6 pt-7 sm:mb-8 sm:px-10 sm:py-10">
-            <div className="absolute -right-12 -top-20 h-64 w-64 rounded-full bg-white/30 blur-2xl" />
+          <section className="relative mb-6 flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#fff8ed] via-[#f4e7d2] to-[#e8cfaa] px-5 shadow-[0_18px_50px_-32px_rgba(141,98,40,0.55)] ring-1 ring-[#9b681e]/10 sm:mb-8 sm:h-[300px] sm:px-10 lg:h-[320px]">
+            <div aria-hidden="true" className="absolute -right-12 -top-20 h-64 w-64 rounded-full border border-[#9b681e]/10 bg-white/25 blur-2xl sm:h-80 sm:w-80" />
+            <div aria-hidden="true" className="absolute bottom-0 right-16 hidden h-44 w-44 rounded-full border border-white/55 sm:block" />
             <div className="relative max-w-xl">
-              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/65 px-3 py-1 text-xs font-medium text-[#805c3c]">
+              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/65 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#805c3c] shadow-sm sm:text-xs">
                 <Sparkles className="h-3.5 w-3.5" />
                 Katalog NOBYDERM
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight text-[#33271e] sm:text-4xl">Temukan produk pilihanmu</h1>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-[#665345] sm:text-base">Pilih kategori untuk melihat rangkaian perawatan kulit dan rambut.</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-[#33271e] sm:text-4xl lg:text-[2.75rem]">Temukan produk pilihanmu</h1>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-[#665345] sm:mt-3 sm:text-base">Pilih kategori untuk melihat rangkaian perawatan kulit dan rambut.</p>
             </div>
           </section>
 
@@ -173,12 +174,14 @@ function ProductsCatalogContent() {
         </>
       ) : (
       <>
-      <div className="mb-5 rounded-3xl bg-[#292d30] p-5 text-white sm:mb-7 sm:p-8">
-        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-white/85">
+      <div className="relative mb-5 flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] px-5 text-white shadow-[0_18px_50px_-30px_rgba(20,24,24,0.7)] sm:mb-7 sm:h-[300px] sm:px-8 lg:h-[320px] lg:px-10">
+        <div aria-hidden="true" className="absolute -right-16 -top-24 h-64 w-64 rounded-full border border-white/10 bg-white/[0.03] sm:h-80 sm:w-80" />
+        <div className="relative z-10">
+        <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 sm:text-xs">
           <ShoppingBag className="h-3.5 w-3.5 text-[#e5b66e]" />
           <span>Katalog NOBYDERM</span>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
+        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">
           {currentCategory
             ? categories.find((c) => c.slug === currentCategory)?.name || 'Kategori produk'
             : 'Temukan produk perawatan kulit'}
@@ -186,6 +189,7 @@ function ProductsCatalogContent() {
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-white/70">
           Cari produk, pilih kategori, lalu urutkan hasil sesuai kebutuhanmu.
         </p>
+        </div>
       </div>
 
       {/* Filter and Search Bar */}

@@ -51,9 +51,9 @@ export default function HomePage() {
       action: 'Lihat produk',
       href: featuredProduct ? `/products/${featuredProduct.slug}` : '/products',
       icon: Sparkles,
-      theme: 'bg-[#f4e7d2] text-zinc-900',
-      accent: 'bg-[#b77c27] text-white',
-      visual: 'text-[#a66d1c] bg-white/70',
+      theme: 'bg-linear-to-br from-[#fff8ed] via-[#f4e7d2] to-[#ead2ac] text-zinc-900',
+      accent: 'bg-[#a66d1c] text-white shadow-lg shadow-[#a66d1c]/20',
+      visual: 'text-[#a66d1c] bg-white/75 shadow-xl shadow-[#8d6228]/10 ring-1 ring-white/80',
       product: featuredProduct,
     },
     {
@@ -63,9 +63,9 @@ export default function HomePage() {
       action: 'Lihat treatment',
       href: '/treatments',
       icon: HeartPulse,
-      theme: 'bg-[#292d30] text-white',
-      accent: 'bg-[#d69a3a] text-white',
-      visual: 'text-[#e5b66e] bg-[#c99a55]/15',
+      theme: 'bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] text-white',
+      accent: 'bg-[#d69a3a] text-white shadow-lg shadow-black/20',
+      visual: 'text-[#e5b66e] bg-white/10 shadow-xl ring-1 ring-white/15 backdrop-blur-sm',
     },
     {
       eyebrow: 'TIM SPESIALIS',
@@ -74,9 +74,9 @@ export default function HomePage() {
       action: 'Lihat spesialis',
       href: '/specialists',
       icon: Stethoscope,
-      theme: 'bg-[#e9eeeb] text-zinc-900',
-      accent: 'bg-[#3d6658] text-white',
-      visual: 'text-[#3d6658] bg-white/70',
+      theme: 'bg-linear-to-br from-[#f2f7f3] via-[#e3ece5] to-[#d2e0d6] text-zinc-900',
+      accent: 'bg-[#3d6658] text-white shadow-lg shadow-[#3d6658]/20',
+      visual: 'text-[#3d6658] bg-white/75 shadow-xl shadow-[#3d6658]/10 ring-1 ring-white/80',
     },
     {
       eyebrow: 'BOOKING KONSULTASI',
@@ -85,9 +85,9 @@ export default function HomePage() {
       action: 'Buat janji',
       href: '/booking',
       icon: CalendarDays,
-      theme: 'bg-[#292d30] text-white',
-      accent: 'bg-[#d69a3a] text-white',
-      visual: 'text-[#e5b66e] bg-[#c99a55]/15',
+      theme: 'bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] text-white',
+      accent: 'bg-[#d69a3a] text-white shadow-lg shadow-black/20',
+      visual: 'text-[#e5b66e] bg-white/10 shadow-xl ring-1 ring-white/15 backdrop-blur-sm',
     },
   ];
 
@@ -126,23 +126,24 @@ export default function HomePage() {
 
       <main className="flex-1 pb-24 md:pb-0">
         <section aria-label="Promosi produk dan layanan" aria-roledescription="carousel" className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-          <div className="relative overflow-hidden rounded-[1.75rem] shadow-sm" onMouseEnter={() => setBannerPaused(true)} onMouseLeave={() => setBannerPaused(false)} onFocusCapture={() => setBannerPaused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setBannerPaused(false); }}>
+            <div className="relative overflow-hidden rounded-[1.75rem] shadow-[0_18px_50px_-28px_rgba(41,45,48,0.45)] ring-1 ring-black/[0.04]" onMouseEnter={() => setBannerPaused(true)} onMouseLeave={() => setBannerPaused(false)} onFocusCapture={() => setBannerPaused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setBannerPaused(false); }}>
             <div className="flex transition-transform duration-500 ease-out motion-reduce:transition-none" style={{ transform: `translateX(-${activeBanner * 100}%)` }} aria-live={bannerPaused ? 'polite' : 'off'}>
               {banners.map(({ eyebrow, title, description, action, href, icon: Icon, theme, accent, visual, product }, index) => (
-                <article key={eyebrow} aria-roledescription="slide" aria-label={`${index + 1} dari ${banners.length}`} aria-hidden={activeBanner !== index} inert={activeBanner !== index} className={`relative flex min-h-52 w-full shrink-0 items-center overflow-hidden px-5 py-6 sm:min-h-64 sm:px-9 sm:py-8 lg:px-12 ${theme}`}>
-                  <div className="relative z-10 max-w-[70%] sm:max-w-[62%]">
-                    <span className="text-[10px] font-bold tracking-[0.16em] opacity-75 sm:text-xs">{eyebrow}</span>
-                    <h1 className="mt-2 line-clamp-2 text-xl font-semibold leading-tight tracking-tight sm:text-3xl lg:text-4xl">{title}</h1>
+                <article key={eyebrow} aria-roledescription="slide" aria-label={`${index + 1} dari ${banners.length}`} aria-hidden={activeBanner !== index} inert={activeBanner !== index} className={`relative flex h-[260px] w-full shrink-0 items-center overflow-hidden px-5 sm:h-[300px] sm:px-9 lg:h-[320px] lg:px-14 ${theme}`}>
+                  <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_82%_50%,rgba(255,255,255,0.34),transparent_38%)]" />
+                  <div className="relative z-10 max-w-[72%] sm:max-w-[62%]">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-current/10 bg-white/35 px-3 py-1.5 text-[9px] font-bold tracking-[0.16em] backdrop-blur-sm sm:text-[10px]"><Icon className="h-3.5 w-3.5" />{eyebrow}</span>
+                    <h1 className="mt-3 line-clamp-2 text-xl font-semibold leading-tight tracking-tight sm:mt-4 sm:text-3xl lg:text-4xl">{title}</h1>
                     <p className="mt-2 line-clamp-2 max-w-lg text-xs leading-relaxed opacity-75 sm:mt-3 sm:text-sm">{description}</p>
                     <Link href={href} tabIndex={activeBanner === index ? 0 : -1} className={`mt-4 inline-flex min-h-10 items-center gap-2 rounded-xl px-3.5 text-xs font-semibold transition hover:brightness-95 sm:mt-5 sm:min-h-11 sm:px-4 sm:text-sm ${accent}`}>
                       {action}<ArrowRight className="h-4 w-4" />
                     </Link>
                   </div>
-                  <div aria-hidden="true" className={`absolute right-5 top-1/2 flex h-24 w-24 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[1.5rem] sm:right-12 sm:h-36 sm:w-36 sm:rounded-[2rem] ${visual}`}>
+                  <div aria-hidden="true" className={`absolute right-5 top-1/2 flex h-24 w-24 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[1.5rem] sm:right-16 sm:h-40 sm:w-40 sm:rounded-[2rem] lg:right-24 lg:h-48 lg:w-48 ${visual}`}>
                     <Icon className="h-10 w-10 sm:h-16 sm:w-16" />
                     {product?.image ? <ProductImage image={product.image} alt="" className="absolute inset-0 h-full w-full object-contain p-2 sm:p-4" /> : null}
                   </div>
-                  <div aria-hidden="true" className="absolute -right-14 -top-20 h-48 w-48 rounded-full border border-current/10 sm:-right-8 sm:-top-28 sm:h-72 sm:w-72" />
+                  <div aria-hidden="true" className="absolute -right-20 -top-24 h-56 w-56 rounded-full border border-current/10 sm:-right-8 sm:-top-36 sm:h-96 sm:w-96" />
                 </article>
               ))}
             </div>

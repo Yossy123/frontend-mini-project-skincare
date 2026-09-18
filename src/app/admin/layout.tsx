@@ -73,7 +73,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       icon: FolderTree,
     },
     {
-      name: 'Customers',
+      name: 'Akun Customer',
       href: '/admin/customers',
       icon: Users,
     },

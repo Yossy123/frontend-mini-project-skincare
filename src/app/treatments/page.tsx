@@ -33,7 +33,7 @@ export default async function TreatmentsPage() {
       <Navbar />
       <main className="flex-1">
         <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl bg-[#292d30] p-5 text-white sm:p-8 lg:p-10">
+          <div className="relative flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] px-5 text-white shadow-[0_18px_50px_-30px_rgba(20,24,24,0.7)] sm:h-[300px] sm:px-8 lg:h-[320px] lg:px-10">
             <div className="relative z-10 max-w-2xl">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85">
                 <HeartPulse className="h-4 w-4 text-[#e5b66e]" /> TREATMENT NOBYDERM

@@ -167,3 +167,19 @@ export async function adminToggleCustomer(
   const json = await res.json();
   return json.data;
 }
+
+/** Permanently delete a customer account. */
+export async function adminDeleteCustomer(id: number, token: string): Promise<void> {
+  const res = await fetch(`${API_BASE_URL}/admin/customers/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorJson = await res.json().catch(() => ({}));
+    throw new Error(errorJson.message || `Failed to delete customer (${res.status})`);
+  }
+}

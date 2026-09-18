@@ -206,6 +206,28 @@ export async function fetchSalesAnalytics(
   return json.data;
 }
 
+/** Download order-level sales data as a spreadsheet-compatible CSV. */
+export async function downloadSalesReport(
+  period: 'week' | 'month' | 'year',
+  token: string
+): Promise<Blob> {
+  const query = new URLSearchParams({ period });
+  const res = await fetch(`${API_BASE_URL}/admin/analytics/sales/export?${query.toString()}`, {
+    headers: {
+      Accept: 'text/csv',
+      Authorization: `Bearer ${token}`,
+    },
+    cache: 'no-store',
+  });
+
+  if (!res.ok) {
+    const errorJson = await res.json().catch(() => ({}));
+    throw new Error(errorJson.message || `Gagal mengunduh laporan penjualan (${res.status})`);
+  }
+
+  return res.blob();
+}
+
 /**
  * Fetch Order Analytics & Status Distribution.
  */

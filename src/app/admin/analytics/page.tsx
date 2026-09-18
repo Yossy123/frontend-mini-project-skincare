@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import {
   fetchSalesAnalytics,
+  downloadSalesReport,
   fetchOrderAnalytics,
   fetchProductAnalytics,
   fetchCustomerAnalytics,
@@ -32,6 +33,7 @@ import {
   RefreshCw,
   AlertCircle,
   CheckCircle2,
+  Download,
 } from 'lucide-react';
 
 type TabKey = 'sales' | 'orders' | 'products' | 'customers' | 'payments' | 'shipping';
@@ -45,6 +47,8 @@ export default function AdminAnalyticsPage() {
 
   const [activeTab, setActiveTab] = useState<TabKey>(initialTab);
   const [period, setPeriod] = useState<string>('30d');
+  const [reportPeriod, setReportPeriod] = useState<'week' | 'month' | 'year'>('month');
+  const [downloadingReport, setDownloadingReport] = useState(false);
 
   const [salesData, setSalesData] = useState<SalesAnalyticsResponse | null>(null);
   const [ordersData, setOrdersData] = useState<OrderAnalyticsResponse | null>(null);
@@ -132,6 +136,28 @@ export default function AdminAnalyticsPage() {
     router.push(`/admin/analytics?tab=${tab}`);
   };
 
+  const handleDownloadSalesReport = async () => {
+    if (!token || downloadingReport) return;
+
+    setDownloadingReport(true);
+    setError(null);
+    try {
+      const blob = await downloadSalesReport(reportPeriod, token);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `laporan-penjualan-${reportPeriod}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Gagal mengunduh laporan penjualan.');
+    } finally {
+      setDownloadingReport(false);
+    }
+  };
+
   const periodOptions = [
     { label: 'Today', value: 'today' },
     { label: 'Last 7 Days', value: '7d' },
@@ -155,6 +181,29 @@ export default function AdminAnalyticsPage() {
 
         {/* Period Filter & Refresh */}
         <div className="flex flex-wrap items-center gap-2.5">
+          {activeTab === 'sales' && (
+            <div className="flex items-center gap-2">
+              <select
+                value={reportPeriod}
+                onChange={(event) => setReportPeriod(event.target.value as 'week' | 'month' | 'year')}
+                aria-label="Periode laporan penjualan"
+                className="rounded-xl border border-zinc-800 bg-zinc-900 px-3 py-2 text-xs text-zinc-200 focus:outline-hidden focus:ring-2 focus:ring-rose-500"
+              >
+                <option value="week">Minggu ini</option>
+                <option value="month">Bulan ini</option>
+                <option value="year">Tahun ini</option>
+              </select>
+              <button
+                type="button"
+                onClick={handleDownloadSalesReport}
+                disabled={downloadingReport}
+                className="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Download className={`h-4 w-4 ${downloadingReport ? 'animate-pulse' : ''}`} />
+                {downloadingReport ? 'Menyiapkan...' : 'Unduh CSV'}
+              </button>
+            </div>
+          )}
           <div className="flex items-center gap-1 p-1 rounded-2xl bg-zinc-900 border border-zinc-800">
             {periodOptions.map((opt) => (
               <button

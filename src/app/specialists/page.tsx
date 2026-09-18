@@ -42,13 +42,16 @@ export default async function SpecialistsPage() {
       <main className="flex-1">
         {/* Header Banner */}
         <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-          <div className="rounded-3xl bg-[#292d30] p-5 text-white sm:p-8 lg:p-10">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85">
+          <div className="relative flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] px-5 text-white shadow-[0_18px_50px_-30px_rgba(20,24,24,0.7)] sm:h-[300px] sm:px-8 lg:h-[320px] lg:px-10">
+            <div aria-hidden="true" className="absolute -right-16 -top-24 h-64 w-64 rounded-full border border-white/10 bg-white/[0.03] sm:h-80 sm:w-80" />
+            <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 sm:text-xs">
               <Stethoscope className="h-3.5 w-3.5 text-[#e5b66e]" /> Tim spesialis NOBYDERM
             </div>
             <h1 className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">Kenali dokter dan spesialis kami</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70">Lihat profil, bidang keahlian, dan jadwal praktik sebelum membuat janji.</p>
-            <div className="mt-4 inline-flex items-center gap-2 text-xs text-white/70"><ShieldCheck className="h-4 w-4 text-[#e5b66e]" /> Informasi jadwal ditampilkan dari data layanan</div>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">Lihat profil, bidang keahlian, dan jadwal praktik sebelum membuat janji.</p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-2 text-xs text-white/75"><ShieldCheck className="h-4 w-4 text-[#e5b66e]" /> Informasi jadwal ditampilkan dari data layanan</div>
+            </div>
           </div>
         </section>
 
@@ -147,7 +150,8 @@ export default async function SpecialistsPage() {
           )}
 
           {/* Bottom Consultation CTA Banner */}
-          <div className="relative mt-8 flex flex-col items-start justify-between gap-4 overflow-hidden rounded-3xl bg-[#292d30] p-5 text-white sm:mt-10 sm:flex-row sm:items-center sm:p-7">
+          <div className="relative mt-8 flex flex-col items-start justify-between gap-4 overflow-hidden rounded-3xl bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] p-5 text-white shadow-[0_18px_50px_-30px_rgba(20,24,24,0.7)] sm:mt-10 sm:flex-row sm:items-center sm:p-7">
+            <div aria-hidden="true" className="absolute -right-14 -top-24 h-64 w-64 rounded-full border border-white/10" />
             <div className="relative z-10 max-w-xl">
               <span className="text-xs font-bold uppercase tracking-widest text-[#e5b66e]">
                 Konsultasi perawatan

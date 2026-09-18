@@ -75,6 +75,7 @@ export type {
 } from './admin/analytics';
 export {
   fetchSalesAnalytics,
+  downloadSalesReport,
   fetchOrderAnalytics,
   fetchProductAnalytics,
   fetchCustomerAnalytics,
@@ -135,6 +136,7 @@ export {
   fetchAdminCustomers,
   fetchAdminCustomerDetail,
   adminToggleCustomer,
+  adminDeleteCustomer,
 } from './admin/customers';
 
 // Admin — Advanced Operations

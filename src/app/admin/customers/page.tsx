@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
 import {
   fetchAdminCustomers,
+  adminDeleteCustomer,
   AdminCustomerListItem,
   AdminCustomerPaginatedResponse,
 } from '@/lib/api';
@@ -17,6 +18,8 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertCircle,
+  Trash2,
+  X,
 } from 'lucide-react';
 
 export default function AdminCustomersPage() {
@@ -34,6 +37,8 @@ export default function AdminCustomersPage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [customerToDelete, setCustomerToDelete] = useState<AdminCustomerListItem | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const loadCustomers = useCallback(async (showLoading = false) => {
     if (!token) return;
@@ -101,13 +106,35 @@ export default function AdminCustomersPage() {
     loadCustomers();
   };
 
+  const handleDeleteCustomer = async () => {
+    if (!token || !customerToDelete) return;
+
+    setDeleting(true);
+    setError(null);
+    try {
+      await adminDeleteCustomer(customerToDelete.id, token);
+      setCustomers((current) => current.filter((customer) => customer.id !== customerToDelete.id));
+      setMeta((current) => current ? { ...current, total: Math.max(0, current.total - 1) } : current);
+      setCustomerToDelete(null);
+      if (customers.length === 1 && page > 1) {
+        setPage((current) => current - 1);
+      } else {
+        await loadCustomers(true);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Gagal menghapus akun customer.');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <div className="space-y-6 pb-12">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl sm:text-3xl font-serif text-white font-normal">
-            Customer Directory
+            Akun Customer
           </h2>
           <p className="text-xs text-zinc-400 mt-1">
             Registered customer accounts, purchasing volume, lifetime spending, and account status.
@@ -179,7 +206,7 @@ export default function AdminCustomersPage() {
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-zinc-800/80 bg-zinc-950/40 text-[11px] text-zinc-400 uppercase tracking-wider">
-                <th className="py-3.5 px-4 font-semibold">Customer</th>
+                <th className="py-3.5 px-4 font-semibold">Akun Customer</th>
                 <th className="py-3.5 px-4 font-semibold">Registered</th>
                 <th className="py-3.5 px-4 font-semibold">Orders</th>
                 <th className="py-3.5 px-4 font-semibold">Lifetime Spending</th>
@@ -260,12 +287,23 @@ export default function AdminCustomersPage() {
                     </td>
 
                     <td className="py-4 px-4 text-right">
-                      <Link
-                        href={`/admin/customers/${c.id}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-zinc-300 bg-zinc-800 hover:bg-zinc-700 hover:text-white transition-all cursor-pointer"
-                      >
-                        <span>View Profile</span>
-                      </Link>
+                      <div className="inline-flex items-center gap-2">
+                        <Link
+                          href={`/admin/customers/${c.id}`}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-zinc-300 bg-zinc-800 hover:bg-zinc-700 hover:text-white transition-all cursor-pointer"
+                        >
+                          <span>Detail</span>
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={() => setCustomerToDelete(c)}
+                          aria-label={`Hapus akun ${c.name}`}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-rose-300 bg-rose-950/50 hover:bg-rose-900 border border-rose-900/70 transition-all cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -316,6 +354,56 @@ export default function AdminCustomersPage() {
           </div>
         )}
       </div>
+
+      {customerToDelete && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" role="presentation">
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-customer-title"
+            className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <h3 id="delete-customer-title" className="text-lg font-semibold text-white">Hapus Akun Customer</h3>
+                <p className="mt-2 text-sm text-zinc-300">
+                  Hapus permanen akun <strong className="text-white">{customerToDelete.name}</strong> ({customerToDelete.email})?
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCustomerToDelete(null)}
+                disabled={deleting}
+                aria-label="Tutup konfirmasi"
+                className="rounded-lg p-1 text-zinc-400 hover:bg-zinc-800 hover:text-white disabled:opacity-50"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <p className="mt-3 rounded-xl border border-rose-900/70 bg-rose-950/40 p-3 text-xs leading-relaxed text-rose-200">
+              Penghapusan tidak dapat dibatalkan. Pesanan, alamat, token login, dan riwayat audit yang terhubung ke akun ini juga akan terhapus.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setCustomerToDelete(null)}
+                disabled={deleting}
+                className="rounded-xl border border-zinc-700 px-4 py-2 text-sm font-medium text-zinc-300 hover:bg-zinc-800 disabled:opacity-50"
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleDeleteCustomer}
+                disabled={deleting}
+                className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {deleting ? 'Menghapus...' : 'Hapus Permanen'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
