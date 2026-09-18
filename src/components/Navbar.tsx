@@ -43,7 +43,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Shop All', href: '/products' },
+    { name: 'Product', href: '/products' },
     { name: 'Treatment', href: '/treatments' },
     { name: 'Specialists', href: '/specialists' },
     { name: 'Booking', href: '/booking' },
@@ -258,7 +258,7 @@ export function Navbar() {
         <div className="mx-auto grid max-w-lg grid-cols-7">
           {[
             { label: 'Beranda', href: '/', icon: Home, active: pathname === '/' },
-            { label: 'Shop All', href: '/products', icon: Sparkles, active: pathname.startsWith('/products') || pathname.startsWith('/categories') },
+            { label: 'Product', href: '/products', icon: Sparkles, active: pathname.startsWith('/products') || pathname.startsWith('/categories') },
             { label: 'Treatment', href: '/treatments', icon: HeartPulse, active: pathname.startsWith('/treatments') },
             { label: 'Specialists', href: '/specialists', icon: Stethoscope, active: pathname === '/specialists' },
             { label: 'Booking', href: '/booking', icon: CalendarDays, active: pathname.startsWith('/booking') },

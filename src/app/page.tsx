@@ -46,17 +46,6 @@ export default function HomePage() {
   const featuredProduct = featuredProducts[0];
   const banners = [
     {
-      eyebrow: 'KONSULTASI & PERAWATAN',
-      title: 'Mulai dari konsultasi yang tepat.',
-      description: 'Diskusikan kebutuhan kulitmu dengan tim perawatan kami.',
-      action: 'Jadwalkan konsultasi',
-      href: '/booking',
-      icon: HeartPulse,
-      theme: 'bg-[#292d30] text-white',
-      accent: 'bg-[#d69a3a] text-white',
-      visual: 'text-[#e5b66e] bg-[#c99a55]/15',
-    },
-    {
       eyebrow: 'PRODUK PILIHAN',
       title: featuredProduct?.name || 'Temukan produk untuk rutinitasmu.',
       description: featuredProduct?.description || 'Jelajahi rangkaian produk perawatan kulit NOBYDERM.',
@@ -69,6 +58,17 @@ export default function HomePage() {
       product: featuredProduct,
     },
     {
+      eyebrow: 'TREATMENT NOBYDERM',
+      title: 'Temukan treatment yang sesuai.',
+      description: 'Jelajahi layanan perawatan berdasarkan kategori.',
+      action: 'Lihat treatment',
+      href: '/treatments',
+      icon: HeartPulse,
+      theme: 'bg-[#292d30] text-white',
+      accent: 'bg-[#d69a3a] text-white',
+      visual: 'text-[#e5b66e] bg-[#c99a55]/15',
+    },
+    {
       eyebrow: 'TIM SPESIALIS',
       title: 'Kenali tim yang siap mendampingimu.',
       description: 'Lihat pilihan dokter dan spesialis yang tersedia.',
@@ -78,6 +78,17 @@ export default function HomePage() {
       theme: 'bg-[#e9eeeb] text-zinc-900',
       accent: 'bg-[#3d6658] text-white',
       visual: 'text-[#3d6658] bg-white/70',
+    },
+    {
+      eyebrow: 'BOOKING KONSULTASI',
+      title: 'Atur jadwal konsultasimu.',
+      description: 'Pilih layanan, spesialis, tanggal, dan waktu yang tersedia.',
+      action: 'Buat janji',
+      href: '/booking',
+      icon: CalendarDays,
+      theme: 'bg-[#292d30] text-white',
+      accent: 'bg-[#d69a3a] text-white',
+      visual: 'text-[#e5b66e] bg-[#c99a55]/15',
     },
   ];
 
