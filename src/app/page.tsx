@@ -9,7 +9,7 @@ import { CatalogSkeleton } from '@/components/CatalogSkeleton';
 import { HealthStatusCard } from '@/components/HealthStatusCard';
 import { ProductImage } from '@/components/ProductImage';
 import { OnlineConsultationModal } from '@/components/OnlineConsultationModal';
-import { fetchCategories, fetchProducts, Category, Product } from '@/lib/api';
+import { fetchProducts, Product } from '@/lib/api';
 import {
   ArrowRight,
   CalendarDays,
@@ -29,13 +29,12 @@ import {
 const quickLinks = [
   { label: 'Buat janji', description: 'Pilih jadwal perawatan', href: '/booking', icon: CalendarDays },
   { label: 'Treatment', description: 'Lihat layanan perawatan', href: '/treatments', icon: HeartPulse },
-  { label: 'Produk kulit', description: 'Temukan perawatanmu', href: '/products', icon: Sparkles },
+  { label: 'Product', description: 'Temukan perawatanmu', href: '/products', icon: Sparkles },
   { label: 'Dokter & ahli', description: 'Kenali tim spesialis', href: '/specialists', icon: Stethoscope },
   { label: 'Riwayat pesanan', description: 'Cek status pembelian', href: '/account/orders', icon: PackageCheck },
 ];
 
 export default function HomePage() {
-  const [categories, setCategories] = useState<Category[]>([]);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -108,11 +107,7 @@ export default function HomePage() {
     async function loadData() {
       try {
         setLoading(true);
-        const [cats, prods] = await Promise.all([
-          fetchCategories(),
-          fetchProducts({ per_page: 8, sort: 'latest' }),
-        ]);
-        setCategories(cats);
+        const prods = await fetchProducts({ per_page: 8, sort: 'latest' });
         setFeaturedProducts(prods.data || []);
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : 'Gagal memuat katalog';
@@ -189,20 +184,6 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-
-        {categories.length > 0 && (
-          <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8">
-            <div className="mb-4 flex items-end justify-between gap-3">
-              <div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a66d1c]">Jelajahi katalog</p><h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">Kategori pilihan</h2></div>
-              <Link href="/products" className="inline-flex items-center gap-1 text-xs font-semibold text-[#9b681e] sm:text-sm">Semua produk <ArrowRight className="h-3.5 w-3.5" /></Link>
-            </div>
-            <div className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {categories.map((cat) => (
-                <Link key={cat.id} href={`/categories/${cat.slug}`} className="shrink-0 rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-[#d7ad70] hover:bg-[#fffaf1]">{cat.name}<span className="ml-2 text-xs text-zinc-400">{cat.products_count ?? 0}</span></Link>
-              ))}
-            </div>
-          </section>
-        )}
 
         <section className="mx-auto max-w-7xl px-4 pb-8 pt-9 sm:px-6 sm:pb-12 sm:pt-12 lg:px-8">
           <div className="mb-4 flex items-end justify-between gap-3">
