@@ -178,13 +178,13 @@ export default function DoctorDashboardPage() {
           <div>
             <div className="flex items-center gap-2.5">
               <h1 className="text-xl sm:text-2xl font-serif font-medium text-white tracking-wide">
-                {doctor.name}
+                Halo, {doctor.name}
               </h1>
               <span className="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                 {doctor.specialization}
               </span>
             </div>
-            <p className="text-xs text-zinc-400 mt-1 flex items-center gap-2">
+            <p className="text-xs text-zinc-400 mt-1 flex flex-wrap items-center gap-2">
               <span>SIP/SIPD: {doctor.license_number || '-'}</span>
               <span>•</span>
               <span className="text-emerald-400 flex items-center gap-1 font-medium">
@@ -209,10 +209,40 @@ export default function DoctorDashboardPage() {
             className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-xs font-semibold text-white transition-all shadow-md shadow-emerald-600/20 flex items-center gap-2"
           >
             <Calendar className="w-4 h-4" />
-            <span>Lihat Seluruh Jadwal</span>
+            <span>Buka Jadwal & Antrean</span>
           </Link>
         </div>
       </div>
+
+      <section aria-labelledby="doctor-workflow-title" className="rounded-3xl border border-emerald-500/20 bg-emerald-950/15 p-5 sm:p-6">
+        <div className="mb-4">
+          <h2 id="doctor-workflow-title" className="text-base font-semibold text-white">Panduan singkat menangani pasien</h2>
+          <p className="mt-1 text-xs text-zinc-400">Ikuti langkah ini untuk memperbarui status kunjungan dan catatan pasien.</p>
+        </div>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className="flex gap-3 rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-4">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs font-bold text-emerald-300">1</span>
+            <div>
+              <h3 className="text-sm font-semibold text-zinc-100">Periksa antrean</h3>
+              <p className="mt-1 text-xs leading-relaxed text-zinc-400">Lihat jadwal hari ini dan buka pasien yang akan ditangani.</p>
+            </div>
+          </div>
+          <div className="flex gap-3 rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-4">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs font-bold text-emerald-300">2</span>
+            <div>
+              <h3 className="text-sm font-semibold text-zinc-100">Perbarui kehadiran</h3>
+              <p className="mt-1 text-xs leading-relaxed text-zinc-400">Pada kartu jadwal, pilih “Tandai Hadir”, lalu “Mulai Konsultasi”.</p>
+            </div>
+          </div>
+          <div className="flex gap-3 rounded-2xl border border-zinc-800/80 bg-zinc-950/40 p-4">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs font-bold text-emerald-300">3</span>
+            <div>
+              <h3 className="text-sm font-semibold text-zinc-100">Catat hasil kunjungan</h3>
+              <p className="mt-1 text-xs leading-relaxed text-zinc-400">Buka “Ruang Medis” untuk mengisi rekam medis dan menyelesaikan kunjungan.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-3.5">

@@ -31,22 +31,22 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
 
   const navItems = [
     {
-      name: 'Doctor Dashboard',
+      name: 'Ringkasan Hari Ini',
       href: '/doctor/dashboard',
       icon: LayoutDashboard,
-      description: 'Ringkasan & Metrik Pasien',
+      description: 'Antrean, jadwal, dan pasien',
     },
     {
-      name: 'Schedule & Appointments',
+      name: 'Jadwal & Antrean',
       href: '/doctor/appointments',
       icon: CalendarDays,
-      description: 'Antrean Reservasi Konsultasi',
+      description: 'Cari dan perbarui janji pasien',
     },
     {
-      name: 'Patients & Emr Logs',
+      name: 'Data & Rekam Medis',
       href: '/doctor/patients',
       icon: Users,
-      description: 'Riwayat Rekam Medis & Foto',
+      description: 'Cari profil dan catatan pasien',
     },
   ];
 
@@ -175,7 +175,7 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
         {/* Nav Links */}
         <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
           <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 mb-2">
-            Clinical Workspace
+            Ruang Kerja Klinik
           </div>
 
           {navItems.map((item) => {
@@ -186,24 +186,30 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-medium transition-all ${
+                aria-current={isActive ? 'page' : undefined}
+                className={`flex items-start justify-between gap-2 px-3 py-2.5 rounded-2xl text-xs transition-all ${
                   isActive
                     ? 'bg-emerald-600 text-white font-semibold shadow-lg shadow-emerald-600/20'
                     : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
-                  <Icon className="w-4 h-4" />
-                  <span>{item.name}</span>
+                <div className="flex min-w-0 items-start gap-2.5">
+                  <Icon className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span className="min-w-0">
+                    <span className="block font-semibold">{item.name}</span>
+                    <span className={`mt-0.5 block text-[10px] leading-snug ${isActive ? 'text-emerald-100/80' : 'text-zinc-500'}`}>
+                      {item.description}
+                    </span>
+                  </span>
                 </div>
-                {isActive && <ChevronRight className="w-3.5 h-3.5 opacity-80" />}
+                {isActive && <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-80" />}
               </Link>
             );
           })}
 
           <div className="pt-6">
             <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 mb-2">
-              Shortcuts
+              Pintasan
             </div>
             <Link
               href="/"

@@ -38,49 +38,67 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const navItems = [
     {
-      name: 'Overview Dashboard',
+      section: 'Ringkasan',
+      name: 'Dashboard Utama',
       href: '/admin/dashboard',
       icon: LayoutDashboard,
+      description: 'Ikhtisar toko dan klinik',
     },
     {
-      name: 'Bookings & Jadwal',
+      section: 'Klinik',
+      name: 'Jadwal & Reservasi',
       href: '/admin/bookings',
       icon: CalendarDays,
+      description: 'Atur janji dan antrean pasien',
     },
     {
-      name: 'Data Pasien & Medis',
+      section: 'Klinik',
+      name: 'Data Pasien',
       href: '/admin/patients',
       icon: Heart,
+      description: 'Profil dan rekam medis pasien',
     },
     {
-      name: 'Dokter & Therapist',
+      section: 'Klinik',
+      name: 'Dokter & Terapis',
       href: '/admin/doctors',
       icon: Stethoscope,
+      description: 'Kelola tenaga klinik',
     },
     {
-      name: 'Orders Management',
+      section: 'Toko Online',
+      name: 'Pesanan',
       href: '/admin/orders',
       icon: ShoppingBag,
+      description: 'Pembayaran, pengiriman, dan status',
     },
     {
-      name: 'Products & Stock',
+      section: 'Toko Online',
+      name: 'Produk & Stok',
       href: '/admin/products',
       icon: Package,
+      description: 'Kelola katalog dan persediaan',
     },
     {
-      name: 'Categories',
+      section: 'Toko Online',
+      name: 'Kategori Produk',
       href: '/admin/categories',
       icon: FolderTree,
+      description: 'Kelompokkan produk toko',
     },
     {
+      section: 'Toko Online',
       name: 'Akun Customer',
       href: '/admin/customers',
       icon: Users,
+      description: 'Lihat dan kelola akun pembeli',
     },
     {
-      name: 'E-Commerce Analytics',
+      section: 'Laporan',
+      name: 'Penjualan & Analitik',
       href: '/admin/analytics',
       icon: BarChart3,
+      description: 'Lihat performa dan unduh laporan',
     },
   ];
 
@@ -211,37 +229,45 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Nav Links */}
-        <div className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 mb-2">
-            Back Office
-          </div>
-
-          {navItems.map((item) => {
+        <nav aria-label="Navigasi admin" className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+          {navItems.map((item, index) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setSidebarOpen(false)}
-                className={`flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-medium transition-all ${
-                  isActive
-                    ? 'bg-rose-500 text-white font-semibold shadow-lg shadow-rose-500/20'
-                    : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <Icon className="w-4 h-4" />
-                  <span>{item.name}</span>
-                </div>
-                {isActive && <ChevronRight className="w-3.5 h-3.5 opacity-80" />}
-              </Link>
+              <React.Fragment key={item.href}>
+                {(index === 0 || navItems[index - 1].section !== item.section) && (
+                  <h2 className={`px-3 ${index === 0 ? 'pt-0' : 'pt-5'} pb-1 text-[10px] font-bold uppercase tracking-wider text-zinc-500`}>
+                    {item.section}
+                  </h2>
+                )}
+                <Link
+                  href={item.href}
+                  onClick={() => setSidebarOpen(false)}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`flex items-start justify-between gap-2 px-3 py-2.5 rounded-2xl text-xs transition-all ${
+                    isActive
+                      ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/20'
+                      : 'text-zinc-300 hover:text-white hover:bg-zinc-800/60'
+                  }`}
+                >
+                  <div className="flex min-w-0 items-start gap-2.5">
+                    <Icon className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span className="min-w-0">
+                      <span className="block font-semibold">{item.name}</span>
+                      <span className={`mt-0.5 block text-[10px] leading-snug ${isActive ? 'text-rose-100/80' : 'text-zinc-500'}`}>
+                        {item.description}
+                      </span>
+                    </span>
+                  </div>
+                  {isActive && <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 opacity-80" />}
+                </Link>
+              </React.Fragment>
             );
           })}
 
           <div className="pt-6">
             <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 mb-2">
-              Public Store
+              Toko Publik
             </div>
             <Link
               href="/"
@@ -249,10 +275,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-all"
             >
               <ShoppingBag className="w-4 h-4 text-zinc-500" />
-              <span>View Live Storefront</span>
+              <span>Lihat Toko Online</span>
             </Link>
           </div>
-        </div>
+        </nav>
 
         {/* User Footer Profile */}
         <div className="p-4 border-t border-zinc-800/80 bg-zinc-950/40 flex items-center justify-between">

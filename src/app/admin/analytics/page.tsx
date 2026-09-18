@@ -169,20 +169,19 @@ export default function AdminAnalyticsPage() {
   return (
     <div className="space-y-8 pb-12">
       {/* Header & Controls */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-serif text-white font-normal">
-            E-Commerce Analytics
-          </h2>
-          <p className="text-xs text-zinc-400 mt-1">
-            Realtime database telemetry across sales, product demand, customers, payments, and shipping.
-          </p>
-        </div>
+      <div className="space-y-4">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+          <div className="min-w-0">
+            <h2 className="text-2xl sm:text-3xl font-serif text-white font-normal">
+              E-Commerce Analytics
+            </h2>
+            <p className="mt-1 max-w-2xl text-xs text-zinc-400">
+              Realtime database telemetry across sales, product demand, customers, payments, and shipping.
+            </p>
+          </div>
 
-        {/* Period Filter & Refresh */}
-        <div className="flex flex-wrap items-center gap-2.5">
           {activeTab === 'sales' && (
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2 self-start xl:self-auto">
               <select
                 value={reportPeriod}
                 onChange={(event) => setReportPeriod(event.target.value as 'week' | 'month' | 'year')}
@@ -197,38 +196,44 @@ export default function AdminAnalyticsPage() {
                 type="button"
                 onClick={handleDownloadSalesReport}
                 disabled={downloadingReport}
-                className="inline-flex items-center gap-2 rounded-xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
+                className="inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Download className={`h-4 w-4 ${downloadingReport ? 'animate-pulse' : ''}`} />
                 {downloadingReport ? 'Menyiapkan...' : 'Unduh CSV'}
               </button>
             </div>
           )}
-          <div className="flex items-center gap-1 p-1 rounded-2xl bg-zinc-900 border border-zinc-800">
-            {periodOptions.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => setPeriod(opt.value)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
-                  period === opt.value
-                    ? 'bg-rose-500 text-white shadow-xs'
-                    : 'text-zinc-400 hover:text-white'
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
+        </div>
+
+        <div className="flex min-w-0 items-center justify-between gap-3">
+          <div className="min-w-0 overflow-x-auto">
+            <div className="inline-flex items-center gap-1 whitespace-nowrap rounded-2xl border border-zinc-800 bg-zinc-900 p-1">
+              {periodOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setPeriod(opt.value)}
+                  className={`rounded-xl px-3 py-1.5 text-xs font-medium transition-all cursor-pointer ${
+                    period === opt.value
+                      ? 'bg-rose-500 text-white shadow-xs'
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <button
             type="button"
             onClick={() => loadTabData(true)}
             disabled={loading}
-            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all cursor-pointer disabled:opacity-50"
+            className="shrink-0 rounded-xl border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 transition-all hover:border-zinc-700 hover:text-white disabled:opacity-50"
             title="Refresh Data"
+            aria-label="Refresh Data"
           >
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
       </div>
