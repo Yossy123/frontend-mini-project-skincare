@@ -5,7 +5,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import {
   CalendarDays,
   Clock3,
-  MapPin,
   User,
   Phone,
   Mail,
