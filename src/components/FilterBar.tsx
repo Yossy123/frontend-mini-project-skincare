@@ -14,6 +14,7 @@ interface FilterBarProps {
   onSortChange: (sort: 'latest' | 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc') => void;
   onResetFilters: () => void;
   totalProducts?: number;
+  showCategoryFilters?: boolean;
 }
 
 export function FilterBar({
@@ -26,6 +27,7 @@ export function FilterBar({
   onSortChange,
   onResetFilters,
   totalProducts,
+  showCategoryFilters = true,
 }: FilterBarProps) {
   const hasActiveFilters = Boolean(searchQuery || selectedCategory || (selectedSort && selectedSort !== 'latest'));
 
@@ -76,8 +78,7 @@ export function FilterBar({
         </div>
       </div>
 
-      {/* Category Pills Row */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {showCategoryFilters && <div className="flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <span className="mr-1 flex shrink-0 items-center gap-1 text-xs font-medium text-zinc-500">
           <SlidersHorizontal className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">Kategori</span>
@@ -112,7 +113,7 @@ export function FilterBar({
             )}
           </button>
         ))}
-      </div>
+      </div>}
 
       {/* Active Filters Summary & Reset */}
       {hasActiveFilters && (

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Keep the storefront on its champagne light theme regardless of OS theme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -41,13 +44,6 @@
   --color-pink-800: #62461C;
   --color-pink-900: #433010;
   --color-pink-950: #281C0B;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {

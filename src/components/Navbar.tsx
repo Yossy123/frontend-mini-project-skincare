@@ -22,6 +22,7 @@ import {
   CalendarDays,
   UserRound,
   Stethoscope,
+  HeartPulse,
 } from 'lucide-react';
 
 export function Navbar() {
@@ -43,6 +44,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop All', href: '/products' },
+    { name: 'Treatment', href: '/treatments' },
     { name: 'Specialists', href: '/specialists' },
     { name: 'Booking', href: '/booking' },
   ];
@@ -253,10 +255,11 @@ export function Navbar() {
       </header>
 
       <nav aria-label="Navigasi utama" className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-200 bg-white/95 px-2 pt-2 pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_24px_rgba(24,24,27,0.08)] backdrop-blur-md md:hidden">
-        <div className="mx-auto grid max-w-lg grid-cols-6">
+        <div className="mx-auto grid max-w-lg grid-cols-7">
           {[
             { label: 'Beranda', href: '/', icon: Home, active: pathname === '/' },
             { label: 'Shop All', href: '/products', icon: Sparkles, active: pathname.startsWith('/products') || pathname.startsWith('/categories') },
+            { label: 'Treatment', href: '/treatments', icon: HeartPulse, active: pathname.startsWith('/treatments') },
             { label: 'Specialists', href: '/specialists', icon: Stethoscope, active: pathname === '/specialists' },
             { label: 'Booking', href: '/booking', icon: CalendarDays, active: pathname.startsWith('/booking') },
             { label: 'Keranjang', href: '/cart', icon: ShoppingBag, active: pathname === '/cart', badge: cartItemCount },

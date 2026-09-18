@@ -165,6 +165,7 @@ function CategoryCatalogContent({ slug }: { slug: string }) {
         onSortChange={(sort) => updateFilters({ sort })}
         onResetFilters={handleResetFilters}
         totalProducts={meta?.total}
+        showCategoryFilters={false}
       />
 
       {/* Product Grid Area */}

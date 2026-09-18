@@ -11,7 +11,6 @@ import { ProductImage } from '@/components/ProductImage';
 import { useCartStore } from '@/store/useCartStore';
 import { fetchProductBySlug, Product } from '@/lib/api';
 import {
-  Sparkles,
   ChevronRight,
   Minus,
   Plus,
@@ -144,15 +143,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             {/* Product Image Showcase (5 cols) */}
             <div className="lg:col-span-6">
-              <div className="relative sticky top-28 overflow-hidden bg-gradient-to-br from-rose-100/70 via-pink-50/50 to-stone-100/80 dark:from-zinc-900 dark:to-zinc-800 rounded-3xl p-10 sm:p-16 border border-rose-100 dark:border-zinc-800 flex flex-col items-center justify-center text-center shadow-xs">
+              <div className="relative sticky top-28 overflow-hidden bg-gradient-to-br from-rose-100/70 via-pink-50/50 to-stone-100/80 dark:from-zinc-900 dark:to-zinc-800 rounded-3xl border border-rose-100 dark:border-zinc-800 flex flex-col items-center justify-center text-center shadow-xs">
                 <ProductImage
                   image={product.image}
                   alt={product.name}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="relative w-full h-auto max-h-[70vh] object-contain"
                 />
-                <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-3xl bg-white/90 dark:bg-zinc-800/90 backdrop-blur-md shadow-xl shadow-rose-950/5 flex items-center justify-center text-rose-500 mb-6 border border-rose-100/80 dark:border-zinc-700">
-                  <Sparkles className="w-16 h-16 sm:w-20 sm:h-20 text-rose-400" />
-                </div>
                 <span className="text-xs font-serif tracking-widest text-zinc-500 uppercase">
                   {product.category?.name || 'NOBYDERM'}
                 </span>

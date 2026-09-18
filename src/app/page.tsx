@@ -28,6 +28,7 @@ import {
 
 const quickLinks = [
   { label: 'Buat janji', description: 'Pilih jadwal perawatan', href: '/booking', icon: CalendarDays },
+  { label: 'Treatment', description: 'Lihat layanan perawatan', href: '/treatments', icon: HeartPulse },
   { label: 'Produk kulit', description: 'Temukan perawatanmu', href: '/products', icon: Sparkles },
   { label: 'Dokter & ahli', description: 'Kenali tim spesialis', href: '/specialists', icon: Stethoscope },
   { label: 'Riwayat pesanan', description: 'Cek status pembelian', href: '/account/orders', icon: PackageCheck },
@@ -167,7 +168,7 @@ export default function HomePage() {
           <div className="mb-4 flex items-end justify-between gap-3">
             <div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#a66d1c]">Akses cepat</p><h2 className="mt-1 text-xl font-semibold tracking-tight sm:text-2xl">Apa yang kamu butuhkan?</h2></div>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
             {quickLinks.map(({ label, description, href, icon: Icon }) => (
               <Link key={label} href={href} className="group flex min-h-32 flex-col rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-[0_2px_10px_rgba(20,20,20,0.03)] transition hover:-translate-y-0.5 hover:border-[#dfc59e] hover:shadow-md sm:min-h-36 sm:p-5">
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#fbf3e6] text-[#bd8128] transition group-hover:bg-[#f5e4c8]"><Icon className="h-5 w-5" /></span>
