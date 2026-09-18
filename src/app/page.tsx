@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { ProductCard } from '@/components/ProductCard';
+import { FeaturedProductsCarousel } from '@/components/home/FeaturedProductsCarousel';
 import { CatalogSkeleton } from '@/components/CatalogSkeleton';
 import { HealthStatusCard } from '@/components/HealthStatusCard';
 import { ProductImage } from '@/components/ProductImage';
@@ -194,9 +194,7 @@ export default function HomePage() {
           {loading ? <CatalogSkeleton count={4} /> : error ? (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">{error}</div>
           ) : featuredProducts.length ? (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-              {featuredProducts.slice(0, 4).map((product) => <ProductCard key={product.id} product={product} />)}
-            </div>
+            <FeaturedProductsCarousel products={featuredProducts} />
           ) : (
             <div className="rounded-2xl border border-zinc-200 bg-white p-6 text-sm text-zinc-500">Produk akan tampil di sini setelah katalog tersedia.</div>
           )}
