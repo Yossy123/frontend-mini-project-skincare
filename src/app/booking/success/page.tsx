@@ -219,7 +219,7 @@ function BookingSuccessContent() {
 
 export default function BookingSuccess() {
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950 transition-colors">
+    <div className="min-h-screen flex flex-col bg-transparent dark:bg-zinc-950 transition-colors">
       <Navbar />
 
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 w-full">

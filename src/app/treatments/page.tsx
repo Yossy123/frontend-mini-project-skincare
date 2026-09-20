@@ -29,7 +29,7 @@ export default async function TreatmentsPage() {
   const treatments = await getTreatments();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
+    <div className="min-h-screen flex flex-col bg-transparent">
       <Navbar />
       <main className="flex-1">
         <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">

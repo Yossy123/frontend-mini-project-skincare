@@ -82,7 +82,7 @@ export default function OrdersPage() {
 
   if (!isAuthHydrated || (!user && loading)) {
     return (
-      <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
+      <div className="min-h-screen flex flex-col bg-transparent">
         <Navbar />
         <main className="mx-auto flex-1 max-w-5xl px-4 py-16 text-center text-sm text-zinc-500">
           Memuat riwayat pesanan...
@@ -93,7 +93,7 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
+    <div className="min-h-screen flex flex-col bg-transparent">
       <Navbar />
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">

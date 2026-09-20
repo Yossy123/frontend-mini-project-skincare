@@ -203,7 +203,7 @@ function LoginFormContent() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-transparent dark:bg-zinc-950">
       <Navbar />
       <main className="flex-1 flex items-center justify-center">
         <Suspense fallback={<div className="p-12 text-center text-zinc-400">Loading sign in form...</div>}>

@@ -57,18 +57,18 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-stone-50/90 dark:bg-zinc-950/90 border-b border-rose-100/80 dark:border-zinc-800 transition-colors">
+      <header className="sticky top-0 z-40 border-b border-[#d9bb91]/50 bg-linear-to-r from-[#72513d]/95 via-[#f4e4ca]/95 to-[#fffaf2]/95 shadow-[0_4px_18px_rgba(93,65,45,0.08)] backdrop-blur-md transition-colors dark:border-zinc-800 dark:bg-zinc-950/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Brand Logo */}
             <div className="flex items-center gap-3">
-              <Link href="/" className="flex items-center group py-1">
+              <Link href="/" className="group flex items-center py-1">
                 <Image
                   src="/logo.png"
                   alt="NOBYDERM"
                   width={200}
                   height={52}
-                  className="h-9 sm:h-10 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                  className="h-10 w-auto object-contain brightness-0 invert drop-shadow-[0_1px_2px_rgba(59,41,32,0.35)] transition-transform group-hover:scale-[1.02] sm:h-11"
                   priority
                 />
               </Link>

@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function BookingPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4] [color-scheme:light] transition-colors">
+    <div className="min-h-screen flex flex-col bg-transparent [color-scheme:light] transition-colors">
       <Navbar />
 
       <main className="flex-1">

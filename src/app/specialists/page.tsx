@@ -36,7 +36,7 @@ export default async function SpecialistsPage() {
   const doctors = await getDoctors();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4] transition-colors">
+    <div className="min-h-screen flex flex-col bg-transparent transition-colors">
       <Navbar />
 
       <main className="flex-1">

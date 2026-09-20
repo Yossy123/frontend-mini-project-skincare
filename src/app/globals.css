@@ -4,7 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #ffffff;
+  --background: #fffaf4;
   --foreground: #171717;
 }
 
@@ -47,7 +47,14 @@
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse at 4% 4%, rgb(229 190 119 / 18%) 0%, transparent 32rem),
+    radial-gradient(ellipse at 96% 24%, rgb(245 207 143 / 22%) 0%, transparent 34rem),
+    radial-gradient(ellipse at 56% 100%, rgb(247 225 187 / 30%) 0%, transparent 38rem),
+    linear-gradient(135deg, #fffdfb 0%, #fcf6ed 46%, #f8eee0 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }

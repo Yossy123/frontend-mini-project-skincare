@@ -130,7 +130,7 @@ export default function CheckoutPage() {
 
   if (!isAuthHydrated || !isCartHydrated || (!user && loading)) {
     return (
-      <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+      <div className="min-h-screen flex flex-col bg-transparent dark:bg-zinc-950">
         <Navbar />
         <main className="flex-1 max-w-5xl mx-auto px-4 py-16 text-center text-zinc-400">
           Preparing secure checkout...
@@ -143,7 +143,7 @@ export default function CheckoutPage() {
   const canPlaceOrder = Boolean(token && selectedAddressId && selectedRate && cartItems.length > 0);
 
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/60 dark:bg-zinc-950">
+    <div className="min-h-screen flex flex-col bg-transparent dark:bg-zinc-950">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">

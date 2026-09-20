@@ -120,16 +120,16 @@ function ProductsCatalogContent() {
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
       {showCategoryLanding ? (
         <>
-          <section className="relative mb-6 flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#fff8ed] via-[#f4e7d2] to-[#e8cfaa] px-5 shadow-[0_18px_50px_-32px_rgba(141,98,40,0.55)] ring-1 ring-[#9b681e]/10 sm:mb-8 sm:h-[300px] sm:px-10 lg:h-[320px]">
-            <div aria-hidden="true" className="absolute -right-12 -top-20 h-64 w-64 rounded-full border border-[#9b681e]/10 bg-white/25 blur-2xl sm:h-80 sm:w-80" />
+          <section className="relative mb-6 flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#f8e8e3] via-[#edc8bd] to-[#dda795] px-5 shadow-[0_18px_50px_-32px_rgba(116,67,55,0.42)] ring-1 ring-[#8b5043]/10 sm:mb-8 sm:h-[300px] sm:px-10 lg:h-[320px]">
+            <div aria-hidden="true" className="absolute -right-12 -top-20 h-64 w-64 rounded-full border border-[#8b5043]/10 bg-white/25 blur-2xl sm:h-80 sm:w-80" />
             <div aria-hidden="true" className="absolute bottom-0 right-16 hidden h-44 w-44 rounded-full border border-white/55 sm:block" />
             <div className="relative max-w-xl">
-              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/65 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#805c3c] shadow-sm sm:text-xs">
+              <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/65 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#764238] shadow-sm sm:text-xs">
                 <Sparkles className="h-3.5 w-3.5" />
                 Katalog NOBYDERM
               </div>
-              <h1 className="text-3xl font-semibold tracking-tight text-[#33271e] sm:text-4xl lg:text-[2.75rem]">Temukan produk pilihanmu</h1>
-              <p className="mt-2 max-w-md text-sm leading-relaxed text-[#665345] sm:mt-3 sm:text-base">Pilih kategori untuk melihat rangkaian perawatan kulit dan rambut.</p>
+              <h1 className="text-3xl font-semibold tracking-tight text-[#382520] sm:text-4xl lg:text-[2.75rem]">Temukan produk pilihanmu</h1>
+              <p className="mt-2 max-w-md text-sm leading-relaxed text-[#694b44] sm:mt-3 sm:text-base">Pilih kategori untuk melihat rangkaian perawatan kulit dan rambut.</p>
             </div>
           </section>
 
@@ -251,7 +251,7 @@ function ProductsCatalogContent() {
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
+    <div className="min-h-screen flex flex-col bg-transparent">
       <Navbar />
       <main className="flex-1">
         <Suspense

@@ -43,7 +43,7 @@ export default function CartPage() {
       : totalWeight + ' g';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4]">
+    <div className="min-h-screen flex flex-col bg-transparent">
       <Navbar />
 
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">

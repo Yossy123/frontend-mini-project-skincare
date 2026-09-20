@@ -102,7 +102,7 @@ export default function CustomerAppointmentsPage() {
   }, [appointments, tab]);
 
   if (!isAuthHydrated || (!user && loading)) {
-    return <div className="flex min-h-screen flex-col bg-[#f8f7f4]"><Navbar /><main className="mx-auto flex-1 px-4 py-16 text-sm text-zinc-500">Memuat jadwal konsultasi...</main><Footer /></div>;
+    return <div className="flex min-h-screen flex-col bg-transparent"><Navbar /><main className="mx-auto flex-1 px-4 py-16 text-sm text-zinc-500">Memuat jadwal konsultasi...</main><Footer /></div>;
   }
 
   const tabs: Array<{ id: AppointmentTab; label: string; count: number }> = [
@@ -112,7 +112,7 @@ export default function CustomerAppointmentsPage() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f8f7f4]">
+    <div className="flex min-h-screen flex-col bg-transparent">
       <Navbar />
       <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6 pb-24 sm:px-6 sm:py-10 lg:px-8">
         <nav className="mb-4 flex items-center gap-2 text-xs text-zinc-500" aria-label="Breadcrumb">

@@ -51,9 +51,9 @@ export default function HomePage() {
       action: 'Lihat produk',
       href: featuredProduct ? `/products/${featuredProduct.slug}` : '/products',
       icon: Sparkles,
-      theme: 'bg-linear-to-br from-[#fff8ed] via-[#f4e7d2] to-[#ead2ac] text-zinc-900',
-      accent: 'bg-[#a66d1c] text-white shadow-lg shadow-[#a66d1c]/20',
-      visual: 'text-[#a66d1c] bg-white/75 shadow-xl shadow-[#8d6228]/10 ring-1 ring-white/80',
+      theme: 'bg-linear-to-br from-[#f7e7e1] via-[#edc9bd] to-[#dda794] text-zinc-900',
+      accent: 'bg-[#8b5043] text-white shadow-lg shadow-[#8b5043]/20',
+      visual: 'text-[#8b5043] bg-white/75 shadow-xl shadow-[#8b5043]/10 ring-1 ring-white/80',
       product: featuredProduct,
     },
     {
@@ -121,7 +121,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4] text-zinc-900">
+    <div className="min-h-screen flex flex-col bg-transparent text-zinc-900">
       <Navbar />
 
       <main className="flex-1 pb-24 md:pb-0">

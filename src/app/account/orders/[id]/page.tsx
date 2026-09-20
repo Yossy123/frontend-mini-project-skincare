@@ -211,7 +211,7 @@ export default function OrderDetailPage() {
 
   if (!isAuthHydrated || (!user && loading)) {
     return (
-      <div className="min-h-screen flex flex-col bg-[#f8f7f4] ">
+      <div className="min-h-screen flex flex-col bg-transparent ">
         <Navbar />
         <main className="flex-1 max-w-5xl mx-auto px-4 py-16 text-center text-zinc-400">
           Loading order details...
@@ -222,7 +222,7 @@ export default function OrderDetailPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f7f4] ">
+    <div className="min-h-screen flex flex-col bg-transparent ">
       <Navbar />
 
       <main className="flex-1 mx-auto w-full max-w-5xl px-4 py-6 pb-24 sm:px-6 sm:py-10 lg:px-8">
