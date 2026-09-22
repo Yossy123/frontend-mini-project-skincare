@@ -5,7 +5,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { BookingForm } from '@/components/BookingForm';
 import { BookingAuthGuard } from '@/components/BookingAuthGuard';
-import { Sparkles, ShieldCheck, Clock, Award, Calendar, HeartHandshake } from 'lucide-react';
+import { Sparkles, ShieldCheck, Clock, Award, Calendar, HeartHandshake, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Appointment Booking | NOBYDERM',
@@ -20,20 +20,27 @@ export default function BookingPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-          <div className="relative flex h-[260px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] px-5 text-white shadow-[0_18px_50px_-30px_rgba(20,24,24,0.7)] sm:h-[300px] sm:px-8 lg:h-[320px] lg:px-10">
+          <div className="relative flex min-h-[230px] items-center overflow-hidden rounded-3xl bg-linear-to-br from-[#3d4544] via-[#292d30] to-[#191d1e] px-5 py-8 text-white shadow-[0_18px_50px_-30px_rgba(20,24,24,0.7)] sm:min-h-[250px] sm:px-8 lg:px-10">
             <div aria-hidden="true" className="absolute -right-16 -top-24 h-64 w-64 rounded-full border border-white/10 bg-white/[0.03] sm:h-80 sm:w-80" />
-            <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 sm:text-xs">
-              <Calendar className="h-3.5 w-3.5 text-[#e5b66e]" /> Reservasi NOBYDERM
-            </div>
-            <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">Buat janji konsultasi</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">
-              Pilih jenis layanan, jadwal, dan spesialis. Setelah itu, lengkapi informasi untuk mengirim reservasi.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2 text-xs text-white/75">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5"><ShieldCheck className="h-3.5 w-3.5 text-[#e5b66e]" /> Privasi data dijaga</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5"><Clock className="h-3.5 w-3.5 text-[#e5b66e]" /> Pilih waktu yang tersedia</span>
-            </div>
+            <div aria-hidden="true" className="absolute bottom-[-80px] right-[15%] h-48 w-48 rounded-full bg-[#d7ae70]/10 blur-2xl" />
+            <div className="relative z-10 grid w-full gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 sm:text-xs">
+                  <Calendar className="h-3.5 w-3.5 text-[#e5b66e]" /> Reservasi NOBYDERM
+                </div>
+                <h1 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl lg:text-4xl">Buat janji konsultasi</h1>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">
+                  Tentukan treatment, pilih jadwal yang masih tersedia, lalu kirim data pasien Anda.
+                </p>
+              </div>
+              <div className="grid grid-cols-3 overflow-hidden rounded-2xl border border-white/10 bg-black/10 text-center text-[10px] sm:text-xs">
+                {['Layanan', 'Jadwal', 'Konfirmasi'].map((step, index) => (
+                  <div key={step} className="min-w-[76px] px-3 py-3 sm:px-4">
+                    <span className="mx-auto mb-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#e5b66e] text-[10px] font-bold text-[#302d29]">{index + 1}</span>
+                    <span className="text-white/80">{step}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -89,13 +96,14 @@ export default function BookingPage() {
             </div>
           </div>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 flex items-center justify-center gap-1.5 text-center">
             <p className="text-xs text-zinc-500 ">
               Ada pertanyaan seputar treatment atau dokter?{' '}
               <Link href="/" className="font-semibold text-rose-600  hover:underline">
                 Hubungi Customer Care NOBYDERM
               </Link>
             </p>
+            <ArrowRight className="h-3.5 w-3.5 shrink-0 text-rose-500" />
           </div>
         </section>
       </main>

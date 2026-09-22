@@ -20,6 +20,10 @@ import {
   Image as ImageIcon,
   Ban,
   UploadCloud,
+  ClipboardList,
+  CalendarClock,
+  UserRound,
+  ChevronRight,
 } from 'lucide-react';
 import {
   fetchBookingServices,
@@ -65,6 +69,11 @@ export function BookingForm() {
 
   const selectedService = services.find((item) => item.id === serviceId);
   const selectedDoctor = allDoctors.find((item) => item.id === doctorId);
+  const bookingStages = [
+    { label: 'Layanan', detail: selectedService?.name || 'Pilih treatment', icon: ClipboardList, complete: Boolean(serviceId) },
+    { label: 'Jadwal', detail: date && slot ? `${date} · ${slot.start} WIB` : 'Pilih tanggal & jam', icon: CalendarClock, complete: Boolean(date && doctorId && slot) },
+    { label: 'Data pasien', detail: name && phone ? 'Data siap dikirim' : 'Lengkapi data diri', icon: UserRound, complete: Boolean(name && phone) },
+  ];
 
   // Initial Load: services and doctors from Laravel API
   useEffect(() => {
@@ -121,6 +130,7 @@ export function BookingForm() {
     }
 
     let isMounted = true;
+    setLoadingSlots(true);
 
     fetchAvailableSlots({ doctor_id: doctorId, date, service_id: serviceId })
       .then((res) => {
@@ -290,6 +300,32 @@ export function BookingForm() {
 
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-1 items-start gap-5 sm:gap-6 lg:grid-cols-12">
+      <section className="overflow-hidden rounded-2xl border border-rose-100 bg-white shadow-[0_10px_30px_rgba(102,72,35,0.06)] lg:col-span-12">
+        <div className="flex flex-col gap-1 border-b border-rose-100 bg-linear-to-r from-rose-50/90 to-white px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-rose-600">Alur reservasi</p>
+            <p className="mt-0.5 text-sm font-semibold text-zinc-900">Selesaikan dalam 3 tahap sederhana</p>
+          </div>
+          <p className="text-xs text-zinc-500">Estimasi pengisian 2–3 menit</p>
+        </div>
+        <ol className="grid divide-y divide-rose-100 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+          {bookingStages.map((stage, index) => {
+            const StageIcon = stage.icon;
+            return (
+              <li key={stage.label} className="flex min-w-0 items-center gap-3 px-4 py-3.5 sm:px-5">
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${stage.complete ? 'bg-rose-500 text-white shadow-sm' : 'bg-rose-50 text-rose-500'}`}>
+                  {stage.complete ? <Check className="h-4 w-4" /> : <StageIcon className="h-4 w-4" />}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-xs font-semibold text-zinc-800">{index + 1}. {stage.label}</span>
+                  <span className="mt-0.5 block truncate text-[11px] text-zinc-500">{stage.detail}</span>
+                </span>
+                {index < bookingStages.length - 1 && <ChevronRight className="hidden h-4 w-4 text-rose-300 sm:block" />}
+              </li>
+            );
+          })}
+        </ol>
+      </section>
       {/* Left Column: Sequential Booking Steps */}
       <div className="space-y-5 sm:space-y-6 lg:col-span-8">
         {/* Error Alert Box */}
