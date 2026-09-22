@@ -21,7 +21,7 @@ const courierColors: Record<string, string> = {
   POS: 'text-orange-600 bg-orange-50 border-orange-200 dark:bg-orange-950/40 dark:text-orange-300 dark:border-orange-900',
   TIKI: 'text-emerald-600 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-900',
   ANTERAJA: 'text-purple-600 bg-purple-50 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-900',
-  GOSEND: 'text-green-600 bg-green-50 border-green-200 dark:bg-green-950/40 dark:text-green-300 dark:border-green-900',
+  GOJEK: 'text-green-600 bg-green-50 border-green-200 dark:bg-green-950/40 dark:text-green-300 dark:border-green-900',
   GRAB: 'text-emerald-700 bg-emerald-50 border-emerald-300 dark:bg-emerald-950/40 dark:text-emerald-200 dark:border-emerald-800',
   WAHANA: 'text-yellow-600 bg-yellow-50 border-yellow-200 dark:bg-yellow-950/40 dark:text-yellow-300 dark:border-yellow-900',
 };

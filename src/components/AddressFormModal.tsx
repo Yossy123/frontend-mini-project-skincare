@@ -1,8 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { Address, AddressPayload, DestinationResult, searchDestinations } from '@/lib/api';
 import { X, MapPin, AlertCircle, Search, Loader2, CheckCircle2 } from 'lucide-react';
+
+const OpenStreetMapPicker = dynamic(
+  () => import('./OpenStreetMapPicker').then((module) => module.OpenStreetMapPicker),
+  { ssr: false, loading: () => <div className="h-64 animate-pulse rounded-xl bg-stone-100" /> }
+);
 
 interface AddressFormModalProps {
   isOpen: boolean;
@@ -32,6 +38,10 @@ function AddressFormInner({
   const [address, setAddress] = useState(initialData?.address_line || initialData?.address || '');
   const [addressDetail, setAddressDetail] = useState(initialData?.address_detail || '');
   const [isDefault, setIsDefault] = useState(Boolean(initialData?.is_default));
+  const [coordinates, setCoordinates] = useState({
+    latitude: initialData?.latitude ?? -6.2088,
+    longitude: initialData?.longitude ?? 106.8456,
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -107,6 +117,8 @@ function AddressFormInner({
           city,
           district,
           postal_code: postalCode,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude,
           biteship_area_id: biteshipAreaId || null,
           address,
           address_line: address,
@@ -358,6 +370,22 @@ function AddressFormInner({
         </div>
 
         {/* Address Detail / Landmark / Patokan */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-3">
+            <label className="text-xs font-semibold text-zinc-700">Pin lokasi pengiriman *</label>
+            <button
+              type="button"
+              onClick={() => navigator.geolocation?.getCurrentPosition(
+                (position) => setCoordinates({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+                () => setError('Lokasi tidak dapat diakses. Aktifkan izin lokasi atau geser pin secara manual.')
+              )}
+              className="text-xs font-semibold text-[#9d681d] underline"
+            >Gunakan lokasi saya</button>
+          </div>
+          <OpenStreetMapPicker value={coordinates} onChange={setCoordinates} />
+          <p className="text-[11px] text-zinc-500">Geser pin ke alamat tepat. Lokasi ini diperlukan untuk Grab dan GoJek Instant.</p>
+        </div>
+
         <div className="space-y-1">
           <label className="text-xs font-semibold text-zinc-700 ">
             Detail alamat / unit / patokan

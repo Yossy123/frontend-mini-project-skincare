@@ -40,6 +40,8 @@ export interface Address {
   city: string;
   district: string;
   postal_code: string;
+  latitude?: number | null;
+  longitude?: number | null;
   address: string;
   address_line?: string | null;
   address_detail?: string | null;
@@ -58,6 +60,8 @@ export interface AddressPayload {
   city: string;
   district: string;
   postal_code: string;
+  latitude?: number | null;
+  longitude?: number | null;
   address: string;
   address_line?: string | null;
   address_detail?: string | null;

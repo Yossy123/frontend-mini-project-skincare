@@ -24,7 +24,7 @@ export function useShippingRates(token: string | null, cartItems: CartItem[]) {
           {
             destination,
             weight: weightGrams,
-            couriers: ['jne', 'sicepat', 'jnt', 'tiki', 'pos'],
+            couriers: ['jne', 'sicepat', 'jnt', 'tiki', 'pos', 'grab', 'gojek'],
             items: cartItems.map((item) => ({
               product_id: item.productId,
               quantity: item.quantity,
