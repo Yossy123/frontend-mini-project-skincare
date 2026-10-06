@@ -57,7 +57,7 @@ export function BookingForm() {
 
   // Status state
   const [loading, setLoading] = useState(true);
-  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [loadedSlotsKey, setLoadedSlotsKey] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -69,6 +69,11 @@ export function BookingForm() {
 
   const selectedService = services.find((item) => item.id === serviceId);
   const selectedDoctor = allDoctors.find((item) => item.id === doctorId);
+
+  // Slots are loading while the current doctor/date/service combination has not been fetched yet.
+  const slotsKey = doctorId && date && serviceId ? `${doctorId}|${date}|${serviceId}` : null;
+  const loadingSlots = slotsKey !== null && loadedSlotsKey !== slotsKey;
+  const visibleSlots = slotsKey !== null && loadedSlotsKey === slotsKey ? slots : [];
   const bookingStages = [
     { label: 'Layanan', detail: selectedService?.name || 'Pilih treatment', icon: ClipboardList, complete: Boolean(serviceId) },
     { label: 'Jadwal', detail: date && slot ? `${date} · ${slot.start} WIB` : 'Pilih tanggal & jam', icon: CalendarClock, complete: Boolean(date && doctorId && slot) },
@@ -125,12 +130,11 @@ export function BookingForm() {
 
   // Load available time slots when doctor, date, or service changes
   useEffect(() => {
-    if (!doctorId || !date || !serviceId) {
+    if (!slotsKey || !doctorId || !serviceId) {
       return;
     }
 
     let isMounted = true;
-    setLoadingSlots(true);
 
     fetchAvailableSlots({ doctor_id: doctorId, date, service_id: serviceId })
       .then((res) => {
@@ -154,13 +158,13 @@ export function BookingForm() {
         setSlots([]);
       })
       .finally(() => {
-        if (isMounted) setLoadingSlots(false);
+        if (isMounted) setLoadedSlotsKey(slotsKey);
       });
 
     return () => {
       isMounted = false;
     };
-  }, [doctorId, date, serviceId]);
+  }, [slotsKey, doctorId, date, serviceId]);
 
   // Filter available doctors for the chosen day of week
   const doctorsForDate = useMemo(() => {
@@ -573,10 +577,10 @@ export function BookingForm() {
                 <Sparkles className="w-5 h-5 text-rose-500 animate-spin mx-auto mb-2" />
                 <p className="text-xs text-zinc-500 ">Memeriksa ketersediaan slot...</p>
               </div>
-            ) : slots.length > 0 ? (
+            ) : visibleSlots.length > 0 ? (
               <div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
-                  {slots.map((item) => {
+                  {visibleSlots.map((item) => {
                     const isSlotSelected = slot?.start === item.start;
                     const isBooked = !!item.is_booked;
 

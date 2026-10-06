@@ -5,7 +5,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { BookingForm } from '@/components/BookingForm';
 import { BookingAuthGuard } from '@/components/BookingAuthGuard';
-import { Sparkles, ShieldCheck, Clock, Award, Calendar, HeartHandshake, ArrowRight } from 'lucide-react';
+import { Sparkles, Clock, Award, Calendar, HeartHandshake, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Appointment Booking | NOBYDERM',
