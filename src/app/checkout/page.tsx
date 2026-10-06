@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
@@ -32,6 +32,7 @@ export default function CheckoutPage() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const addressRequestVersion = useRef(0);
 
   // Modular Hooks
   const {
@@ -39,6 +40,7 @@ export default function CheckoutPage() {
     loading,
     validationError,
     runCheckoutValidation,
+    isValidationCurrent,
   } = useCheckoutValidation(token, cartItems);
 
   const {
@@ -48,6 +50,7 @@ export default function CheckoutPage() {
     shippingLoading,
     shippingError,
     loadShippingRates,
+    isQuoteCurrent,
   } = useShippingRates(token, cartItems);
 
   const {
@@ -58,7 +61,7 @@ export default function CheckoutPage() {
 
   // Initial Load: Authenticate and fetch addresses + cart validation
   useEffect(() => {
-    if (!isAuthHydrated || !isCartHydrated) return;
+    if (!isAuthHydrated || !isCartHydrated || placingOrder) return;
 
     if (!user || !token) {
       router.push('/login?redirect=/checkout');
@@ -70,22 +73,28 @@ export default function CheckoutPage() {
       return;
     }
 
+    const version = ++addressRequestVersion.current;
+    let cancelled = false;
     fetchAddresses(token)
       .then((addrList) => {
+        if (cancelled || version !== addressRequestVersion.current) return;
         setAddresses(addrList);
         const defaultAddr = addrList.find((a) => a.is_default) || addrList[0];
-        if (defaultAddr) {
-          setSelectedAddressId(defaultAddr.id);
-          runCheckoutValidation(defaultAddr.id);
-        } else {
-          runCheckoutValidation();
-        }
+        setSelectedAddressId((previous) => addrList.some((address) => address.id === previous)
+          ? previous : defaultAddr?.id ?? null);
       })
       .catch((err) => {
+        if (cancelled || version !== addressRequestVersion.current) return;
         console.error('Failed to load addresses:', err);
-        runCheckoutValidation();
       });
-  }, [isAuthHydrated, isCartHydrated, user, token, cartItems, router, runCheckoutValidation]);
+    return () => { cancelled = true; };
+  }, [isAuthHydrated, isCartHydrated, user, token, cartItems.length, placingOrder, router]);
+
+  useEffect(() => {
+    if (isAuthHydrated && isCartHydrated && token && cartItems.length > 0) {
+      void runCheckoutValidation(selectedAddressId);
+    }
+  }, [isAuthHydrated, isCartHydrated, token, cartItems.length, selectedAddressId, runCheckoutValidation]);
 
   // Reactive Effect: Whenever selectedAddressId or checkoutData total weight changes, fetch shipping rates
   useEffect(() => {
@@ -93,10 +102,7 @@ export default function CheckoutPage() {
 
     const activeAddress = addresses.find((a) => a.id === selectedAddressId);
     if (activeAddress) {
-      const destination =
-        activeAddress.postal_code ||
-        activeAddress.id ||
-        `${activeAddress.district}, ${activeAddress.city}, ${activeAddress.province}`;
+      const destination = activeAddress.id;
 
       loadShippingRates(destination, checkoutData.summary.total_weight);
     }
@@ -104,26 +110,22 @@ export default function CheckoutPage() {
 
   const handleSelectAddress = (address: Address) => {
     setSelectedAddressId(address.id);
-    runCheckoutValidation(address.id);
   };
 
   const handleSaveNewAddress = async (payload: AddressPayload) => {
     if (!token) return;
     const newAddr = await createAddress(payload, token);
+    ++addressRequestVersion.current;
     const updatedAddresses = await fetchAddresses(token);
     setAddresses(updatedAddresses);
     setSelectedAddressId(newAddr.id);
-    runCheckoutValidation(newAddr.id);
   };
 
   const activeAddress = addresses.find((a) => a.id === selectedAddressId);
 
   const handleRetryShipping = () => {
     if (activeAddress && checkoutData) {
-      const destination =
-        activeAddress.postal_code ||
-        activeAddress.id ||
-        `${activeAddress.district}, ${activeAddress.city}, ${activeAddress.province}`;
+      const destination = activeAddress.id;
       loadShippingRates(destination, checkoutData.summary.total_weight);
     }
   };
@@ -140,7 +142,9 @@ export default function CheckoutPage() {
     );
   }
 
-  const canPlaceOrder = Boolean(token && selectedAddressId && selectedRate && cartItems.length > 0);
+  const canPlaceOrder = Boolean(token && selectedAddressId && selectedRate && cartItems.length > 0
+    && !loading && !shippingLoading && !validationError && !shippingError
+    && isValidationCurrent(selectedAddressId) && isQuoteCurrent(selectedAddressId));
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent dark:bg-zinc-950">
@@ -217,7 +221,7 @@ export default function CheckoutPage() {
               selectedRate={selectedRate}
               canPlaceOrder={canPlaceOrder}
               placingOrder={placingOrder}
-              onPlaceOrder={() => handlePlaceOrder(selectedAddressId, selectedRate)}
+              onPlaceOrder={() => { if (canPlaceOrder) void handlePlaceOrder(selectedAddressId, selectedRate); }}
             />
           </div>
         </div>

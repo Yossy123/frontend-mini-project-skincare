@@ -244,6 +244,12 @@ export default function AdminDashboardPage() {
 
       {/* Operations & Background Automation Command Strip */}
       {alerts && (
+        <>
+        {alerts.payments_requiring_review > 0 && (
+          <Link href="/admin/orders" className="mb-4 block rounded-2xl border border-amber-700/50 bg-amber-950/30 p-4 text-sm text-amber-300">
+            {alerts.payments_requiring_review} pembayaran atau pengiriman perlu ditindaklanjuti. Buka daftar pesanan dan periksa riwayatnya.
+          </Link>
+        )}
         <div className="p-4 sm:p-5 rounded-3xl bg-zinc-900/90 border border-zinc-800 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4 text-xs">
             <div className="flex items-center gap-2">
@@ -288,6 +294,7 @@ export default function AdminDashboardPage() {
             </button>
           </div>
         </div>
+        </>
       )}
 
       {/* 8 Core KPI Cards Grid */}

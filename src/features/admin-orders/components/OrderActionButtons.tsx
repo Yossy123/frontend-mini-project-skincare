@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { AdminOrderDetail } from '@/lib/api';
 import { RotateCcw, Truck, XCircle } from 'lucide-react';
 
@@ -12,7 +12,7 @@ interface OrderActionButtonsProps {
   onDeliver: () => void;
   onComplete: () => void;
   onCancel: (payload: { reason: string; note?: string }) => Promise<boolean>;
-  onRefund: (payload: { reason: string; amount?: number }) => Promise<boolean>;
+  onRefund: (payload: { reason: string; amount?: number; idempotency_key?: string }) => Promise<boolean>;
 }
 
 export function OrderActionButtons({
@@ -39,7 +39,10 @@ export function OrderActionButtons({
 
   const [refundModalOpen, setRefundModalOpen] = useState(false);
   const [refundReason, setRefundReason] = useState('');
-  const [refundAmount, setRefundAmount] = useState<number>(Number(order.payment?.amount || order.total));
+  const remainingRefund = Math.max(0, Number(order.payment?.amount || order.total) - Number(order.payment?.refund_amount || 0));
+  const [refundAmount, setRefundAmount] = useState<number>(remainingRefund);
+  const refundRequestRef = useRef<{ payload: string; key: string } | null>(null);
+  const refundInFlightRef = useRef(false);
 
   const handleShipSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,18 +70,34 @@ export function OrderActionButtons({
 
   const handleRefundSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!refundReason.trim()) return;
-    const success = await onRefund({
-      reason: refundReason.trim(),
-      amount: refundAmount > 0 ? refundAmount : undefined,
-    });
-    if (success) {
-      setRefundModalOpen(false);
+    if (!refundReason.trim() || refundInFlightRef.current) return;
+    const payload = JSON.stringify([order.id, refundReason.trim(), refundAmount]);
+    if (!refundRequestRef.current || refundRequestRef.current.payload !== payload) {
+      const key = typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      refundRequestRef.current = { payload, key };
+    }
+    refundInFlightRef.current = true;
+    try {
+      const success = await onRefund({
+        reason: refundReason.trim(),
+        amount: refundAmount > 0 ? refundAmount : undefined,
+        idempotency_key: refundRequestRef.current.key,
+      });
+      if (success) {
+        refundRequestRef.current = null;
+        setRefundModalOpen(false);
+      }
+    } finally {
+      refundInFlightRef.current = false;
     }
   };
 
   return (
     <>
+      {order.payment?.requires_review && (
+        <p role="alert" className="text-xs text-amber-400">Pembayaran atau pengiriman perlu diperiksa. Cek riwayat pesanan sebelum memproses refund atau pengiriman ulang.</p>
+      )}
       <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
         {order.allowed_actions.includes('process') && (
           <button
@@ -135,12 +154,18 @@ export function OrderActionButtons({
           </button>
         )}
 
-        {process.env.NEXT_PUBLIC_MIDTRANS_ENABLED === 'true' && order.payment && order.payment.status !== 'refunded' && ['PAID', 'PROCESSING', 'CANCELLED'].includes(currentStatus) && (
+        {process.env.NEXT_PUBLIC_MIDTRANS_ENABLED === 'true' && order.payment && remainingRefund > 0
+          && ['paid', 'settlement', 'capture', 'success', 'partially_refunded'].includes(order.payment.status)
+          && ['PAID', 'PROCESSING', 'CANCELLED', 'EXPIRED', 'SHIPPED', 'DELIVERED', 'COMPLETED'].includes(currentStatus) && (
           <button
             type="button"
             onClick={() => {
-              setRefundReason('');
-              setRefundAmount(Number(order.payment?.amount || order.total));
+              const pending = order.payment?.refund_request_key;
+              const reason = pending ? order.payment?.refund_request_reason || '' : '';
+              const amount = pending ? Number(order.payment?.refund_request_amount || remainingRefund) : remainingRefund;
+              setRefundReason(reason);
+              setRefundAmount(amount);
+              if (pending) refundRequestRef.current = { key: pending, payload: JSON.stringify([order.id, reason, amount]) };
               setRefundModalOpen(true);
             }}
             disabled={actionLoading}
@@ -306,7 +331,7 @@ export function OrderActionButtons({
             </div>
 
             <p className="text-xs text-zinc-400">
-              Processing a refund will contact Midtrans gateway to refund the customer. The order state will be marked as <code className="text-amber-400">CANCELLED / REFUNDED</code> and inventory stock will be restored.
+              Refund akan diproses melalui Midtrans. Refund sebagian tidak membatalkan pesanan. Stok hanya dikembalikan untuk refund penuh sebelum barang dikirim dan setelah booking kurir dibatalkan.
             </p>
 
             <form onSubmit={handleRefundSubmit} className="space-y-4 text-xs">
@@ -316,7 +341,7 @@ export function OrderActionButtons({
                   type="number"
                   required
                   min="1"
-                  max={Number(order.payment?.amount || order.total)}
+                  max={remainingRefund}
                   value={refundAmount}
                   onChange={(e) => setRefundAmount(Number(e.target.value))}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-100 font-mono text-sm font-bold"

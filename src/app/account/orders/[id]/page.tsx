@@ -268,6 +268,11 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Error Alert */}
+        {order?.payment?.requires_review && (
+          <p role="status" className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+            Pembayaran atau pengiriman pesanan ini sedang diperiksa oleh tim toko. Jangan melakukan pembayaran ulang; hubungi toko untuk tindak lanjut.
+          </p>
+        )}
         {error && (
           <div className="mb-6 p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800  text-xs flex items-start gap-2.5">
             <AlertCircle className="w-4 h-4 text-[#9b681e] shrink-0 mt-0.5" />

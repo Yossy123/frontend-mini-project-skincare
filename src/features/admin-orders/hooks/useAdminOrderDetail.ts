@@ -150,7 +150,7 @@ export function useAdminOrderDetail(orderId: number, token: string | null) {
     }
   };
 
-  const handleRefund = async (payload: { reason: string; amount?: number }) => {
+  const handleRefund = async (payload: { reason: string; amount?: number; idempotency_key?: string }) => {
     if (!token || !order) return false;
     setActionLoading(true);
     setError(null);

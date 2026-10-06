@@ -14,16 +14,20 @@ export function useCheckoutOrder(
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderError, setOrderError] = useState<string | null>(null);
   const idempotencyKeyRef = useRef<string | null>(null);
+  const payloadKeyRef = useRef<string | null>(null);
+  const inFlightRef = useRef(false);
 
   const handlePlaceOrder = async (
     selectedAddressId: number | null,
     selectedRate: ShippingRate | null
   ) => {
+    if (inFlightRef.current) return;
     if (!token || !selectedAddressId || !selectedRate || cartItems.length === 0) {
       setOrderError('Please select a delivery address and shipping courier service before placing your order.');
       return;
     }
 
+    inFlightRef.current = true;
     setPlacingOrder(true);
     setOrderError(null);
 
@@ -38,7 +42,9 @@ export function useCheckoutOrder(
         service: selectedRate.service,
       };
 
-      if (!idempotencyKeyRef.current) {
+      const payloadKey = JSON.stringify([token, orderPayload]);
+      if (!idempotencyKeyRef.current || payloadKeyRef.current !== payloadKey) {
+        payloadKeyRef.current = payloadKey;
         idempotencyKeyRef.current = typeof crypto !== 'undefined' && crypto.randomUUID
           ? crypto.randomUUID()
           : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -53,6 +59,7 @@ export function useCheckoutOrder(
       const msg = err instanceof Error ? err.message : 'Failed to place order. Please try again.';
       setOrderError(msg);
       setPlacingOrder(false);
+      inFlightRef.current = false;
     }
   };
 

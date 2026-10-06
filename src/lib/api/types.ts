@@ -262,6 +262,8 @@ export interface Payment {
   snap_token?: string | null;
   redirect_url?: string | null;
   expires_at?: string | null;
+  requires_review?: boolean;
+  refund_amount?: number;
 }
 
 export interface Order {

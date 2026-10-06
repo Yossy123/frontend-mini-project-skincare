@@ -63,6 +63,11 @@ export interface AdminOrderListItem {
     status: string;
     amount: number | string;
     paid_at?: string | null;
+    requires_review?: boolean;
+    refund_amount?: number | string | null;
+    refund_request_key?: string | null;
+    refund_request_amount?: number | string | null;
+    refund_request_reason?: string | null;
   } | null;
   shipment?: {
     id: number;

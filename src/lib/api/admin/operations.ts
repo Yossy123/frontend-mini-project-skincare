@@ -11,6 +11,7 @@ export interface OperationalAlertsData {
   low_stock_products: number;
   out_of_stock_products: number;
   recent_refunds_count: number;
+  payments_requiring_review: number;
 }
 
 /**
@@ -18,7 +19,7 @@ export interface OperationalAlertsData {
  */
 export async function adminRefundOrder(
   id: number,
-  payload: { reason: string; amount?: number },
+  payload: { reason: string; amount?: number; idempotency_key?: string },
   token: string
 ): Promise<AdminOrderDetail> {
   const res = await fetch(`${API_BASE_URL}/admin/orders/${id}/refund`, {
@@ -27,6 +28,7 @@ export async function adminRefundOrder(
       Accept: 'application/json',
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      ...(payload.idempotency_key ? { 'Idempotency-Key': payload.idempotency_key } : {}),
     },
     body: JSON.stringify(payload),
   });
