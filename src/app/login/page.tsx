@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
+import { getSafeRedirect } from '@/lib/safeRedirect';
 import {
   Lock,
   Mail,
@@ -21,10 +22,7 @@ function LoginFormContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawRedirect = searchParams.get('redirect');
-  const redirectUrl =
-    rawRedirect && !rawRedirect.startsWith('/login') && !rawRedirect.startsWith('/register')
-      ? rawRedirect
-      : '/';
+  const redirectUrl = getSafeRedirect(rawRedirect);
 
   const isHydrated = useAuthHydrated();
   const { user, login, loading, error, clearError } = useAuthStore();

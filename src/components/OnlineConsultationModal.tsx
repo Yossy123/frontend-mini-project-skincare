@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   X,
   MessageCircle,
@@ -15,7 +15,7 @@ import {
   ExternalLink,
   Info,
 } from 'lucide-react';
-import { localDoctors } from '@/lib/booking';
+import { fetchBookingDoctors, localDoctors, type BookingDoctor } from '@/lib/booking';
 
 interface OnlineConsultationModalProps {
   isOpen: boolean;
@@ -43,6 +43,21 @@ export function OnlineConsultationModal({ isOpen, onClose }: OnlineConsultationM
   const [complaint, setComplaint] = useState('');
   const [preferredTime, setPreferredTime] = useState('');
   const [error, setError] = useState('');
+  const [doctors, setDoctors] = useState<BookingDoctor[]>(localDoctors);
+
+  // Use the clinic's live roster; keep the bundled list only as an offline fallback.
+  useEffect(() => {
+    if (!isOpen) return;
+    let cancelled = false;
+    fetchBookingDoctors()
+      .then((liveDoctors) => {
+        if (!cancelled && liveDoctors.length > 0) setDoctors(liveDoctors);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -61,7 +76,7 @@ export function OnlineConsultationModal({ isOpen, onClose }: OnlineConsultationM
       return;
     }
 
-    const doctorObj = localDoctors.find((d) => String(d.id) === String(doctorId));
+    const doctorObj = doctors.find((d) => String(d.id) === String(doctorId));
     const doctorName = doctorObj ? doctorObj.name : 'Tim Dokter / Konselor Klinik';
 
     // Format WhatsApp Message with Google Meet notice
@@ -221,7 +236,7 @@ export function OnlineConsultationModal({ isOpen, onClose }: OnlineConsultationM
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50  border border-rose-100  text-zinc-900  focus:outline-hidden focus:ring-2 focus:ring-rose-400 appearance-none cursor-pointer"
                 >
                   <option value="any">Rekomendasi Bebas</option>
-                  {localDoctors.map((doc) => (
+                  {doctors.map((doc) => (
                     <option key={doc.id} value={doc.id}>
                       {doc.name}
                     </option>
