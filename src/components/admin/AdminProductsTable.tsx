@@ -12,6 +12,7 @@ import {
   RefreshCw,
   Warehouse,
 } from 'lucide-react';
+import { resolveProductImage } from '@/lib/images';
 import type { Dispatch, SetStateAction } from 'react';
 import type {
   AdminProductListItem,
@@ -71,11 +72,7 @@ export function AdminProductsTable({
                         <div className="w-10 h-10 rounded-xl bg-zinc-800 border border-zinc-700/80 flex items-center justify-center shrink-0 overflow-hidden">
                           {prod.image ? (
                             <img
-                              src={
-                                prod.image.startsWith('http')
-                                  ? prod.image
-                                  : `http://103.247.10.220/storage/${prod.image}`
-                              }
+                              src={resolveProductImage(prod.image) ?? undefined}
                               alt={prod.name}
                               className="w-full h-full object-cover"
                               onError={(e) => {
