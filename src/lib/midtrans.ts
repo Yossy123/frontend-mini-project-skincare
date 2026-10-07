@@ -79,11 +79,14 @@ export function loadSnap(): Promise<SnapGlobal> {
       if (window.snap) {
         resolve(window.snap);
       } else {
+        snapLoadPromise = null;
+        script.remove();
         reject(new Error('Midtrans Snap failed to initialize.'));
       }
     };
     script.onerror = () => {
       snapLoadPromise = null;
+      script.remove();
       reject(new Error('Midtrans Snap script failed to load.'));
     };
     document.head.appendChild(script);

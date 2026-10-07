@@ -25,6 +25,7 @@ import {
   fetchAdminDoctors,
   updateAdminAppointmentStatus,
   updateAdminAppointment,
+  resolvePhotoUrl,
   type Appointment,
   type AppointmentStatus,
   type BookingDoctor,
@@ -515,14 +516,14 @@ export default function AdminBookingsPage() {
                   <div className="flex items-center gap-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={selectedAppt.photo_url.startsWith('http') ? selectedAppt.photo_url : `http://103.247.10.220${selectedAppt.photo_url}`}
+                      src={resolvePhotoUrl(selectedAppt.photo_url)}
                       alt="Keluhan Kulit"
                       className="w-24 h-24 object-cover rounded-xl border border-zinc-700 shadow-sm"
                     />
                     <div className="text-xs space-y-1">
                       <p className="text-zinc-300 font-medium">Foto Keluhan Pasien</p>
                       <a
-                        href={selectedAppt.photo_url.startsWith('http') ? selectedAppt.photo_url : `http://103.247.10.220${selectedAppt.photo_url}`}
+                        href={resolvePhotoUrl(selectedAppt.photo_url)}
                         target="_blank"
                         rel="noreferrer"
                         className="text-rose-400 hover:underline inline-block"

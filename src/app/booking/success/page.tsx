@@ -100,11 +100,11 @@ function BookingSuccessContent() {
         </p>
 
         {/* Booking ID Badge */}
-        <div className="mt-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-stone-100 dark:bg-zinc-800/90 border border-zinc-200 dark:border-zinc-700">
+        <div className="mt-4 inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-0.5 px-4 py-1.5 rounded-xl bg-stone-100 dark:bg-zinc-800/90 border border-zinc-200 dark:border-zinc-700">
           <span className="text-[11px] uppercase tracking-wider text-zinc-400 dark:text-zinc-500 font-semibold">
             Kode Booking:
           </span>
-          <span className="font-mono text-xs sm:text-sm font-bold text-rose-600 dark:text-rose-400">
+          <span className="font-mono text-xs sm:text-sm font-bold text-rose-600 dark:text-rose-400 break-all">
             {bookingCode}
           </span>
         </div>

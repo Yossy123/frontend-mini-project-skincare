@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "leaflet/dist/leaflet.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthSessionWatcher } from "@/components/AuthSessionWatcher";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col text-zinc-900 dark:text-zinc-100 selection:bg-rose-100 selection:text-rose-900">
+        <AuthSessionWatcher />
         {children}
       </body>
     </html>
