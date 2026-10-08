@@ -57,7 +57,7 @@ export { validateCheckout } from './checkout';
 export { fetchShippingRates, searchDestinations } from './shipping';
 
 // Orders (customer)
-export { createOrder, fetchOrders, fetchOrderById } from './orders';
+export { createOrder, fetchOrders, fetchOrderById, cancelOrder } from './orders';
 export { createPayment } from './payments';
 export type { PaymentResponse } from './payments';
 

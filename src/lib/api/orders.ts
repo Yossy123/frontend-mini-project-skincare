@@ -1,4 +1,5 @@
 import { API_BASE_URL } from './client';
+import { describeFailure } from './errors';
 import type { OrderStorePayload, Order, PaginatedResponse } from './types';
 
 /**
@@ -69,5 +70,28 @@ export async function fetchOrderById(id: number | string, token: string): Promis
   }
 
   const json = await res.json();
+  return json.data;
+}
+
+/**
+ * Cancel one of the customer's own unpaid orders. The server closes the payment session first,
+ * so a refusal (already paid, gateway unsure) is reported as an error and nothing changes.
+ */
+export async function cancelOrder(id: number | string, token: string): Promise<Order> {
+  const res = await fetch(`${API_BASE_URL}/orders/${id}/cancel`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    cache: 'no-store',
+  });
+
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new Error(describeFailure(json, `Gagal membatalkan pesanan (${res.status})`));
+  }
+
   return json.data;
 }

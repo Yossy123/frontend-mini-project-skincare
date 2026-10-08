@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
-import { createPayment, fetchOrderById, Order } from '@/lib/api';
+import { cancelOrder, createPayment, fetchOrderById, Order } from '@/lib/api';
 import {
   MapPin,
   Truck,
@@ -78,6 +78,10 @@ export default function OrderDetailPage() {
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'success' | 'pending' | 'failed'>('idle');
   const [paymentMessage, setPaymentMessage] = useState<string | null>(null);
   const [resiCopied, setResiCopied] = useState(false);
+  const [confirmingCancel, setConfirmingCancel] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState<string | null>(null);
+  const [cancelNotice, setCancelNotice] = useState<string | null>(null);
 
   const isMidtransEnabled = process.env.NEXT_PUBLIC_MIDTRANS_ENABLED === 'true';
 
@@ -113,6 +117,23 @@ export default function OrderDetailPage() {
     setPaymentStatus('pending');
     setPaymentMessage('Pembayaran diterima. Konfirmasi server Midtrans masih diproses, silakan refresh beberapa saat lagi.');
   }, [refreshOrder]);
+
+  const handleCancelOrder = async () => {
+    if (!token || !order || cancelling) return;
+
+    setCancelling(true);
+    setCancelError(null);
+    try {
+      const cancelled = await cancelOrder(order.id, token);
+      setOrder(cancelled);
+      setConfirmingCancel(false);
+      setCancelNotice('Pesananmu sudah dibatalkan dan stok produk dikembalikan. Kamu tidak akan dikenai biaya.');
+    } catch (err: unknown) {
+      setCancelError(err instanceof Error ? err.message : 'Gagal membatalkan pesanan.');
+    } finally {
+      setCancelling(false);
+    }
+  };
 
   const handleCopyResi = async () => {
     if (!order?.shipment?.tracking_number) return;
@@ -497,7 +518,62 @@ export default function OrderDetailPage() {
                           </div>
                         </div>
                       )}
+
+                      {confirmingCancel ? (
+                        <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-xs leading-relaxed text-rose-900">
+                          <p className="font-semibold">Batalkan pesanan ini?</p>
+                          <p className="mt-1 text-rose-800">
+                            Pesanan belum dibayar sehingga tidak ada biaya. Pesanan yang dibatalkan tidak bisa dibuka lagi; kamu perlu checkout ulang.
+                          </p>
+                          {cancelError && (
+                            <p className="mt-2 flex items-start gap-1.5 rounded-xl bg-white/70 p-2.5 font-medium text-rose-800">
+                              <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                              <span>{cancelError}</span>
+                            </p>
+                          )}
+                          <div className="mt-3 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                            <button
+                              type="button"
+                              disabled={cancelling}
+                              onClick={() => {
+                                setConfirmingCancel(false);
+                                setCancelError(null);
+                              }}
+                              className="min-h-10 rounded-xl px-4 text-xs font-semibold text-zinc-600 transition hover:bg-white/70 disabled:opacity-50"
+                            >
+                              Tidak, kembali
+                            </button>
+                            <button
+                              type="button"
+                              disabled={cancelling}
+                              onClick={handleCancelOrder}
+                              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-rose-600 px-4 text-xs font-semibold text-white transition hover:bg-rose-700 disabled:cursor-wait disabled:opacity-60"
+                            >
+                              {cancelling && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                              {cancelling ? 'Membatalkan...' : 'Ya, batalkan pesanan'}
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled={paying}
+                          onClick={() => {
+                            setCancelNotice(null);
+                            setConfirmingCancel(true);
+                          }}
+                          className="w-full rounded-2xl border border-zinc-200 px-6 py-3 text-xs font-semibold text-zinc-600 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Batalkan pesanan
+                        </button>
+                      )}
                     </>
+                  )}
+                  {cancelNotice && (
+                    <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs leading-relaxed flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span className="font-medium">{cancelNotice}</span>
+                    </div>
                   )}
                   {order.status.toUpperCase() === 'PAID' && (
                     <div className="p-3.5 rounded-2xl bg-emerald-50  border border-emerald-200  text-emerald-800  text-xs leading-relaxed flex items-start gap-2.5">

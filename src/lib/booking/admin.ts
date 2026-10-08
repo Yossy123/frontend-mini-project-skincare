@@ -1,5 +1,6 @@
 ﻿import { API_BASE_URL } from '@/lib/api/client';
-import type { Appointment, AppointmentStatus, BookingDoctor, Patient } from './types';
+import { describeFailure } from '@/lib/api/errors';
+import type { Appointment, AppointmentStatus, BookingDoctor, ConsultationMode, Patient } from './types';
 import { getAuthHeader } from './auth';
 export async function fetchAdminAppointments(params?: {
   date?: string;
@@ -168,3 +169,34 @@ export async function toggleAdminDoctor(id: number): Promise<BookingDoctor> {
   return json.data;
 }
 
+export type AdminAppointmentPayload = {
+  service_id: number;
+  doctor_id: number;
+  consultation_mode: ConsultationMode;
+  date: string; // YYYY-MM-DD
+  start_time: string; // HH:mm
+  /** Existing patient chosen by staff; otherwise name and phone create a new one. */
+  patient_id?: number;
+  name?: string;
+  phone?: string;
+  email?: string;
+  notes?: string;
+};
+
+/**
+ * Book an appointment on behalf of a walk-in or phone patient.
+ */
+export async function createAdminAppointment(payload: AdminAppointmentPayload): Promise<{ appointment: Appointment; message: string }> {
+  const res = await fetch(`${API_BASE_URL}/admin/appointments`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...getAuthHeader(),
+    },
+    body: JSON.stringify(payload),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(describeFailure(json, `Gagal membuat reservasi (${res.status}).`));
+  return { appointment: json.data, message: json.message ?? 'Reservasi berhasil dibuat.' };
+}

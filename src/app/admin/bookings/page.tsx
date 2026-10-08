@@ -19,7 +19,9 @@ import {
   RefreshCw,
   X,
   Stethoscope,
+  Plus,
 } from 'lucide-react';
+import { AdminWalkInBookingModal } from '@/components/admin/AdminWalkInBookingModal';
 import {
   fetchAdminAppointments,
   fetchAdminDoctors,
@@ -51,6 +53,7 @@ export default function AdminBookingsPage() {
 
   // Modals
   const [selectedAppt, setSelectedAppt] = useState<Appointment | null>(null);
+  const [walkInOpen, setWalkInOpen] = useState(false);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [statusModalOpen, setStatusModalOpen] = useState(false);
   const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false);
@@ -200,14 +203,33 @@ export default function AdminBookingsPage() {
             Pantau dan kelola seluruh reservasi klinik, jadwal dokter, dan alur kedatangan pasien
           </p>
         </div>
-        <button
-          onClick={() => loadAppointments(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 border border-zinc-700 cursor-pointer transition-all self-start sm:self-auto"
-        >
-          <RefreshCw className="w-3.5 h-3.5" />
-          <span>Refresh Data</span>
-        </button>
+        <div className="flex items-center gap-2 self-start sm:self-auto">
+          <button
+            onClick={() => loadAppointments(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-200 border border-zinc-700 cursor-pointer transition-all"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Refresh Data</span>
+          </button>
+          <button
+            onClick={() => setWalkInOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-xs font-semibold text-white shadow-md shadow-rose-500/20 cursor-pointer transition-all"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Reservasi Baru</span>
+          </button>
+        </div>
       </div>
+
+      {walkInOpen && (
+        <AdminWalkInBookingModal
+          onClose={() => setWalkInOpen(false)}
+          onCreated={(message) => {
+            setActionSuccess(message);
+            loadAppointments();
+          }}
+        />
+      )}
 
       {/* Success Alert */}
       {actionSuccess && (
