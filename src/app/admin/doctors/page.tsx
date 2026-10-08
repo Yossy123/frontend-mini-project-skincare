@@ -13,12 +13,14 @@ import {
   X,
   RefreshCw,
   ShieldCheck,
+  KeyRound,
 } from 'lucide-react';
 import {
   fetchAdminDoctors,
   createAdminDoctor,
   updateAdminDoctor,
   toggleAdminDoctor,
+  resetAdminDoctorPassword,
   type BookingDoctor,
 } from '@/lib/booking';
 
@@ -47,6 +49,12 @@ export default function AdminDoctorsPage() {
   const [workStartTime, setWorkStartTime] = useState('10:00');
   const [workEndTime, setWorkEndTime] = useState('20:00');
   const [submitting, setSubmitting] = useState(false);
+
+  // Reset password modal
+  const [resetTarget, setResetTarget] = useState<BookingDoctor | null>(null);
+  const [newPassword, setNewPassword] = useState('');
+  const [resetting, setResetting] = useState(false);
+  const [resetError, setResetError] = useState('');
 
   const loadDoctors = useCallback(async (showLoading = false) => {
     if (showLoading) setLoading(true);
@@ -165,6 +173,28 @@ export default function AdminDoctorsPage() {
       setError(err instanceof Error ? err.message : 'Gagal memperbarui dokter.');
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetTarget || resetting) return;
+
+    if (newPassword.length < 8) {
+      setResetError('Password minimal 8 karakter.');
+      return;
+    }
+
+    setResetting(true);
+    setResetError('');
+    try {
+      setSuccessMsg(await resetAdminDoctorPassword(resetTarget.id, newPassword));
+      setResetTarget(null);
+      setNewPassword('');
+    } catch (err) {
+      setResetError(err instanceof Error ? err.message : 'Gagal mengubah password dokter.');
+    } finally {
+      setResetting(false);
     }
   };
 
@@ -312,6 +342,19 @@ export default function AdminDoctorsPage() {
                 </button>
 
                 <button
+                  onClick={() => {
+                    setResetTarget(doc);
+                    setNewPassword('');
+                    setResetError('');
+                  }}
+                  className="p-2 rounded-xl border bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border-zinc-700 transition-all cursor-pointer"
+                  title="Reset password dokter"
+                  aria-label={`Reset password ${doc.name}`}
+                >
+                  <KeyRound className="w-4 h-4" />
+                </button>
+
+                <button
                   onClick={() => handleToggle(doc)}
                   className={`p-2 rounded-xl border transition-all cursor-pointer ${
                     doc.status === 'active'
@@ -325,6 +368,74 @@ export default function AdminDoctorsPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* RESET DOCTOR PASSWORD MODAL */}
+      {resetTarget && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <form
+            onSubmit={handleResetPassword}
+            className="w-full max-w-sm bg-zinc-900 border border-zinc-800 rounded-3xl p-6 space-y-4 shadow-2xl"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+              <h3 className="font-serif text-lg text-white">Reset Password Dokter</h3>
+              <button
+                type="button"
+                onClick={() => setResetTarget(null)}
+                aria-label="Tutup"
+                className="p-2 rounded-xl text-zinc-400 hover:text-white bg-zinc-800"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-zinc-400">
+              Atur password baru untuk <strong className="text-white">{resetTarget.name}</strong>. Semua sesi login dokter
+              ini akan dikeluarkan, lalu sampaikan password barunya secara langsung.
+            </p>
+
+            {resetError && (
+              <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-900 text-rose-300 text-xs flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-500 mt-px" />
+                <span>{resetError}</span>
+              </div>
+            )}
+
+            <div className="text-xs">
+              <label htmlFor="doctorNewPassword" className="text-zinc-400 block mb-1.5 font-semibold">
+                Password baru
+              </label>
+              <input
+                id="doctorNewPassword"
+                type="text"
+                required
+                minLength={8}
+                autoComplete="off"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Minimal 8 karakter"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-200 focus:outline-hidden focus:ring-1 focus:ring-rose-500"
+              />
+            </div>
+
+            <div className="flex justify-end gap-2 pt-1">
+              <button
+                type="button"
+                onClick={() => setResetTarget(null)}
+                className="px-4 py-2 rounded-xl text-xs text-zinc-400 hover:text-white cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                disabled={resetting}
+                className="px-5 py-2 rounded-xl text-xs font-semibold text-white bg-rose-500 hover:bg-rose-600 disabled:opacity-50 cursor-pointer"
+              >
+                {resetting ? 'Menyimpan...' : 'Simpan Password'}
+              </button>
+            </div>
+          </form>
         </div>
       )}
 

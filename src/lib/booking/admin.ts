@@ -1,4 +1,5 @@
 ﻿import { API_BASE_URL } from '@/lib/api/client';
+import { describeFailure } from '@/lib/api/errors';
 import type { Appointment, AppointmentStatus, BookingDoctor, Patient } from './types';
 import { getAuthHeader } from './auth';
 export async function fetchAdminAppointments(params?: {
@@ -168,3 +169,17 @@ export async function toggleAdminDoctor(id: number): Promise<BookingDoctor> {
   return json.data;
 }
 
+export async function resetAdminDoctorPassword(id: number, password: string): Promise<string> {
+  const res = await fetch(`${API_BASE_URL}/admin/doctors/${id}/reset-password`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...getAuthHeader(),
+    },
+    body: JSON.stringify({ password }),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(describeFailure(json, 'Gagal mengubah password dokter.'));
+  return json?.message ?? 'Password dokter berhasil diubah.';
+}

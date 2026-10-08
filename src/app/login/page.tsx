@@ -143,6 +143,12 @@ function LoginFormContent() {
               >
                 Password
               </label>
+              <Link
+                href="/forgot-password"
+                className="text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline"
+              >
+                Lupa password?
+              </Link>
             </div>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />

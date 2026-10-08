@@ -380,9 +380,17 @@ export default function AdminCustomersPage() {
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <p className="mt-3 rounded-xl border border-rose-900/70 bg-rose-950/40 p-3 text-xs leading-relaxed text-rose-200">
-              Penghapusan tidak dapat dibatalkan. Pesanan, alamat, token login, dan riwayat audit yang terhubung ke akun ini juga akan terhapus.
-            </p>
+            {customerToDelete.total_orders > 0 ? (
+              <p className="mt-3 rounded-xl border border-amber-700/60 bg-amber-950/40 p-3 text-xs leading-relaxed text-amber-200">
+                Akun ini memiliki <strong>{customerToDelete.total_orders} pesanan</strong> beserta data pembayarannya, jadi tidak
+                bisa dihapus agar catatan transaksi tidak hilang. Buka <strong>Detail</strong> lalu nonaktifkan akunnya supaya
+                tidak bisa login.
+              </p>
+            ) : (
+              <p className="mt-3 rounded-xl border border-rose-900/70 bg-rose-950/40 p-3 text-xs leading-relaxed text-rose-200">
+                Penghapusan tidak dapat dibatalkan. Alamat, token login, dan riwayat audit yang terhubung ke akun ini juga akan terhapus.
+              </p>
+            )}
             <div className="mt-5 flex justify-end gap-2">
               <button
                 type="button"
@@ -395,7 +403,7 @@ export default function AdminCustomersPage() {
               <button
                 type="button"
                 onClick={handleDeleteCustomer}
-                disabled={deleting}
+                disabled={deleting || customerToDelete.total_orders > 0}
                 className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {deleting ? 'Menghapus...' : 'Hapus Permanen'}
