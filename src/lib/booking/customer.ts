@@ -1,4 +1,5 @@
 ﻿import { API_BASE_URL } from '@/lib/api/client';
+import { describeFailure, type ErrorBody } from '@/lib/api/errors';
 import type { CustomerMedicalAppointment, PatientHealthProfile } from './types';
 export async function fetchMyAppointments(token: string): Promise<CustomerMedicalAppointment[]> {
   const appointments: CustomerMedicalAppointment[] = [];
@@ -45,6 +46,32 @@ export async function fetchMyHealthProfile(token: string): Promise<PatientHealth
   if (profile == null) return null;
   if (typeof profile !== 'object' || !profile.id) throw new Error('Format profil kesehatan tidak dikenali.');
   return profile as PatientHealthProfile;
+}
+
+export type HealthProfileUpdate = {
+  date_of_birth: string | null;
+  gender: string | null;
+  address: string | null;
+  allergies: string | null;
+  medical_history: string | null;
+  emergency_contact: string | null;
+};
+
+/** Save the medical details of the signed-in customer's own profile. */
+export async function updateMyHealthProfile(update: HealthProfileUpdate, token: string): Promise<PatientHealthProfile> {
+  const res = await fetch(`${API_BASE_URL}/my-profile/health`, {
+    method: 'PATCH',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(update),
+  });
+  const json = (await res.json().catch(() => null)) as (ErrorBody & { data?: PatientHealthProfile }) | null;
+  if (!res.ok) throw new Error(describeFailure(json, `Gagal menyimpan profil kesehatan (${res.status})`));
+  if (!json?.data?.id) throw new Error('Format profil kesehatan tidak dikenali.');
+  return json.data;
 }
 
 export async function fetchMyAppointmentDetail(id: number | string, token: string): Promise<CustomerMedicalAppointment> {

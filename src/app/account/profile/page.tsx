@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { ChangePasswordCard } from '@/components/ChangePasswordCard';
+import { HealthProfileCard } from '@/components/HealthProfileCard';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
 import { fetchCurrentUser, updateCurrentUser, User } from '@/lib/api';
 import { fetchMyHealthProfile, PatientHealthProfile } from '@/lib/booking';
@@ -16,7 +17,6 @@ import {
   ChevronRight,
   ClipboardList,
   Edit3,
-  HeartPulse,
   LoaderCircle,
   ShieldCheck,
   UserRound,
@@ -29,19 +29,6 @@ function Field({ label, value }: { label: string; value?: string | null }) {
       <dd className="mt-1 break-words text-sm font-medium text-zinc-900">{value?.trim() || 'Belum diisi'}</dd>
     </div>
   );
-}
-
-function formatDate(value?: string | null) {
-  if (!value) return null;
-  const date = new Date(`${value.slice(0, 10)}T00:00:00`);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-}
-
-function genderLabel(value?: string | null) {
-  if (value === 'male') return 'Laki-laki';
-  if (value === 'female') return 'Perempuan';
-  if (value === 'other') return 'Lainnya';
-  return value;
 }
 
 export default function AccountProfilePage() {
@@ -194,36 +181,13 @@ export default function AccountProfilePage() {
               )}
             </section>
 
-            <section className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-[0_2px_10px_rgba(20,20,20,0.03)]">
-              <div className="flex items-center gap-3 border-b border-zinc-100 px-4 py-4 sm:px-5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#fbf3e6] text-[#b77c27]"><HeartPulse className="h-5 w-5" /></span>
-                <div><h2 className="text-base font-semibold text-zinc-900">Profil kesehatan</h2><p className="text-xs text-zinc-500">Informasi medis dasar untuk perawatan</p></div>
-              </div>
-              {healthProfile ? (
-                <>
-                  <dl className="grid gap-2.5 p-4 sm:grid-cols-2 sm:p-5">
-                    <Field label="Nama pasien" value={healthProfile.name} />
-                    <Field label="Nomor telepon" value={healthProfile.phone} />
-                    <Field label="Email" value={healthProfile.email} />
-                    <Field label="Tanggal lahir" value={formatDate(healthProfile.date_of_birth)} />
-                    <Field label="Jenis kelamin" value={genderLabel(healthProfile.gender)} />
-                    <Field label="Kontak darurat" value={healthProfile.emergency_contact} />
-                    <div className="sm:col-span-2"><Field label="Alamat" value={healthProfile.address} /></div>
-                    <div className="sm:col-span-2"><Field label="Alergi" value={healthProfile.allergies} /></div>
-                    <div className="sm:col-span-2"><Field label="Riwayat medis" value={healthProfile.medical_history} /></div>
-                  </dl>
-                  <div className="flex items-start gap-2 border-t border-zinc-100 px-4 py-3 text-[11px] leading-relaxed text-zinc-500 sm:px-5">
-                    <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                    <span>Profil kesehatan hanya dapat dilihat oleh akun pasien dan tim klinik yang menangani perawatan.</span>
-                  </div>
-                </>
-              ) : (
-                <div className="p-5 text-center sm:p-8">
-                  <p className="text-sm font-medium text-zinc-800">Profil pasien belum terhubung dengan akun ini.</p>
-                  <p className="mt-1 text-xs leading-relaxed text-zinc-500">Hubungi tim klinik agar data pasien dapat dicocokkan dengan akunmu.</p>
-                </div>
-              )}
-            </section>
+            <HealthProfileCard
+              profile={healthProfile}
+              token={token}
+              accountName={displayAccount?.name}
+              accountPhone={displayAccount?.phone}
+              onSaved={setHealthProfile}
+            />
           </div>
         )}
 
