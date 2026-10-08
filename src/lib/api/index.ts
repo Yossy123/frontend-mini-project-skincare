@@ -41,6 +41,10 @@ export type {
 // Auth & user
 export { fetchHealth, registerUser, loginUser, logoutUser, fetchCurrentUser, updateCurrentUser } from './auth';
 
+// Password management
+export type { ChangePasswordPayload, ResetPasswordPayload } from './password';
+export { changePassword, requestPasswordReset, resetPassword } from './password';
+
 // Addresses
 export { fetchAddresses, createAddress, updateAddress, deleteAddress } from './addresses';
 

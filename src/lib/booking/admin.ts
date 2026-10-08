@@ -169,6 +169,21 @@ export async function toggleAdminDoctor(id: number): Promise<BookingDoctor> {
   return json.data;
 }
 
+export async function resetAdminDoctorPassword(id: number, password: string): Promise<string> {
+  const res = await fetch(`${API_BASE_URL}/admin/doctors/${id}/reset-password`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      ...getAuthHeader(),
+    },
+    body: JSON.stringify({ password }),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(describeFailure(json, 'Gagal mengubah password dokter.'));
+  return json?.message ?? 'Password dokter berhasil diubah.';
+}
+
 export type AdminAppointmentPayload = {
   service_id: number;
   doctor_id: number;

@@ -1,48 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import fs from 'node:fs';
-import path from 'node:path';
-import vm from 'node:vm';
-import ts from 'typescript';
-import { fileURLToPath } from 'node:url';
+import { loadApiModule } from './helpers/load-ts.mjs';
 
-const testDirectory = path.dirname(fileURLToPath(import.meta.url));
-
-// Load the real API module with a scripted fetch so requests and error handling can be inspected.
-function loadServicesApi(respond) {
-  const calls = [];
-  const source = fs.readFileSync(path.join(testDirectory, '..', 'src/lib/api/admin/services.ts'), 'utf8');
-  const compiled = ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-  }).outputText;
-  const loaded = { exports: {} };
-  vm.runInNewContext(compiled, {
-    module: loaded,
-    exports: loaded.exports,
-    JSON,
-    Object,
-    Error,
-    Promise,
-    fetch: async (url, init) => {
-      calls.push({ url, init });
-      const { status = 200, body = {}, invalidJson = false } = respond(url, init);
-      return {
-        ok: status >= 200 && status < 300,
-        status,
-        json: async () => {
-          if (invalidJson) throw new SyntaxError('Unexpected token < in JSON');
-          return body;
-        },
-      };
-    },
-    require(name) {
-      if (name === '../client') return { API_BASE_URL: 'https://api.example.com/api' };
-      throw new Error(`Unexpected dependency: ${name}`);
-    },
-  }, { filename: 'services.ts' });
-
-  return { api: loaded.exports, calls };
-}
+const loadServicesApi = (respond) => loadApiModule('src/lib/api/admin/services.ts', respond);
 
 const payload = { name: 'Hydra Glow Facial', duration_minutes: 75, price: 275000 };
 

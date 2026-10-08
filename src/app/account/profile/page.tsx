@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
+import { ChangePasswordCard } from '@/components/ChangePasswordCard';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
 import { fetchCurrentUser, updateCurrentUser, User } from '@/lib/api';
 import { fetchMyHealthProfile, PatientHealthProfile } from '@/lib/booking';
@@ -225,6 +226,8 @@ export default function AccountProfilePage() {
             </section>
           </div>
         )}
+
+        {!loading && <ChangePasswordCard token={token} />}
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <Link href="/account/appointments" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-[#d6b173] hover:text-[#9b681e]"><CalendarDays className="h-4 w-4" />Jadwal konsultasi</Link>

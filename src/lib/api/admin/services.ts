@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '../client';
+import { describeFailure, type ErrorBody } from '../errors';
 
 /* ==========================================================================
    Admin Treatment (Clinic Service) Management Interfaces & API Functions
@@ -25,24 +26,6 @@ export interface AdminServicePayload {
   duration_minutes: number;
   price: number;
   is_active?: boolean;
-}
-
-interface ErrorBody {
-  message?: string;
-  errors?: Record<string, string[]>;
-}
-
-/**
- * Prefer the field-level validation messages over Laravel's generic
- * "The given data was invalid." summary.
- */
-function describeFailure(body: ErrorBody | null, fallback: string): string {
-  if (body?.errors) {
-    const messages = Object.values(body.errors).flat().join(' ');
-    if (messages) return messages;
-  }
-
-  return body?.message || fallback;
 }
 
 async function request<T>(
