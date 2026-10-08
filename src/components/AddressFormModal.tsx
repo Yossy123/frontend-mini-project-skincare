@@ -31,17 +31,19 @@ function AddressFormInner({
   const [label, setLabel] = useState(initialData?.label || 'Home');
   const [name, setName] = useState(initialData?.recipient_name || initialData?.name || '');
   const [phone, setPhone] = useState(initialData?.phone || '');
-  const [province, setProvince] = useState(initialData?.province || 'DKI Jakarta');
-  const [city, setCity] = useState(initialData?.city || 'Jakarta Selatan');
-  const [district, setDistrict] = useState(initialData?.district || 'Kebayoran Baru');
-  const [postalCode, setPostalCode] = useState(initialData?.postal_code || '12110');
+  const [province, setProvince] = useState(initialData?.province || '');
+  const [city, setCity] = useState(initialData?.city || '');
+  const [district, setDistrict] = useState(initialData?.district || '');
+  const [postalCode, setPostalCode] = useState(initialData?.postal_code || '');
   const [address, setAddress] = useState(initialData?.address_line || initialData?.address || '');
   const [addressDetail, setAddressDetail] = useState(initialData?.address_detail || '');
   const [isDefault, setIsDefault] = useState(Boolean(initialData?.is_default));
-  const [coordinates, setCoordinates] = useState({
-    latitude: initialData?.latitude ?? -6.2088,
-    longitude: initialData?.longitude ?? 106.8456,
-  });
+  // No pin until the customer places one: a default point would be saved as if it were their location.
+  const [coordinates, setCoordinates] = useState<{ latitude: number; longitude: number } | null>(
+    typeof initialData?.latitude === 'number' && typeof initialData?.longitude === 'number'
+      ? { latitude: initialData.latitude, longitude: initialData.longitude }
+      : null
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -117,8 +119,8 @@ function AddressFormInner({
           city,
           district,
           postal_code: postalCode,
-          latitude: coordinates.latitude,
-          longitude: coordinates.longitude,
+          latitude: coordinates?.latitude ?? null,
+          longitude: coordinates?.longitude ?? null,
           biteship_area_id: biteshipAreaId || null,
           address,
           address_line: address,
@@ -369,21 +371,32 @@ function AddressFormInner({
           </div>
         </div>
 
-        {/* Address Detail / Landmark / Patokan */}
+        {/* Delivery pin (needed for Gojek / Grab) */}
         <div className="space-y-2">
           <div className="flex items-center justify-between gap-3">
-            <label className="text-xs font-semibold text-zinc-700">Pin lokasi pengiriman *</label>
+            <label className="text-xs font-semibold text-zinc-700">
+              Pin lokasi pengiriman <span className="font-normal text-zinc-400">(untuk Gojek &amp; Grab)</span>
+            </label>
             <button
               type="button"
               onClick={() => navigator.geolocation?.getCurrentPosition(
                 (position) => setCoordinates({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
-                () => setError('Lokasi tidak dapat diakses. Aktifkan izin lokasi atau geser pin secara manual.')
+                () => setError('Lokasi tidak dapat diakses. Aktifkan izin lokasi atau ketuk peta untuk memasang pin.')
               )}
               className="text-xs font-semibold text-[#9d681d] underline"
             >Gunakan lokasi saya</button>
           </div>
           <OpenStreetMapPicker value={coordinates} onChange={setCoordinates} />
-          <p className="text-[11px] text-zinc-500">Geser pin ke alamat tepat. Lokasi ini diperlukan untuk Grab dan GoJek Instant.</p>
+          {coordinates ? (
+            <div className="flex items-center justify-between gap-3 text-[11px] text-zinc-500">
+              <span>Pin terpasang. Geser pin ke titik rumah yang tepat; driver akan diarahkan ke sini.</span>
+              <button type="button" onClick={() => setCoordinates(null)} className="shrink-0 font-semibold text-rose-600 underline">Hapus pin</button>
+            </div>
+          ) : (
+            <p className="rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-[11px] leading-relaxed text-amber-800">
+              Pin belum dipasang. Ketuk peta pada lokasi rumah atau pakai &quot;Gunakan lokasi saya&quot; agar Gojek dan Grab bisa dipilih saat checkout. Tanpa pin, kurir reguler tetap bisa dipakai.
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">

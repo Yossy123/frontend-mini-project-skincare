@@ -12,6 +12,8 @@ export interface OperationalAlertsData {
   out_of_stock_products: number;
   recent_refunds_count: number;
   payments_requiring_review: number;
+  /** Instant bookings (Gojek/Grab) that found no driver and need a new courier. */
+  shipments_without_courier: number;
 }
 
 /**

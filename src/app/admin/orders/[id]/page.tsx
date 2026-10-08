@@ -38,6 +38,7 @@ export default function AdminOrderDetailPage({ params }: PageProps) {
     handleDeliver,
     handleComplete,
     handleCancel,
+    handleRebookCourier,
     handleRefund,
   } = useAdminOrderDetail(orderId, token);
 
@@ -126,6 +127,7 @@ export default function AdminOrderDetailPage({ params }: PageProps) {
           onDeliver={handleDeliver}
           onComplete={handleComplete}
           onCancel={handleCancel}
+          onRebookCourier={handleRebookCourier}
           onRefund={handleRefund}
         />
       </div>

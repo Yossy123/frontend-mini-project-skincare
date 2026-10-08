@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { fetchShippingRates, ShippingRate } from '@/lib/api';
+import { fetchShippingQuote, ShippingMeta, ShippingRate } from '@/lib/api';
 import { CartItem } from '@/store/useCartStore';
 
 export function useShippingRates(token: string | null, cartItems: CartItem[]) {
   const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
   const [selectedRate, setSelectedRate] = useState<ShippingRate | null>(null);
+  const [shippingMeta, setShippingMeta] = useState<ShippingMeta | null>(null);
   const [shippingLoading, setShippingLoading] = useState(false);
   const [shippingError, setShippingError] = useState<string | null>(null);
   const requestVersion = useRef(0);
@@ -19,6 +20,7 @@ export function useShippingRates(token: string | null, cartItems: CartItem[]) {
       setQuoteKey(null);
       setSelectedRate(null);
       setShippingRates([]);
+      setShippingMeta(null);
       // An empty cart (e.g. right after order placement clears it) must never
       // hit the rates API — the backend rejects requests without items.
       if (!destination || weightGrams <= 0 || cartItems.length === 0) {
@@ -30,7 +32,7 @@ export function useShippingRates(token: string | null, cartItems: CartItem[]) {
       setShippingError(null);
 
       try {
-        const rates = await fetchShippingRates(
+        const { rates, meta } = await fetchShippingQuote(
           {
             destination,
             weight: weightGrams,
@@ -45,6 +47,7 @@ export function useShippingRates(token: string | null, cartItems: CartItem[]) {
 
         if (version !== requestVersion.current) return;
         setShippingRates(rates);
+        setShippingMeta(meta);
         setQuoteKey(JSON.stringify([token, String(destination), cartKey]));
 
         if (rates.length > 0) {
@@ -79,6 +82,7 @@ export function useShippingRates(token: string | null, cartItems: CartItem[]) {
   return {
     shippingRates,
     selectedRate,
+    shippingMeta,
     setSelectedRate,
     shippingLoading,
     shippingError,

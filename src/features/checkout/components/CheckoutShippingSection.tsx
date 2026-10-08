@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { ShippingRate } from '@/lib/api';
+import Link from 'next/link';
+import { ShippingMeta, ShippingRate } from '@/lib/api';
 import { Package, AlertCircle, RefreshCw, Clock, CheckCircle2 } from 'lucide-react';
 
 interface CheckoutShippingSectionProps {
@@ -10,6 +11,8 @@ interface CheckoutShippingSectionProps {
   shippingError: string | null;
   shippingRates: ShippingRate[];
   selectedRate: ShippingRate | null;
+  /** What the server says about Gojek/Grab for the selected address. */
+  shippingMeta?: ShippingMeta | null;
   onSelectRate: (rate: ShippingRate) => void;
   onRetry: () => void;
 }
@@ -32,6 +35,7 @@ export function CheckoutShippingSection({
   shippingError,
   shippingRates,
   selectedRate,
+  shippingMeta = null,
   onSelectRate,
   onRetry,
 }: CheckoutShippingSectionProps) {
@@ -51,6 +55,19 @@ export function CheckoutShippingSection({
           <span>{totalWeightFormatted}</span>
         </span>
       </div>
+
+      {!shippingLoading && !shippingError && shippingMeta?.instant_enabled && !shippingMeta.destination_has_pin && (
+        <div className="mb-4 flex items-start gap-2 rounded-2xl border border-amber-200 bg-amber-50 p-3.5 text-xs leading-relaxed text-amber-800">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+          <span>
+            Gojek dan Grab hanya tersedia untuk alamat yang punya pin lokasi.{' '}
+            <Link href="/account/addresses" className="font-semibold underline">
+              Atur pin di alamat saya
+            </Link>{' '}
+            lalu kembali ke checkout.
+          </span>
+        </div>
+      )}
 
       {shippingLoading ? (
         <div className="space-y-3 py-4 animate-pulse">

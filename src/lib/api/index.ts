@@ -58,7 +58,8 @@ export { fetchCategories, fetchCategoryBySlug } from './categories';
 export { validateCheckout } from './checkout';
 
 // Shipping
-export { fetchShippingRates, searchDestinations } from './shipping';
+export type { ShippingMeta, ShippingQuote } from './shipping';
+export { fetchShippingRates, fetchShippingQuote, searchDestinations } from './shipping';
 
 // Orders (customer)
 export { createOrder, fetchOrders, fetchOrderById, cancelOrder } from './orders';
@@ -103,6 +104,7 @@ export {
   adminDeliverOrder,
   adminCompleteOrder,
   adminCancelOrder,
+  adminRebookCourier,
 } from './admin/orders';
 
 // Admin — Product Management

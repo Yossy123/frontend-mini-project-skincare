@@ -46,6 +46,7 @@ export default function CheckoutPage() {
   const {
     shippingRates,
     selectedRate,
+    shippingMeta,
     setSelectedRate,
     shippingLoading,
     shippingError,
@@ -204,6 +205,7 @@ export default function CheckoutPage() {
               shippingError={shippingError}
               shippingRates={shippingRates}
               selectedRate={selectedRate}
+              shippingMeta={shippingMeta}
               onSelectRate={setSelectedRate}
               onRetry={handleRetryShipping}
             />

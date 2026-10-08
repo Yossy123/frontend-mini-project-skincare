@@ -12,6 +12,7 @@ interface OrderActionButtonsProps {
   onDeliver: () => void;
   onComplete: () => void;
   onCancel: (payload: { reason: string; note?: string }) => Promise<boolean>;
+  onRebookCourier: () => void;
   onRefund: (payload: { reason: string; amount?: number; idempotency_key?: string }) => Promise<boolean>;
 }
 
@@ -23,6 +24,7 @@ export function OrderActionButtons({
   onDeliver,
   onComplete,
   onCancel,
+  onRebookCourier,
   onRefund,
 }: OrderActionButtonsProps) {
   const currentStatus = (order.status || '').toUpperCase();
@@ -98,7 +100,23 @@ export function OrderActionButtons({
       {order.payment?.requires_review && (
         <p role="alert" className="text-xs text-amber-400">Pembayaran atau pengiriman perlu diperiksa. Cek riwayat pesanan sebelum memproses refund atau pengiriman ulang.</p>
       )}
+      {order.allowed_actions.includes('rebook_courier') && (
+        <p role="alert" className="text-xs text-amber-400">
+          Biteship tidak menemukan driver untuk pesanan ini. Pesan ulang kurir, atau batalkan pesanan jika tidak ada driver yang tersedia.
+        </p>
+      )}
       <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+        {order.allowed_actions.includes('rebook_courier') && (
+          <button
+            type="button"
+            onClick={onRebookCourier}
+            disabled={actionLoading}
+            className="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 shadow-md shadow-amber-600/20 transition-all cursor-pointer disabled:opacity-50"
+          >
+            Pesan Ulang Kurir
+          </button>
+        )}
+
         {order.allowed_actions.includes('process') && (
           <button
             type="button"

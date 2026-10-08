@@ -62,7 +62,8 @@ test('changing destination invalidates the quote and ignores the older response'
   const second = deferred();
   let calls = 0;
   const render = hookRunner('src/features/checkout/hooks/useShippingRates.ts', {
-    fetchShippingRates: () => (++calls === 1 ? first.promise : second.promise),
+    fetchShippingQuote: () => (++calls === 1 ? first.promise : second.promise)
+      .then((rates) => ({ rates, meta: { instant_enabled: true, destination_has_pin: true } })),
   });
   const initial = render('customer-token', cart);
   const oldRequest = initial.loadShippingRates(11, 200);

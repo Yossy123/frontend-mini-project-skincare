@@ -30,8 +30,10 @@ export function OrderShipmentCard({ order }: OrderShipmentCardProps) {
         </div>
         <div className="flex items-center justify-between">
           <span className="text-zinc-500">Status</span>
-          <span className="capitalize font-medium text-zinc-200">
-            {order.shipment?.status || 'Pending'}
+          <span className={`capitalize font-medium ${order.shipment?.status === 'courier_not_found' ? 'text-amber-400' : 'text-zinc-200'}`}>
+            {order.shipment?.status === 'courier_not_found'
+              ? 'Driver tidak ditemukan'
+              : order.shipment?.status || 'Pending'}
           </span>
         </div>
       </div>

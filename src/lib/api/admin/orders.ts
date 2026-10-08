@@ -48,7 +48,7 @@ export interface AdminOrderListItem {
   cancellation_reason?: string | null;
   cancellation_note?: string | null;
   cancelled_at?: string | null;
-  allowed_actions: Array<'process' | 'ship' | 'deliver' | 'complete' | 'cancel'>;
+  allowed_actions: Array<'process' | 'ship' | 'deliver' | 'complete' | 'cancel' | 'rebook_courier'>;
   user?: {
     id: number;
     name: string;
@@ -191,6 +191,28 @@ export async function adminProcessOrder(id: number, token: string): Promise<Admi
   if (!res.ok) {
     const errorJson = await res.json().catch(() => ({}));
     throw new Error(errorJson.message || `Failed to process order (${res.status})`);
+  }
+
+  const json = await res.json();
+  return json.data;
+}
+
+/**
+ * Book a new courier after the previous booking found no driver (Gojek/Grab).
+ */
+export async function adminRebookCourier(id: number, token: string): Promise<AdminOrderDetail> {
+  const res = await fetch(`${API_BASE_URL}/admin/orders/${id}/rebook-courier`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const errorJson = res.ok ? null : await res.json().catch(() => null);
+  if (!res.ok) {
+    const fieldMessages = errorJson?.errors ? Object.values(errorJson.errors as Record<string, string[]>).flat().join(' ') : '';
+    throw new Error(fieldMessages || errorJson?.message || `Failed to rebook courier (${res.status})`);
   }
 
   const json = await res.json();

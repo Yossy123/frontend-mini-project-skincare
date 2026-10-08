@@ -2,13 +2,23 @@
 
 import { useEffect } from 'react';
 import L from 'leaflet';
-import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 
-type Coordinates = { latitude: number; longitude: number };
+export type Coordinates = { latitude: number; longitude: number };
+
+/** Where the map opens when no pin is set yet. It is only a view, never saved as the address location. */
+const DEFAULT_VIEW: [number, number] = [-6.2088, 106.8456];
 
 function Recenter({ position }: { position: [number, number] }) {
   const map = useMap();
   useEffect(() => { map.setView(position, Math.max(map.getZoom(), 15)); }, [map, position]);
+  return null;
+}
+
+function PlacePinOnClick({ onChange }: { onChange: (value: Coordinates) => void }) {
+  useMapEvents({
+    click: (event) => onChange({ latitude: event.latlng.lat, longitude: event.latlng.lng }),
+  });
   return null;
 }
 
@@ -19,22 +29,31 @@ const pinIcon = L.divIcon({
   iconAnchor: [11, 11],
 });
 
-export function OpenStreetMapPicker({ value, onChange }: { value: Coordinates; onChange: (value: Coordinates) => void }) {
-  const position: [number, number] = [value.latitude, value.longitude];
+/**
+ * Map for choosing the delivery pin. `value` is null until the customer places a pin by tapping
+ * the map, dragging it, or using their location, so a default point is never saved by accident.
+ */
+export function OpenStreetMapPicker({ value, onChange }: { value: Coordinates | null; onChange: (value: Coordinates) => void }) {
+  const center: [number, number] = value ? [value.latitude, value.longitude] : DEFAULT_VIEW;
 
   return (
-    <MapContainer center={position} zoom={15} className="h-64 w-full rounded-xl border border-rose-100" scrollWheelZoom={false}>
+    <MapContainer center={center} zoom={value ? 15 : 12} className="h-64 w-full rounded-xl border border-rose-100" scrollWheelZoom={false}>
       <TileLayer attribution='&copy; OpenStreetMap contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      <Recenter position={position} />
-      <Marker
-        position={position}
-        icon={pinIcon}
-        draggable
-        eventHandlers={{ dragend: (event) => {
-          const point = event.target.getLatLng();
-          onChange({ latitude: point.lat, longitude: point.lng });
-        } }}
-      />
+      <PlacePinOnClick onChange={onChange} />
+      {value && (
+        <>
+          <Recenter position={center} />
+          <Marker
+            position={center}
+            icon={pinIcon}
+            draggable
+            eventHandlers={{ dragend: (event) => {
+              const point = event.target.getLatLng();
+              onChange({ latitude: point.lat, longitude: point.lng });
+            } }}
+          />
+        </>
+      )}
     </MapContainer>
   );
 }

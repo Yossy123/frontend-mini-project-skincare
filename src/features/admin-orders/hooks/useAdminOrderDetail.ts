@@ -8,6 +8,7 @@ import {
   adminDeliverOrder,
   adminCompleteOrder,
   adminCancelOrder,
+  adminRebookCourier,
   adminRefundOrder,
   AdminOrderDetail,
 } from '@/lib/api';
@@ -132,6 +133,21 @@ export function useAdminOrderDetail(orderId: number, token: string | null) {
     }
   };
 
+  const handleRebookCourier = async () => {
+    if (!token || !order) return;
+    setActionLoading(true);
+    setError(null);
+    try {
+      const updated = await adminRebookCourier(order.id, token);
+      setOrder(updated);
+      setSuccessMessage(`Kurir untuk Order #${order.id} sedang dipesan ulang. Status akan diperbarui otomatis oleh Biteship.`);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to rebook courier');
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
   const handleCancel = async (payload: { reason: string; note?: string }) => {
     if (!token || !order) return false;
     setActionLoading(true);
@@ -183,6 +199,7 @@ export function useAdminOrderDetail(orderId: number, token: string | null) {
     handleDeliver,
     handleComplete,
     handleCancel,
+    handleRebookCourier,
     handleRefund,
   };
 }

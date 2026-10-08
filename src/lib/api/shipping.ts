@@ -2,12 +2,28 @@ import { API_BASE_URL } from './client';
 import type { ShippingRatePayload, ShippingRate, DestinationResult } from './types';
 
 /**
- * Calculate domestic shipping rates from couriers via Biteship.
+ * What the server says about instant couriers (Gojek / Grab) for a destination.
  */
-export async function fetchShippingRates(
+export interface ShippingMeta {
+  /** Instant delivery is switched on and the store pickup point is set. */
+  instant_enabled: boolean;
+  /** The destination address has a usable map pin. */
+  destination_has_pin: boolean;
+}
+
+export interface ShippingQuote {
+  rates: ShippingRate[];
+  meta: ShippingMeta;
+}
+
+/**
+ * Calculate domestic shipping rates from couriers via Biteship, together with
+ * whether instant couriers are available for the destination.
+ */
+export async function fetchShippingQuote(
   payload: ShippingRatePayload,
   token?: string
-): Promise<ShippingRate[]> {
+): Promise<ShippingQuote> {
   const headers: Record<string, string> = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -33,7 +49,23 @@ export async function fetchShippingRates(
     throw new Error(errorMsg);
   }
 
-  return json.data || [];
+  return {
+    rates: json.data || [],
+    meta: {
+      instant_enabled: Boolean(json.meta?.instant_enabled),
+      destination_has_pin: Boolean(json.meta?.destination_has_pin),
+    },
+  };
+}
+
+/**
+ * Calculate domestic shipping rates only.
+ */
+export async function fetchShippingRates(
+  payload: ShippingRatePayload,
+  token?: string
+): Promise<ShippingRate[]> {
+  return (await fetchShippingQuote(payload, token)).rates;
 }
 
 /**
