@@ -126,6 +126,19 @@ export {
   adminDeleteCategory,
 } from './admin/categories';
 
+// Admin — Treatment (Clinic Service) Management
+export type {
+  AdminServiceItem,
+  AdminServicePayload,
+} from './admin/services';
+export {
+  fetchAdminServices,
+  adminCreateService,
+  adminUpdateService,
+  adminToggleService,
+  adminDeleteService,
+} from './admin/services';
+
 // Admin — Customer Management
 export type {
   CustomerAuditLogItem,

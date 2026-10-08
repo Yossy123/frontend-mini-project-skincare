@@ -22,6 +22,7 @@ import {
   CalendarDays,
   Heart,
   Stethoscope,
+  Syringe,
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -50,6 +51,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       href: '/admin/bookings',
       icon: CalendarDays,
       description: 'Atur janji dan antrean pasien',
+    },
+    {
+      section: 'Klinik',
+      name: 'Layanan Perawatan',
+      href: '/admin/services',
+      icon: Syringe,
+      description: 'Kelola treatment yang bisa dipesan',
     },
     {
       section: 'Klinik',

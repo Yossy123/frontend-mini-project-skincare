@@ -16,6 +16,8 @@ async function getTreatments(): Promise<BookingService[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/booking/services`, {
       headers: { Accept: 'application/json' },
+      // Refresh periodically so treatments added or deactivated in the admin appear without a redeploy.
+      next: { revalidate: 60 },
     });
     if (!response.ok) return [];
     const payload = (await response.json()) as { data?: BookingService[] };
