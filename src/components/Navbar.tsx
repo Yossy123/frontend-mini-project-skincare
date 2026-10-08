@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useCartStore, useCartHydrated } from '@/store/useCartStore';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
 import { CartDrawer } from '@/components/CartDrawer';
+import { NotificationBell } from '@/components/NotificationBell';
 import { OnlineConsultationModal } from '@/components/OnlineConsultationModal';
 import {
   ShoppingBag,
@@ -38,7 +39,7 @@ export function Navbar() {
 
   // Auth state
   const isAuthHydrated = useAuthHydrated();
-  const { user, logout } = useAuthStore();
+  const { user, token, logout } = useAuthStore();
   const isAuthenticated = isAuthHydrated && Boolean(user);
 
   const navLinks = [
@@ -114,6 +115,8 @@ export function Navbar() {
               >
                 <Search className="w-5 h-5" />
               </Link>
+
+              {isAuthenticated && token && <NotificationBell token={token} />}
 
               {/* User Profile / Auth State */}
               {isAuthenticated && user ? (

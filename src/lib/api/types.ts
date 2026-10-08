@@ -265,6 +265,14 @@ export interface Payment {
   refund_amount?: number;
 }
 
+export interface TrackingEvent {
+  id: number;
+  status: string;
+  title: string;
+  message: string | null;
+  occurred_at: string;
+}
+
 export interface Order {
   id: number;
   user_id: number;
@@ -289,6 +297,7 @@ export interface Order {
   };
   items: OrderItem[];
   shipment?: Shipment | null;
+  tracking_events?: TrackingEvent[];
   payment?: Payment | null;
   created_at: string;
   updated_at: string;

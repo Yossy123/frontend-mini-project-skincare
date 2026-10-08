@@ -390,6 +390,31 @@ export default function OrderDetailPage() {
                 </div>
               </div>
 
+              {/* Delivery timeline */}
+              {order.tracking_events && order.tracking_events.length > 0 && (
+                <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+                  <h3 className="flex items-center gap-2 border-b border-zinc-100 pb-3 text-base font-semibold text-zinc-900">
+                    <PackageCheck className="h-4 w-4 text-[#b77c27]" />
+                    <span>Riwayat Pengiriman</span>
+                  </h3>
+                  <ol className="mt-4 space-y-4">
+                    {[...order.tracking_events].reverse().map((event, index) => (
+                      <li key={event.id} className="flex gap-3">
+                        <span className="flex flex-col items-center">
+                          <span className={`mt-1 h-2.5 w-2.5 rounded-full ${index === 0 ? 'bg-[#b77c27] ring-4 ring-[#fbf3e6]' : 'bg-zinc-300'}`} />
+                          {index < order.tracking_events!.length - 1 && <span className="mt-1 w-px flex-1 bg-zinc-200" />}
+                        </span>
+                        <div className="min-w-0 pb-1">
+                          <p className={`text-sm ${index === 0 ? 'font-semibold text-zinc-900' : 'font-medium text-zinc-700'}`}>{event.title}</p>
+                          {event.message && <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">{event.message}</p>}
+                          <p className="mt-1 text-[11px] text-zinc-400">{new Date(event.occurred_at).toLocaleString('id-ID')}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+
               {/* Shipment Tracking (Resi) */}
               {order.shipment?.tracking_number && (
                 <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5 space-y-4">

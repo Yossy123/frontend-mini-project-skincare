@@ -8,6 +8,7 @@ export { API_BASE_URL } from './client';
 
 // Shared types
 export type {
+  TrackingEvent,
   HealthResponse,
   User,
   AuthResponse,
@@ -167,3 +168,5 @@ export {
   adminExpirePendingOrders,
   adminSyncShipments,
 } from './admin/operations';
+
+export * from './notifications';
