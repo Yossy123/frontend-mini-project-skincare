@@ -63,7 +63,7 @@ export type { ShippingMeta, ShippingQuote } from './shipping';
 export { fetchShippingRates, fetchShippingQuote, searchDestinations } from './shipping';
 
 // Orders (customer)
-export { createOrder, fetchOrders, fetchOrderById, cancelOrder } from './orders';
+export { createOrder, fetchOrders, fetchOrderById, cancelOrder, confirmOrderReceived } from './orders';
 export { createPayment } from './payments';
 export type { PaymentResponse } from './payments';
 

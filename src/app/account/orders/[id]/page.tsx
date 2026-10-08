@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
-import { cancelOrder, createPayment, fetchOrderById, Order } from '@/lib/api';
+import { cancelOrder, confirmOrderReceived, createPayment, fetchOrderById, Order } from '@/lib/api';
 import {
   MapPin,
   Truck,
@@ -86,6 +86,8 @@ export default function OrderDetailPage() {
   const [cancelling, setCancelling] = useState(false);
   const [cancelError, setCancelError] = useState<string | null>(null);
   const [cancelNotice, setCancelNotice] = useState<string | null>(null);
+  const [confirmingReceipt, setConfirmingReceipt] = useState(false);
+  const [receiptError, setReceiptError] = useState<string | null>(null);
 
   const isMidtransEnabled = process.env.NEXT_PUBLIC_MIDTRANS_ENABLED === 'true';
 
@@ -136,6 +138,20 @@ export default function OrderDetailPage() {
       setCancelError(err instanceof Error ? err.message : 'Gagal membatalkan pesanan.');
     } finally {
       setCancelling(false);
+    }
+  };
+
+  const handleConfirmReceived = async () => {
+    if (!token || !order || confirmingReceipt) return;
+
+    setConfirmingReceipt(true);
+    setReceiptError(null);
+    try {
+      setOrder(await confirmOrderReceived(order.id, token));
+    } catch (err: unknown) {
+      setReceiptError(err instanceof Error ? err.message : 'Gagal mengonfirmasi pesanan.');
+    } finally {
+      setConfirmingReceipt(false);
     }
   };
 
@@ -389,6 +405,31 @@ export default function OrderDetailPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Confirm receipt */}
+              {order.status.toUpperCase() === 'DELIVERED' && (
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 shadow-sm sm:p-5">
+                  <p className="text-sm font-semibold text-emerald-900">Paketmu sudah sampai. Sudah kamu terima?</p>
+                  <p className="mt-1 text-xs leading-relaxed text-emerald-800">
+                    Konfirmasi supaya pesananmu selesai. Kalau tidak ada konfirmasi, pesanan selesai otomatis beberapa hari setelah paket tiba. Ada masalah dengan paketmu? Hubungi toko sebelum mengonfirmasi.
+                  </p>
+                  {receiptError && (
+                    <p className="mt-2 flex items-start gap-1.5 rounded-xl bg-white/70 p-2.5 text-xs font-medium text-rose-800">
+                      <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                      <span>{receiptError}</span>
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    disabled={confirmingReceipt}
+                    onClick={handleConfirmReceived}
+                    className="mt-3 inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-xs font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-wait disabled:opacity-60"
+                  >
+                    {confirmingReceipt && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                    {confirmingReceipt ? 'Menyimpan...' : 'Pesanan Sudah Diterima'}
+                  </button>
+                </div>
+              )}
 
               {/* Delivery timeline */}
               {order.tracking_events && order.tracking_events.length > 0 && (

@@ -95,3 +95,26 @@ export async function cancelOrder(id: number | string, token: string): Promise<O
 
   return json.data;
 }
+
+/**
+ * Confirm that a delivered order arrived. The server completes the order; it refuses anything
+ * that is not the customer's own delivered order.
+ */
+export async function confirmOrderReceived(id: number | string, token: string): Promise<Order> {
+  const res = await fetch(`${API_BASE_URL}/orders/${id}/confirm-received`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    cache: 'no-store',
+  });
+
+  const json = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new Error(describeFailure(json, `Gagal mengonfirmasi pesanan (${res.status})`));
+  }
+
+  return json.data;
+}
