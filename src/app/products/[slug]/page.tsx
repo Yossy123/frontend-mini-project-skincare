@@ -16,7 +16,6 @@ import {
   Plus,
   ShoppingBag,
   ShieldCheck,
-  Truck,
   RotateCcw,
   CheckCircle2,
   AlertTriangle,
@@ -285,10 +284,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
               {/* Guarantees & Shipping Info */}
               <div className="pt-6 space-y-3 text-xs text-zinc-500 dark:text-zinc-400">
-                <div className="flex items-center gap-2.5">
-                  <Truck className="w-4 h-4 text-rose-500 shrink-0" />
-                  <span>Free courier shipping on all orders above Rp 500.000</span>
-                </div>
                 <div className="flex items-center gap-2.5">
                   <ShieldCheck className="w-4 h-4 text-rose-500 shrink-0" />
                   <span>100% Genuine, freshly formulated botanical cosmetics</span>
