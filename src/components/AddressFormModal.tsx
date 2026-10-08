@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { Address, AddressPayload, DestinationResult, searchDestinations } from '@/lib/api';
+import { geocodeAddress } from '@/lib/geocode';
 import { X, MapPin, AlertCircle, Search, Loader2, CheckCircle2 } from 'lucide-react';
 
 const OpenStreetMapPicker = dynamic(
@@ -46,6 +47,51 @@ function AddressFormInner({
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locateMessage, setLocateMessage] = useState<string | null>(null);
+  // A pin the customer placed or moved is never replaced by the address search; a saved pin counts as theirs.
+  const pinIsManual = useRef(coordinates !== null);
+
+  const placePinManually = (point: { latitude: number; longitude: number } | null) => {
+    pinIsManual.current = point !== null;
+    setLocateMessage(null);
+    setCoordinates(point);
+  };
+
+  useEffect(() => {
+    if (pinIsManual.current || address.trim().length < 5 || !district.trim() || !city.trim()) {
+      return;
+    }
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      setLocating(true);
+      setLocateMessage(null);
+      try {
+        const point = await geocodeAddress({ street: address, district, city, province, postalCode }, controller.signal);
+        if (controller.signal.aborted || pinIsManual.current) {
+          return;
+        }
+        if (point) {
+          setCoordinates(point);
+          setLocateMessage('Pin otomatis dipasang sesuai alamat. Geser pin jika kurang tepat.');
+        } else {
+          setLocateMessage('Alamat belum ditemukan di peta.');
+        }
+      } catch {
+        // Aborted or offline: the customer can still place the pin by hand.
+      } finally {
+        if (!controller.signal.aborted) {
+          setLocating(false);
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+      setLocating(false);
+    };
+  }, [address, district, city, province, postalCode]);
 
   const [areaQuery, setAreaQuery] = useState('');
   const [areaResults, setAreaResults] = useState<DestinationResult[]>([]);
@@ -380,21 +426,26 @@ function AddressFormInner({
             <button
               type="button"
               onClick={() => navigator.geolocation?.getCurrentPosition(
-                (position) => setCoordinates({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
+                (position) => placePinManually({ latitude: position.coords.latitude, longitude: position.coords.longitude }),
                 () => setError('Lokasi tidak dapat diakses. Aktifkan izin lokasi atau ketuk peta untuk memasang pin.')
               )}
               className="text-xs font-semibold text-[#9d681d] underline"
             >Gunakan lokasi saya</button>
           </div>
-          <OpenStreetMapPicker value={coordinates} onChange={setCoordinates} />
+          <OpenStreetMapPicker value={coordinates} onChange={placePinManually} />
+          {locating && (
+            <p className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+              <Loader2 className="h-3 w-3 animate-spin" />Mencari alamat di peta...
+            </p>
+          )}
           {coordinates ? (
             <div className="flex items-center justify-between gap-3 text-[11px] text-zinc-500">
-              <span>Pin terpasang. Geser pin ke titik rumah yang tepat; driver akan diarahkan ke sini.</span>
-              <button type="button" onClick={() => setCoordinates(null)} className="shrink-0 font-semibold text-rose-600 underline">Hapus pin</button>
+              <span>{locateMessage ?? 'Pin terpasang. Geser pin ke titik rumah yang tepat; driver akan diarahkan ke sini.'}</span>
+              <button type="button" onClick={() => placePinManually(null)} className="shrink-0 font-semibold text-rose-600 underline">Hapus pin</button>
             </div>
           ) : (
             <p className="rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-[11px] leading-relaxed text-amber-800">
-              Pin belum dipasang. Ketuk peta pada lokasi rumah atau pakai &quot;Gunakan lokasi saya&quot; agar Gojek dan Grab bisa dipilih saat checkout. Tanpa pin, kurir reguler tetap bisa dipakai.
+              {locateMessage ?? 'Pin belum dipasang.'} Ketuk peta pada lokasi rumah atau pakai &quot;Gunakan lokasi saya&quot; agar Gojek dan Grab bisa dipilih saat checkout. Tanpa pin, kurir reguler tetap bisa dipakai.
             </p>
           )}
         </div>
