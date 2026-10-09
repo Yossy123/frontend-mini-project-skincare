@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight, Heart, Sparkles } from 'lucide-react';
+import { LEGAL_PATHS } from '@/lib/legal/content';
 
 const collectionLinks = [
   { label: 'Skincare', href: '/categories/skincare' },
@@ -14,6 +15,12 @@ const careLinks = [
   { label: 'Katalog produk', href: '/products' },
   { label: 'Pengiriman & delivery', href: '/account/orders' },
   { label: 'Lacak pesanan', href: '/account/orders' },
+];
+
+const legalLinks = [
+  { label: 'Kebijakan Privasi', href: LEGAL_PATHS.privacy },
+  { label: 'Syarat & Ketentuan', href: LEGAL_PATHS.terms },
+  { label: 'Kebijakan Refund', href: LEGAL_PATHS.refund },
 ];
 
 export function Footer() {
@@ -81,6 +88,13 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="flex flex-col items-center justify-between gap-3 border-t border-white/10 py-5 text-center text-xs text-white/45 sm:flex-row sm:text-left">
           <span>© {new Date().getFullYear()} NOBYDERM. Hak cipta dilindungi.</span>
+          <nav aria-label="Kebijakan" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+            {legalLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="transition hover:text-white">
+                {link.label}
+              </Link>
+            ))}
+          </nav>
           <span className="inline-flex items-center gap-1.5">
             Dibuat dengan <Heart className="h-3.5 w-3.5 fill-[#d69a3a] text-[#d69a3a]" /> untuk kulit sehat
           </span>

@@ -237,6 +237,13 @@ function RegisterFormContent() {
             </div>
           </div>
 
+          <p className="pt-1 text-center text-[11px] leading-relaxed text-zinc-500">
+            Dengan mendaftar, kamu menyetujui{' '}
+            <Link href="/syarat-ketentuan" target="_blank" className="font-semibold text-rose-600 hover:underline">Syarat &amp; Ketentuan</Link>
+            {' '}dan{' '}
+            <Link href="/kebijakan-privasi" target="_blank" className="font-semibold text-rose-600 hover:underline">Kebijakan Privasi</Link>.
+          </p>
+
           {/* Submit Button */}
           <button
             type="submit"
