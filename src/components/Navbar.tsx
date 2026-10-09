@@ -8,6 +8,7 @@ import { useCartStore, useCartHydrated } from '@/store/useCartStore';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
 import { CartDrawer } from '@/components/CartDrawer';
 import { NotificationBell } from '@/components/NotificationBell';
+import { GuideTour } from '@/components/guide/GuideTour';
 import { OnlineConsultationModal } from '@/components/OnlineConsultationModal';
 import {
   ShoppingBag,
@@ -24,6 +25,7 @@ import {
   UserRound,
   Stethoscope,
   HeartPulse,
+  BookOpen,
 } from 'lucide-react';
 
 export function Navbar() {
@@ -58,6 +60,9 @@ export function Navbar() {
 
   return (
     <>
+      {isAuthenticated && user && user.role !== 'admin' && user.role !== 'doctor' && (
+        <GuideTour role="customer" userId={user.id} autoStart={pathname.startsWith('/account') && pathname !== '/account/guide'} />
+      )}
       <header className="sticky top-0 z-40 border-b border-[#d9bb91]/50 bg-linear-to-r from-[#72513d]/95 via-[#f4e4ca]/95 to-[#fffaf2]/95 shadow-[0_4px_18px_rgba(93,65,45,0.08)] backdrop-blur-md transition-colors dark:border-zinc-800 dark:bg-zinc-950/90">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -83,6 +88,7 @@ export function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
+                    data-tour={link.href === '/booking' ? 'nav-booking' : undefined}
                     className={`px-3 py-1.5 rounded-full text-xs lg:text-sm font-medium transition-all ${
                       isActive
                         ? 'bg-rose-100/70 dark:bg-rose-950/50 text-rose-900 dark:text-rose-200 font-semibold'
@@ -122,6 +128,7 @@ export function Navbar() {
               {isAuthenticated && user ? (
                 <div className="relative">
                   <button
+                    data-tour="user-menu"
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 dark:bg-rose-950/50 border border-rose-200/60 dark:border-rose-900/50 text-rose-900 dark:text-rose-200 text-xs font-medium hover:bg-rose-100 transition-colors cursor-pointer"
                   >
@@ -187,6 +194,14 @@ export function Navbar() {
                         <CalendarDays className="w-3.5 h-3.5 text-rose-500" />
                         <span>Jadwal konsultasi</span>
                       </Link>
+                      <Link
+                        href="/account/guide"
+                        onClick={() => setUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-3 py-2 rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-rose-50 dark:hover:bg-zinc-800"
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-rose-500" />
+                        <span>Panduan</span>
+                      </Link>
                       {user.role === 'doctor' && (
                         <Link
                           href="/doctor/dashboard"
@@ -237,6 +252,7 @@ export function Navbar() {
               {/* Shopping Bag Button with Animated Badge */}
               <button
                 onClick={toggleCart}
+                data-tour="cart"
                 className="relative p-2 rounded-full text-zinc-700 dark:text-zinc-200 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
                 aria-label="View Shopping Bag"
               >

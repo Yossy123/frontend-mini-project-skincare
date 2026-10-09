@@ -85,7 +85,7 @@ export function NotificationBell({ token }: { token: string }) {
   };
 
   return (
-    <div className="relative" ref={boxRef}>
+    <div className="relative" ref={boxRef} data-tour="notifications">
       <button
         type="button"
         onClick={() => {

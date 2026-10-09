@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore, useAuthHydrated } from '@/store/useAuthStore';
+import { GuideTour, startGuideTour } from '@/components/guide/GuideTour';
 import {
   LayoutDashboard,
   CalendarDays,
@@ -15,6 +16,8 @@ import {
   X,
   ShieldAlert,
   HeartPulse,
+  BookOpen,
+  PlayCircle,
 } from 'lucide-react';
 
 interface DoctorLayoutProps {
@@ -129,6 +132,7 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col md:flex-row antialiased">
+      {user?.id && <GuideTour role="doctor" userId={user.id} />}
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
@@ -185,6 +189,7 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                data-tour={`nav:${item.href}`}
                 onClick={() => setSidebarOpen(false)}
                 aria-current={isActive ? 'page' : undefined}
                 className={`flex items-start justify-between gap-2 px-3 py-2.5 rounded-2xl text-xs transition-all ${
@@ -206,6 +211,31 @@ export default function DoctorLayout({ children }: DoctorLayoutProps) {
               </Link>
             );
           })}
+
+          <div className="pt-6" data-tour="guide">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 mb-2">
+              Bantuan
+            </div>
+            <Link
+              href="/doctor/guide"
+              onClick={() => setSidebarOpen(false)}
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-all"
+            >
+              <BookOpen className="w-4 h-4 text-zinc-500" />
+              <span>Panduan Lengkap</span>
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setSidebarOpen(false);
+                startGuideTour('doctor');
+              }}
+              className="flex w-full items-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-all cursor-pointer"
+            >
+              <PlayCircle className="w-4 h-4 text-zinc-500" />
+              <span>Mulai Tur</span>
+            </button>
+          </div>
 
           <div className="pt-6">
             <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 px-3 mb-2">
