@@ -102,7 +102,9 @@ export function OrderActionButtons({
       )}
       {order.allowed_actions.includes('rebook_courier') && (
         <p role="alert" className="text-xs text-amber-400">
-          Biteship tidak menemukan driver untuk pesanan ini. Pesan ulang kurir, atau batalkan pesanan jika tidak ada driver yang tersedia.
+          {order.shipment?.status === 'booking_failed'
+            ? `Pemesanan kurir ke Biteship gagal${order.shipment.booking_error ? `: ${order.shipment.booking_error}` : '.'} Perbaiki penyebabnya lalu tekan Pesan Ulang Kurir, atau batalkan pesanan.`
+            : 'Biteship tidak menemukan driver untuk pesanan ini. Pesan ulang kurir, atau batalkan pesanan jika tidak ada driver yang tersedia.'}
         </p>
       )}
       <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">

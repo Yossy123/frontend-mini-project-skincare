@@ -247,7 +247,7 @@ export default function AdminDashboardPage() {
         <>
         {alerts.shipments_without_courier > 0 && (
           <Link href="/admin/orders" className="mb-4 block rounded-2xl border border-rose-700/50 bg-rose-950/30 p-4 text-sm text-rose-300">
-            {alerts.shipments_without_courier} pesanan belum mendapat driver (Gojek/Grab). Buka detail pesanan lalu pilih Pesan Ulang Kurir atau batalkan pesanan.
+            {alerts.shipments_without_courier} pesanan belum punya kurir (driver tidak ditemukan atau pemesanan ke Biteship gagal). Buka detail pesanan lalu pilih Pesan Ulang Kurir atau batalkan pesanan.
           </Link>
         )}
         {alerts.payments_requiring_review > 0 && (

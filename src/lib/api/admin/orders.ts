@@ -76,6 +76,7 @@ export interface AdminOrderListItem {
     service: string;
     tracking_number?: string | null;
     status: string;
+    booking_error?: string | null;
     shipped_at?: string | null;
     delivered_at?: string | null;
   } | null;

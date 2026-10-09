@@ -38,6 +38,10 @@ const SHIPMENT_STATUS_META: Record<string, { label: string; className: string }>
     label: 'Mencari Kurir Lagi',
     className: 'bg-amber-100/60  border-amber-200/80  text-amber-800 ',
   },
+  booking_failed: {
+    label: 'Menyiapkan Kurir',
+    className: 'bg-amber-100/60  border-amber-200/80  text-amber-800 ',
+  },
   shipped: {
     label: 'Dalam Pengiriman',
     className: 'bg-blue-100/60  border-blue-200/80  text-blue-800 ',

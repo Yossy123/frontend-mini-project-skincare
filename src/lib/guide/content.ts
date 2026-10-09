@@ -109,7 +109,11 @@ export const GUIDES: Record<GuideRole, RoleGuide> = {
           'Tekan Pesan Ulang Kurir untuk mencari driver lagi. Pelanggan diberi tahu bahwa kurir sedang dicarikan.',
           'Kalau berulang kali tidak ada driver, batalkan pesanan atau hubungi pelanggan untuk memilih kurir lain.',
         ],
-        tips: ['Gojek dan Grab hanya muncul untuk alamat yang punya pin di peta. Alamat tanpa pin hanya bisa memakai kurir reguler.'],
+        tips: [
+          'Gojek dan Grab hanya muncul untuk alamat yang punya pin di peta. Alamat tanpa pin hanya bisa memakai kurir reguler.',
+          'Layanan Same Day Gojek dan Grab hanya bisa dipesan pukul 09.00 sampai 14.00 WIB. Di luar jam itu pelanggan tidak melihat pilihannya, dan tombol Process untuk pesanan Same Day ditolak dengan pesan penjelasan. Layanan Instant tidak dibatasi jam.',
+          'Kalau pemesanan kurir ke Biteship gagal, alasannya tampil di detail pesanan. Perbaiki penyebabnya lalu tekan Pesan Ulang Kurir.',
+        ],
       },
       {
         id: 'kurir-reguler',
