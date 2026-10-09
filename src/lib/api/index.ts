@@ -79,6 +79,7 @@ export type {
   CustomerAnalyticsResponse,
   PaymentAnalyticsResponse,
   ShippingAnalyticsResponse,
+  SalesReportFormat,
 } from './admin/analytics';
 export {
   fetchSalesAnalytics,

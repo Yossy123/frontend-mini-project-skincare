@@ -206,15 +206,18 @@ export async function fetchSalesAnalytics(
   return json.data;
 }
 
-/** Download order-level sales data as a spreadsheet-compatible CSV. */
+export type SalesReportFormat = 'xlsx' | 'csv';
+
+/** Download order-level sales data as a formatted Excel workbook or a plain CSV. */
 export async function downloadSalesReport(
   period: 'week' | 'month' | 'year',
-  token: string
+  token: string,
+  format: SalesReportFormat = 'xlsx'
 ): Promise<Blob> {
-  const query = new URLSearchParams({ period });
+  const query = new URLSearchParams({ period, format });
   const res = await fetch(`${API_BASE_URL}/admin/analytics/sales/export?${query.toString()}`, {
     headers: {
-      Accept: 'text/csv',
+      Accept: format === 'xlsx' ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'text/csv',
       Authorization: `Bearer ${token}`,
     },
     cache: 'no-store',

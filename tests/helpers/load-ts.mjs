@@ -52,6 +52,7 @@ export function loadApiModule(relativePath, respond, extraDependencies = {}) {
     return {
       ok: status >= 200 && status < 300,
       status,
+      blob: async () => ({ size: 1 }),
       json: async () => {
         if (invalidJson) throw new SyntaxError('Unexpected token < in JSON');
         return body;
@@ -60,7 +61,7 @@ export function loadApiModule(relativePath, respond, extraDependencies = {}) {
   };
 
   const api = loadTs(relativePath, {
-    globals: { fetch: fakeFetch },
+    globals: { fetch: fakeFetch, URLSearchParams },
     dependencies: {
       [relativePath.includes('/admin/') ? '../client' : './client']: { API_BASE_URL: 'https://api.example.com/api' },
       [relativePath.includes('/admin/') ? '../errors' : './errors']: loadTs('src/lib/api/errors.ts'),
