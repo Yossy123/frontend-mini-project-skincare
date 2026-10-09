@@ -13,7 +13,6 @@ import {
   fetchPaymentAnalytics,
   fetchShippingAnalytics,
   SalesAnalyticsResponse,
-  SalesReportFormat,
   OrderAnalyticsResponse,
   ProductAnalyticsResponse,
   CustomerAnalyticsResponse,
@@ -132,17 +131,17 @@ export default function AdminAnalyticsPage() {
     router.push(`/admin/analytics?tab=${tab}`);
   };
 
-  const handleDownloadSalesReport = async (format: SalesReportFormat) => {
+  const handleDownloadSalesReport = async () => {
     if (!token || downloadingReport) return;
 
     setDownloadingReport(true);
     setError(null);
     try {
-      const blob = await downloadSalesReport(reportPeriod, token, format);
+      const blob = await downloadSalesReport(reportPeriod, token);
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `laporan-penjualan-${reportPeriod}.${format}`;
+      link.download = `laporan-penjualan-${reportPeriod}.xlsx`;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -190,21 +189,12 @@ export default function AdminAnalyticsPage() {
               </select>
               <button
                 type="button"
-                onClick={() => handleDownloadSalesReport('xlsx')}
+                onClick={handleDownloadSalesReport}
                 disabled={downloadingReport}
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-rose-500 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <Download className={`h-4 w-4 ${downloadingReport ? 'animate-pulse' : ''}`} />
                 {downloadingReport ? 'Menyiapkan...' : 'Unduh Excel'}
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDownloadSalesReport('csv')}
-                disabled={downloadingReport}
-                title="Format data mentah, cocok untuk diimpor ke aplikasi lain"
-                className="inline-flex items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 px-3 py-2 text-xs font-semibold text-zinc-300 transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                CSV
               </button>
             </div>
           )}
